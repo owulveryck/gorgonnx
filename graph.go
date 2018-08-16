@@ -54,7 +54,7 @@ func (d *Decoder) Decode(gx *onnx.GraphProto) (*gorgonia.ExprGraph, error) {
 		startingLen := len(gx.Node)
 		for i, n := range gx.Node {
 			// A node is addable to the graph, if all of its inputs is already in the node db
-			var isAddable bool
+			isAddable := true
 			for _, i := range n.Input {
 				_, ok := d.db[i]
 				if !ok {
