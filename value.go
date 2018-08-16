@@ -1,4 +1,4 @@
-package main
+package gorgonnx
 
 import (
 	"fmt"
@@ -74,11 +74,13 @@ func toDtype(t *onnx.TensorProto_DataType) (tensor.Dtype, error) {
 }
 
 // Add the value v to the graph g and return the added node
-func Add(g *gorgonia.ExprGraph, v *onnx.ValueInfoProto) (*gorgonia.Node, error) {
+func (d *Decoder) Add(v *onnx.ValueInfoProto) (*gorgonia.Node, error) {
 	val, err := newValue(v)
 	if err != nil {
 		return nil, err
 	}
-	n := gorgonia.NodeFromAny(g, val, gorgonia.WithName(*v.Name))
+	n := gorgonia.NodeFromAny(d.g, val, gorgonia.WithName(*v.Name))
+	// TODO: check if NAme is empty (according to the SPEC it must be filled but anyway)
+	d.db[v.GetName()] = n
 	return n, nil
 }
