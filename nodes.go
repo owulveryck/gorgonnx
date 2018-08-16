@@ -3,7 +3,7 @@ package gorgonnx
 import (
 	"fmt"
 
-	"github.com/onnx/onnx"
+	"github.com/owulveryck/gorgonnx/onnx"
 )
 
 func (d *Decoder) processNode(n *onnx.NodeProto) error {

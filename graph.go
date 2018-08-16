@@ -3,7 +3,7 @@ package gorgonnx
 import (
 	"fmt"
 
-	"github.com/onnx/onnx"
+	"github.com/owulveryck/gorgonnx/onnx"
 	"gorgonia.org/gorgonia"
 )
 

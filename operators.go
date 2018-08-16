@@ -3,7 +3,7 @@ package gorgonnx
 import (
 	"fmt"
 
-	"github.com/onnx/onnx"
+	"github.com/owulveryck/gorgonnx/onnx"
 	"gorgonia.org/gorgonia"
 	"gorgonia.org/tensor"
 )
@@ -68,7 +68,33 @@ func (d *Decoder) reshapeOp(nx *onnx.NodeProto) error {
 	return nil
 }
 
-func (d *Decoder) addOp(nx *onnx.NodeProto) error     { return nil }
-func (d *Decoder) reluOp(nx *onnx.NodeProto) error    { return nil }
+// https://github.com/onnx/onnx/blob/master/docs/Operators.md#Add
+func (d *Decoder) addOp(nx *onnx.NodeProto) error {
+	n, err := gorgonia.Add(d.db[nx.Input[0]], d.db[nx.Input[1]])
+	if err != nil {
+		return fmt.Errorf("Cannot Add: %v", err)
+	}
+	d.g.AddNode(n)
+	d.db[nx.Output[0]] = n
+
+	return nil
+}
+
+// https://github.com/onnx/onnx/blob/master/docs/Operators.md#Relu
+func (d *Decoder) reluOp(nx *onnx.NodeProto) error { return nil }
+
+// https://github.com/onnx/onnx/blob/master/docs/Operators.md#MaxPool
 func (d *Decoder) maxPoolOp(nx *onnx.NodeProto) error { return nil }
-func (d *Decoder) matMulOp(nx *onnx.NodeProto) error  { return nil }
+
+// https://github.com/onnx/onnx/blob/master/docs/Operators.md#MatMul
+func (d *Decoder) matMulOp(nx *onnx.NodeProto) error {
+	n, err := gorgonia.Mul(d.db[nx.Input[0]], d.db[nx.Input[1]])
+	if err != nil {
+		return fmt.Errorf("Cannot Multiply: %v", err)
+	}
+	d.g.AddNode(n)
+	d.db[nx.Output[0]] = n
+
+	return nil
+
+}
