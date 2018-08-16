@@ -19,7 +19,7 @@ func NewValue(valueProto *onnx.ValueInfoProto) (gorgonia.Value, error) {
 		return nil, err
 	}
 	// Get the dimensions of the tensor
-	size := make([]int, t.Size())
+	size := make([]int, len(t.Shape.Dim))
 
 	for i, dim := range t.Shape.Dim {
 		dimValue, ok := dim.Value.(*onnx.TensorShapeProto_Dimension_DimValue)
