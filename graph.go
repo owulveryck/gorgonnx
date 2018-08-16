@@ -7,10 +7,10 @@ import (
 	"gorgonia.org/gorgonia"
 )
 
-var operators map[string]func(n *onnx.NodeProto) (*[]gorgonia.Node, error)
+var operators map[string]func(n *onnx.NodeProto) error
 
 func init() {
-	operators = make(map[string]func(n *onnx.NodeProto) (*[]gorgonia.Node, error), 0)
+	operators = make(map[string]func(n *onnx.NodeProto) error, 0)
 
 }
 
@@ -27,6 +27,7 @@ func NewDecoder() *Decoder {
 		db: make(map[string]*gorgonia.Node),
 	}
 	operators["Conv"] = d.conv
+	operators["Reshape"] = d.reshape
 	return d
 }
 
@@ -55,8 +56,8 @@ func (d *Decoder) Decode(gx *onnx.GraphProto) (*gorgonia.ExprGraph, error) {
 		for i, n := range gx.Node {
 			// A node is addable to the graph, if all of its inputs is already in the node db
 			isAddable := true
-			for _, i := range n.Input {
-				_, ok := d.db[i]
+			for _, j := range n.Input {
+				_, ok := d.db[j]
 				if !ok {
 					isAddable = false
 					break
@@ -72,6 +73,7 @@ func (d *Decoder) Decode(gx *onnx.GraphProto) (*gorgonia.ExprGraph, error) {
 				gx.Node[i] = gx.Node[len(gx.Node)-1]
 				gx.Node[len(gx.Node)-1] = nil
 				gx.Node = gx.Node[:len(gx.Node)-1]
+				break
 			}
 		}
 		if startingLen == len(gx.Node) {
