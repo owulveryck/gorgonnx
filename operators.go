@@ -9,7 +9,7 @@ import (
 )
 
 // https://github.com/onnx/onnx/blob/master/docs/Operators.md#Conv
-func (d *Decoder) conv(nx *onnx.NodeProto) error {
+func (d *Decoder) convOp(nx *onnx.NodeProto) error {
 	var kernelShape tensor.Shape
 	var pad, stride []int
 	for _, attr := range nx.Attribute {
@@ -55,7 +55,7 @@ func (d *Decoder) conv(nx *onnx.NodeProto) error {
 }
 
 // https://github.com/onnx/onnx/blob/master/docs/Operators.md#Reshape
-func (d *Decoder) reshape(nx *onnx.NodeProto) error {
+func (d *Decoder) reshapeOp(nx *onnx.NodeProto) error {
 	if len(nx.Input) != 2 {
 		return fmt.Errorf("Not enough input parameters for reshape")
 	}
@@ -67,3 +67,8 @@ func (d *Decoder) reshape(nx *onnx.NodeProto) error {
 	d.db[nx.Output[0]] = n
 	return nil
 }
+
+func (d *Decoder) addOp(nx *onnx.NodeProto) error     { return nil }
+func (d *Decoder) reluOp(nx *onnx.NodeProto) error    { return nil }
+func (d *Decoder) maxPoolOp(nx *onnx.NodeProto) error { return nil }
+func (d *Decoder) matMulOp(nx *onnx.NodeProto) error  { return nil }

@@ -26,8 +26,13 @@ func NewDecoder() *Decoder {
 	d := &Decoder{
 		db: make(map[string]*gorgonia.Node),
 	}
-	operators["Conv"] = d.conv
-	operators["Reshape"] = d.reshape
+	operators["Conv"] = d.convOp
+	operators["Reshape"] = d.reshapeOp
+	operators["Add"] = d.addOp
+	operators["Relu"] = d.reluOp
+	operators["MaxPool"] = d.maxPoolOp
+	operators["MatMul"] = d.matMulOp
+
 	return d
 }
 
