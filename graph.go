@@ -55,7 +55,6 @@ func (d *Decoder) Decode(gx *onnx.GraphProto) (*gorgonia.ExprGraph, error) {
 
 	}
 	// Process the nodes until the list is empty
-	// TODO: check for an endless loop
 	for len(gx.Node) != 0 {
 		startingLen := len(gx.Node)
 		for i, n := range gx.Node {
