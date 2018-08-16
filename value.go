@@ -73,8 +73,8 @@ func toDtype(t *onnx.TensorProto_DataType) (tensor.Dtype, error) {
 	return tensor.Dtype{}, fmt.Errorf("Unknown input type: %v", t)
 }
 
-// Add the value v to the graph g and return the added node
-func (d *Decoder) Add(v *onnx.ValueInfoProto) (*gorgonia.Node, error) {
+// add the value v to the graph g and return the added node
+func (d *Decoder) add(v *onnx.ValueInfoProto) (*gorgonia.Node, error) {
 	val, err := newValue(v)
 	if err != nil {
 		return nil, err

@@ -1,4 +1,4 @@
-package gorgonnx
+package main
 
 import (
 	"fmt"
@@ -6,10 +6,11 @@ import (
 	"log"
 
 	"github.com/onnx/onnx"
+	"github.com/owulveryck/gorgonnx"
 )
 
-func ExampleDecoder() {
-	b, err := ioutil.ReadFile("mnist/model.onnx")
+func main() {
+	b, err := ioutil.ReadFile("../mnist/model.onnx")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -19,11 +20,12 @@ func ExampleDecoder() {
 		log.Fatal(err)
 	}
 	gx := model.GetGraph()
-	dec := NewDecoder()
+	dec := gorgonnx.NewDecoder()
 	g, err := dec.Decode(gx)
 	if err != nil {
+		log.Println(g)
 		log.Fatal("Cannot decode ", err)
 	}
 	// Do something with g...
-	fmt.Println(g.ToDot())
+	fmt.Println(g)
 }
