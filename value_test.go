@@ -65,7 +65,7 @@ func TestNewValue(t *testing.T) {
 		XXX_unrecognized:     nil,
 		XXX_sizecache:        0,
 	}
-	val, err := NewValue(testValue)
+	val, err := newValue(testValue)
 	if err != nil {
 		t.Fatal(err)
 	}

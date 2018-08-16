@@ -8,13 +8,13 @@ import (
 	"gorgonia.org/tensor"
 )
 
-// NewValue returns a Gorgonia compatible value from a onnx.ValueInfoProto structure
+// newValue returns a Gorgonia compatible value from a onnx.ValueInfoProto structure
 // By now, it will return a tensor.Tensor
-func NewValue(valueProto *onnx.ValueInfoProto) (gorgonia.Value, error) {
+func newValue(valueProto *onnx.ValueInfoProto) (gorgonia.Value, error) {
 	// Exctract the tensor for clarity
 	t := valueProto.Type.Value.(*onnx.TypeProto_TensorType).TensorType
 	// Get the data type
-	dt, err := ToDtype(t.ElemType)
+	dt, err := toDtype(t.ElemType)
 	if err != nil {
 		return nil, err
 	}
@@ -32,8 +32,7 @@ func NewValue(valueProto *onnx.ValueInfoProto) (gorgonia.Value, error) {
 	return tensor.New(tensor.WithShape(size...), tensor.Of(dt)), nil
 }
 
-// ToDtype ...
-func ToDtype(t *onnx.TensorProto_DataType) (tensor.Dtype, error) {
+func toDtype(t *onnx.TensorProto_DataType) (tensor.Dtype, error) {
 	switch *t {
 	case onnx.TensorProto_UNDEFINED:
 		return tensor.Dtype{}, nil
@@ -60,7 +59,7 @@ func ToDtype(t *onnx.TensorProto_DataType) (tensor.Dtype, error) {
 	case onnx.TensorProto_FLOAT16:
 		return tensor.Dtype{}, fmt.Errorf("Type not implemented: %v", t)
 	case onnx.TensorProto_DOUBLE:
-		// TODO see if Float64 can replace a double
+		// TODO see if Float64 can replace a double on all plateforms (or if it needs build tags)
 		return tensor.Float64, nil
 	case onnx.TensorProto_UINT32:
 		return tensor.Uint32, nil
@@ -72,4 +71,14 @@ func ToDtype(t *onnx.TensorProto_DataType) (tensor.Dtype, error) {
 		return tensor.Complex128, nil
 	}
 	return tensor.Dtype{}, fmt.Errorf("Unknown input type: %v", t)
+}
+
+// Add the value v to the graph g and return the added node
+func Add(g *gorgonia.ExprGraph, v *onnx.ValueInfoProto) (*gorgonia.Node, error) {
+	val, err := newValue(v)
+	if err != nil {
+		return nil, err
+	}
+	n := gorgonia.NodeFromAny(g, val, gorgonia.WithName(*v.Name))
+	return n, nil
 }
