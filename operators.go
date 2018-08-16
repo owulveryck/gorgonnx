@@ -15,6 +15,11 @@ func (d *Decoder) conv(nx *onnx.NodeProto) error {
 	for _, attr := range nx.Attribute {
 		switch *attr.Name {
 		case "kernel_shape":
+			shape := make([]int, len(attr.Ints))
+			for i, v := range attr.Ints {
+				shape[i] = int(v)
+			}
+			kernelShape = tensor.Shape(shape)
 		case "strides":
 			stride = make([]int, len(attr.Ints))
 			for i, v := range attr.Ints {
