@@ -88,7 +88,13 @@ func (d *Decoder) reshapeOp(nx *onnx.NodeProto) error {
 // Warning this operation is broadcastable
 // See https://github.com/onnx/onnx/blob/master/docs/Broadcasting.md
 func (d *Decoder) addOp(nx *onnx.NodeProto) error {
-	n, err := gorgonia.Add(d.db[nx.Input[0]], d.db[nx.Input[1]])
+	b := d.db[nx.Input[1]]
+	a := d.db[nx.Input[0]]
+	bb, err := gorgonia.Reshape(b, a.Shape())
+	if err != nil {
+		return fmt.Errorf("Cannot Add %v and %v: %v", nx.Input[0], nx.Input[1], err)
+	}
+	n, err := gorgonia.Add(a, bb)
 	if err != nil {
 		return fmt.Errorf("Cannot Add %v and %v: %v", nx.Input[0], nx.Input[1], err)
 	}
@@ -99,10 +105,68 @@ func (d *Decoder) addOp(nx *onnx.NodeProto) error {
 }
 
 // https://github.com/onnx/onnx/blob/master/docs/Operators.md#Relu
-func (d *Decoder) reluOp(nx *onnx.NodeProto) error { return nil }
+func (d *Decoder) reluOp(nx *onnx.NodeProto) error {
+	n, err := gorgonia.Rectify(d.db[nx.Input[0]])
+	if err != nil {
+		return err
+	}
+	d.g.AddNode(n)
+	d.db[nx.Output[0]] = n
+	return nil
+}
 
 // https://github.com/onnx/onnx/blob/master/docs/Operators.md#MaxPool
-func (d *Decoder) maxPoolOp(nx *onnx.NodeProto) error { return nil }
+func (d *Decoder) maxPoolOp(nx *onnx.NodeProto) error {
+
+	var kernelShape tensor.Shape
+	input := d.db[nx.Input[0]]
+	var pad, stride []int
+	for _, attr := range nx.Attribute {
+		switch *attr.Name {
+		case "kernel_shape":
+			shape := make([]int, len(attr.Ints))
+			for i, v := range attr.Ints {
+				shape[i] = int(v)
+			}
+			kernelShape = tensor.Shape(shape)
+		case "strides":
+			stride = make([]int, len(attr.Ints))
+			for i, v := range attr.Ints {
+				stride[i] = int(v)
+			}
+		case "auto_pad":
+			switch string(attr.S) {
+			case "NOTSET":
+			case "SAME_UPPER":
+				return fmt.Errorf("auto_pad %v not implemented", string(attr.S))
+			case "SAME_LOWER":
+				return fmt.Errorf("auto_pad %v not implemented", string(attr.S))
+			case "VALID":
+				return fmt.Errorf("auto_pad %v not implemented", string(attr.S))
+			default:
+				return fmt.Errorf("Invalid auto_pad value: %v", string(attr.S))
+
+			}
+		case "pads":
+			pad = make([]int, 2)
+			for i := 0; i < 2; i++ {
+				pad[i] = int(attr.Ints[i])
+			}
+		case "group":
+		case "dilations":
+		default:
+			return fmt.Errorf("Unknown attribute: %v for convolution operator", attr.Name)
+		}
+	}
+	n, err := gorgonia.MaxPool2D(input, kernelShape, pad, stride)
+	if err != nil {
+		return fmt.Errorf("Cannot apply Convolution operator: %v", err)
+	}
+	d.g.AddNode(n)
+	d.db[nx.Output[0]] = n
+	return nil
+
+}
 
 // https://github.com/onnx/onnx/blob/master/docs/Operators.md#MatMul
 func (d *Decoder) matMulOp(nx *onnx.NodeProto) error {

@@ -81,6 +81,9 @@ func (d *Decoder) Decode(gx *onnx.GraphProto) (*gorgonia.ExprGraph, error) {
 			}
 		}
 		if startingLen == len(gx.Node) {
+			for i, n := range gx.Node {
+				fmt.Printf("%v => %v\n", i, *n.Name)
+			}
 			return g, fmt.Errorf("Endless loop, the graph may be broken")
 		}
 	}

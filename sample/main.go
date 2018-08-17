@@ -27,5 +27,5 @@ func main() {
 		log.Fatal("Cannot decode ", err)
 	}
 	// Do something with g...
-	fmt.Println(g)
+	fmt.Println(g.ToDot())
 }
