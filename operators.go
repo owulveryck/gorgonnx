@@ -2,6 +2,7 @@ package gorgonnx
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/owulveryck/gorgonnx/onnx"
 	"gorgonia.org/gorgonia"
@@ -10,8 +11,12 @@ import (
 
 // https://github.com/onnx/onnx/blob/master/docs/Operators.md#Conv
 func (d *Decoder) convOp(nx *onnx.NodeProto) error {
+	input := d.db[nx.Input[0]]
+	kernel := d.db[nx.Input[1]]
 	var kernelShape tensor.Shape
-	var pad, stride []int
+	pad := []int{0, 0}
+	stride := []int{1, 1}
+	haveStride := false
 	for _, attr := range nx.Attribute {
 		switch *attr.Name {
 		case "kernel_shape":
@@ -21,19 +26,30 @@ func (d *Decoder) convOp(nx *onnx.NodeProto) error {
 			}
 			kernelShape = tensor.Shape(shape)
 		case "strides":
+			haveStride = true
 			stride = make([]int, len(attr.Ints))
 			for i, v := range attr.Ints {
 				stride[i] = int(v)
 			}
 		case "auto_pad":
+			if !haveStride {
+				log.Println("Warning, processing padding without stride")
+			}
+			// Evaluating the padding
+			// http://machinelearninguru.com/computer_vision/basics/convolution/convolution_layer.html
 			if attr.S == nil {
 				return fmt.Errorf("auto_pad specified without value")
 			}
 			switch string(attr.S) {
 			case "NOTSET":
 			case "SAME_UPPER":
+				pad[0] = ((input.Shape()[2]-1)*stride[0] - input.Shape()[2] + kernel.Shape()[2]) / 2
+				pad[1] = ((input.Shape()[3]-1)*stride[1] - input.Shape()[3] + kernel.Shape()[3]) / 2
 			case "SAME_LOWER":
+				pad[0] = ((input.Shape()[2]-1)*stride[0] - input.Shape()[2] + kernel.Shape()[2]) / 2
+				pad[1] = ((input.Shape()[3]-1)*stride[1] - input.Shape()[3] + kernel.Shape()[3]) / 2
 			case "VALID":
+				pad = []int{0, 0}
 			default:
 				return fmt.Errorf("Invalid auto_pad value: %v", string(attr.S))
 
@@ -45,7 +61,7 @@ func (d *Decoder) convOp(nx *onnx.NodeProto) error {
 			return fmt.Errorf("Unknown attribute: %v for convolution operator", attr.Name)
 		}
 	}
-	n, err := gorgonia.Conv2d(d.db[nx.Input[0]], d.db[nx.Input[1]], kernelShape, pad, stride)
+	n, err := gorgonia.Conv2d(input, kernel, kernelShape, pad, stride)
 	if err != nil {
 		return fmt.Errorf("Cannot apply Convolution operator: %v", err)
 	}
@@ -72,7 +88,7 @@ func (d *Decoder) reshapeOp(nx *onnx.NodeProto) error {
 func (d *Decoder) addOp(nx *onnx.NodeProto) error {
 	n, err := gorgonia.Add(d.db[nx.Input[0]], d.db[nx.Input[1]])
 	if err != nil {
-		return fmt.Errorf("Cannot Add: %v", err)
+		return fmt.Errorf("Cannot Add %v and %v: %v", nx.Input[0], nx.Input[1], err)
 	}
 	d.g.AddNode(n)
 	d.db[nx.Output[0]] = n
