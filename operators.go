@@ -85,6 +85,8 @@ func (d *Decoder) reshapeOp(nx *onnx.NodeProto) error {
 }
 
 // https://github.com/onnx/onnx/blob/master/docs/Operators.md#Add
+// Warning this operation is broadcastable
+// See https://github.com/onnx/onnx/blob/master/docs/Broadcasting.md
 func (d *Decoder) addOp(nx *onnx.NodeProto) error {
 	n, err := gorgonia.Add(d.db[nx.Input[0]], d.db[nx.Input[1]])
 	if err != nil {
