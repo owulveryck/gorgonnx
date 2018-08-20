@@ -16,6 +16,7 @@ func (d *Decoder) convOp(nx *onnx.NodeProto) error {
 	var kernelShape tensor.Shape
 	pad := []int{0, 0}
 	stride := []int{1, 1}
+	dilations := []int{1, 1}
 	haveStride := false
 	for _, attr := range nx.Attribute {
 		switch *attr.Name {
@@ -57,11 +58,14 @@ func (d *Decoder) convOp(nx *onnx.NodeProto) error {
 		case "pads":
 		case "group":
 		case "dilations":
+			for i, v := range attr.Ints {
+				dilations[i] = int(v)
+			}
 		default:
 			return fmt.Errorf("Unknown attribute: %v for convolution operator", attr.Name)
 		}
 	}
-	n, err := gorgonia.Conv2d(input, kernel, kernelShape, pad, stride)
+	n, err := gorgonia.Conv2d(input, kernel, kernelShape, pad, stride, dilations)
 	if err != nil {
 		return fmt.Errorf("Cannot apply Convolution operator: %v", err)
 	}
