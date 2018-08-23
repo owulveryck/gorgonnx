@@ -106,9 +106,19 @@ func (d *Decoder) reshapeOp(nx *onnx.NodeProto) error {
 func (d *Decoder) addOp(nx *onnx.NodeProto) error {
 	b := d.db[nx.Input[1]]
 	a := d.db[nx.Input[0]]
-	n, err := gorgonia.AddBcast(a, b)
-	if err != nil {
-		return fmt.Errorf("Cannot Add %v and %v: %v", nx.Input[0], nx.Input[1], err)
+	var n *gorgonia.Node
+	var err error
+	if len(a.Shape()) != len(b.Shape()) {
+		log.Println("using broadcast")
+		n, err = gorgonia.AddBcast(a, b)
+		if err != nil {
+			return fmt.Errorf("Cannot Add %v and %v: %v", nx.Input[0], nx.Input[1], err)
+		}
+	} else {
+		n, err = gorgonia.Add(a, b)
+		if err != nil {
+			return fmt.Errorf("Cannot Add %v and %v: %v", nx.Input[0], nx.Input[1], err)
+		}
 	}
 	d.g.AddNode(n)
 	d.db[nx.Output[0]] = n
