@@ -10,6 +10,10 @@ import (
 )
 
 // https://github.com/onnx/onnx/blob/master/docs/Operators.md#Conv
+//
+// TODO(owulveryck): Check if kernel_shape corresponds to what the Conv2D operator expects
+//
+// TODO(owulveryck): Check if the strides are ok
 func (d *Decoder) convOp(nx *onnx.NodeProto) error {
 	input := d.db[nx.Input[0]]
 	kernel := d.db[nx.Input[1]]
@@ -56,7 +60,9 @@ func (d *Decoder) convOp(nx *onnx.NodeProto) error {
 
 			}
 		case "pads":
+			// BUG(owulveryck): `pad` attribute not implemented and silently ignored
 		case "group":
+			// BUG(owulveryck): `group` attribute not implemented and silently ignored in the 'conv' operator
 		case "dilations":
 			for i, v := range attr.Ints {
 				dilations[i] = int(v)
@@ -91,14 +97,18 @@ func (d *Decoder) reshapeOp(nx *onnx.NodeProto) error {
 // https://github.com/onnx/onnx/blob/master/docs/Operators.md#Add
 // Warning this operation is broadcastable
 // See https://github.com/onnx/onnx/blob/master/docs/Broadcasting.md
+//
+// BUG(owulveryck): the broadcasting has to be implemented correctly in Gorgonia. see https://github.com/gorgonia/gorgonia/issues/223
 func (d *Decoder) addOp(nx *onnx.NodeProto) error {
 	b := d.db[nx.Input[1]]
 	a := d.db[nx.Input[0]]
-	bb, err := gorgonia.Reshape(b, a.Shape())
-	if err != nil {
-		return fmt.Errorf("Cannot Add %v and %v: %v", nx.Input[0], nx.Input[1], err)
-	}
-	n, err := gorgonia.Add(a, bb)
+	/*
+		bb, err := gorgonia.Reshape(b, a.Shape())
+		if err != nil {
+			return fmt.Errorf("Cannot Add %v and %v: %v", nx.Input[0], nx.Input[1], err)
+		}
+	*/
+	n, err := gorgonia.AddBcast(a, b)
 	if err != nil {
 		return fmt.Errorf("Cannot Add %v and %v: %v", nx.Input[0], nx.Input[1], err)
 	}
@@ -173,6 +183,8 @@ func (d *Decoder) maxPoolOp(nx *onnx.NodeProto) error {
 }
 
 // https://github.com/onnx/onnx/blob/master/docs/Operators.md#MatMul
+//
+// BUG(owulveryck): The Mul operator should be broadcastable too
 func (d *Decoder) matMulOp(nx *onnx.NodeProto) error {
 	n, err := gorgonia.Mul(d.db[nx.Input[0]], d.db[nx.Input[1]])
 	if err != nil {
