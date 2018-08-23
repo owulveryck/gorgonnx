@@ -86,10 +86,10 @@ func (d *Decoder) reshapeOp(nx *onnx.NodeProto) error {
 	if len(nx.Input) != 2 {
 		return fmt.Errorf("Not enough input parameters for reshape")
 	}
-	data := d.db[nx.Input[1]]
-	log.Println(data)
+	data := toIntSlice(d.db[nx.Input[1]].Value().Data().([]int64))
 
-	n, err := gorgonia.Reshape(d.db[nx.Input[0]], d.db[nx.Input[1]].Shape())
+	//n, err := gorgonia.Reshape(d.db[nx.Input[0]], data)
+	n, err := gorgonia.Reshape(d.db[nx.Input[0]], data)
 	if err != nil {
 		return fmt.Errorf("Cannot reshape: %v", err)
 	}
@@ -106,12 +106,6 @@ func (d *Decoder) reshapeOp(nx *onnx.NodeProto) error {
 func (d *Decoder) addOp(nx *onnx.NodeProto) error {
 	b := d.db[nx.Input[1]]
 	a := d.db[nx.Input[0]]
-	/*
-		bb, err := gorgonia.Reshape(b, a.Shape())
-		if err != nil {
-			return fmt.Errorf("Cannot Add %v and %v: %v", nx.Input[0], nx.Input[1], err)
-		}
-	*/
 	n, err := gorgonia.AddBcast(a, b)
 	if err != nil {
 		return fmt.Errorf("Cannot Add %v and %v: %v", nx.Input[0], nx.Input[1], err)
