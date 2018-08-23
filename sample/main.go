@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
@@ -25,10 +24,8 @@ func main() {
 	dec := gorgonnx.NewDecoder()
 	g, err := dec.Decode(gx)
 	if err != nil {
-		log.Println(g)
 		log.Fatal("Cannot decode ", err)
 	}
-	fmt.Println(g)
 	// Open the tensorproto sample file
 
 	b, err = ioutil.ReadFile(os.Args[2])
@@ -53,6 +50,10 @@ func main() {
 	if err = machine.RunAll(); err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(t)
 
+	for _, n := range g.AllNodes() {
+		if len(n.Shape()) == 2 && n.Shape()[0] == 1 && n.Shape()[1] == 10 {
+			log.Println(n.Value())
+		}
+	}
 }
