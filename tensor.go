@@ -3,7 +3,7 @@ package gorgonnx
 import (
 	"bytes"
 	"encoding/binary"
-	"errors"
+	"fmt"
 	"io"
 	"math"
 
@@ -11,22 +11,25 @@ import (
 	"gorgonia.org/tensor"
 )
 
-// Tensorize a TensorProto into a tensor.Tensor
-func Tensorize(tx *onnx.TensorProto) (tensor.Tensor, error) {
-	var t tensor.Tensor
-	// Get the datatype
+// NewTensor returns a Gorgonia compatible tensor from a onnx.TensorProto structure
+func NewTensor(tx *onnx.TensorProto) (tensor.Tensor, error) {
+	// Get the data type
 	dt, err := toDtype(tx.DataType)
 	if err != nil {
 		return nil, err
 	}
-	switch {
-	case tx.RawData != nil:
-		switch dt {
-		case tensor.Float32:
-			var backing []float32
+	var size = make([]int, len(tx.Dims))
+	for i := range tx.Dims {
+		size[i] = int(tx.Dims[i])
+	}
+	opts := []tensor.ConsOpt{tensor.WithShape(size...), tensor.Of(dt)}
+	switch dt {
+	case tensor.Float32:
+		if len(tx.FloatData) == 0 {
 			buf := bytes.NewReader(tx.RawData)
 			element := make([]byte, 4)
 			var err error
+			var backing []float32
 			for {
 				var n int
 				n, err = buf.Read(element)
@@ -39,12 +42,28 @@ func Tensorize(tx *onnx.TensorProto) (tensor.Tensor, error) {
 			if err != io.EOF {
 				return nil, err
 			}
-			t = tensor.New(tensor.WithShape(toIntSlice(tx.Dims)...), tensor.WithBacking(backing))
-		default:
-			return nil, errors.New("type not yet implemented for rawdata")
+			opts = append(opts, tensor.WithBacking(backing))
+		} else {
+			opts = append(opts, tensor.WithBacking(tx.FloatData))
+		}
+	case tensor.Float64:
+		if len(tx.DoubleData) == 0 {
+			return nil, fmt.Errorf("No data found. Maybe a raw data but not yet implemented")
+		}
+		opts = append(opts, tensor.WithBacking(tx.DoubleData))
+	case tensor.Int64:
+		if len(tx.Int64Data) == 0 {
+			return nil, fmt.Errorf("No data found. Maybe a raw data but not yet implemented")
+		}
+		opts = append(opts, tensor.WithBacking(tx.Int64Data))
+	case tensor.Int32:
+		if len(tx.Int32Data) == 0 {
+			return nil, fmt.Errorf("No data found. Maybe a raw data but not yet implemented")
 		}
 	default:
-		return nil, errors.New("No data found or not implemented")
+		return nil, fmt.Errorf("Backend not yet implemented")
+
 	}
-	return t, nil
+
+	return tensor.New(opts...), nil
 }
