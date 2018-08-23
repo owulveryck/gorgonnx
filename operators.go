@@ -81,10 +81,14 @@ func (d *Decoder) convOp(nx *onnx.NodeProto) error {
 }
 
 // https://github.com/onnx/onnx/blob/master/docs/Operators.md#Reshape
+// BUG(owulveryck): Reshape's second parameter is a "shape tensor"
 func (d *Decoder) reshapeOp(nx *onnx.NodeProto) error {
 	if len(nx.Input) != 2 {
 		return fmt.Errorf("Not enough input parameters for reshape")
 	}
+	data := d.db[nx.Input[1]]
+	log.Println(data)
+
 	n, err := gorgonia.Reshape(d.db[nx.Input[0]], d.db[nx.Input[1]].Shape())
 	if err != nil {
 		return fmt.Errorf("Cannot reshape: %v", err)
