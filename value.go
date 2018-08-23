@@ -8,9 +8,9 @@ import (
 	"gorgonia.org/tensor"
 )
 
-// newValue returns a Gorgonia compatible value from a onnx.ValueInfoProto structure
+// NewValue returns a Gorgonia compatible value from a onnx.ValueInfoProto structure
 // By now, it will return a tensor.Tensor
-func newValue(valueProto *onnx.ValueInfoProto) (gorgonia.Value, error) {
+func NewValue(valueProto *onnx.ValueInfoProto) (gorgonia.Value, error) {
 	// Exctract the tensor for clarity
 	t := valueProto.Type.Value.(*onnx.TypeProto_TensorType).TensorType
 	// Get the data type
@@ -74,8 +74,8 @@ func toDtype(t *onnx.TensorProto_DataType) (tensor.Dtype, error) {
 }
 
 // add the value v to the graph g and return the added node
-func (d *Decoder) add(v *onnx.ValueInfoProto) (*gorgonia.Node, error) {
-	val, err := newValue(v)
+func (d *Decoder) addValue(v *onnx.ValueInfoProto) (*gorgonia.Node, error) {
+	val, err := NewValue(v)
 	if err != nil {
 		return nil, err
 	}
