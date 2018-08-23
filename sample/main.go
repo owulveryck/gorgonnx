@@ -28,6 +28,7 @@ func main() {
 		log.Println(g)
 		log.Fatal("Cannot decode ", err)
 	}
+	fmt.Println(g)
 	// Open the tensorproto sample file
 
 	b, err = ioutil.ReadFile(os.Args[2])
@@ -39,7 +40,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	t, err := gorgonnx.Tensorize(sampleTestData)
+	t, err := gorgonnx.NewTensor(sampleTestData)
 	if err != nil {
 		log.Fatal(err)
 	}

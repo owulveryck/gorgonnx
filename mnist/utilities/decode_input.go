@@ -24,7 +24,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	t, err := gorgonnx.Tensorize(sampleTestData)
+	t, err := gorgonnx.NewTensor(sampleTestData)
 	if err != nil {
 		panic(err)
 	}
@@ -55,7 +55,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	t, err = gorgonnx.Tensorize(sampleTestData)
+	t, err = gorgonnx.NewTensor(sampleTestData)
 	if err != nil {
 		panic(err)
 	}
