@@ -40,19 +40,23 @@ func NewDecoder() *Decoder {
 func (d *Decoder) Decode(gx *onnx.GraphProto) (*gorgonia.ExprGraph, error) {
 	g := gorgonia.NewGraph(gorgonia.WithGraphName(gx.GetName()))
 	d.g = g
-	// Process the inputs
-	for _, input := range gx.Input {
-		_, err := d.add(input)
-		if err != nil {
-			return g, err
-		}
-	}
 	for _, initializer := range gx.Initializer {
-		_, err := d.addTensor(initializer)
+		_, err := d.addTensor(initializer, true)
 		if err != nil {
 			return g, err
 		}
 
+	}
+	// Process the inputs
+	for _, input := range gx.Input {
+		// Check if the name is not already present in the graph
+		// as it may be an initializer (const)
+		if _, ok := d.db[*input.Name]; !ok {
+			_, err := d.addValue(input)
+			if err != nil {
+				return g, err
+			}
+		}
 	}
 	// Process the nodes until the list is empty
 	for len(gx.Node) != 0 {
@@ -61,8 +65,7 @@ func (d *Decoder) Decode(gx *onnx.GraphProto) (*gorgonia.ExprGraph, error) {
 			// A node is addable to the graph, if all of its inputs is already in the node db
 			isAddable := true
 			for _, j := range n.Input {
-				_, ok := d.db[j]
-				if !ok {
+				if _, ok := d.db[j]; !ok {
 					isAddable = false
 					break
 				}
@@ -81,11 +84,9 @@ func (d *Decoder) Decode(gx *onnx.GraphProto) (*gorgonia.ExprGraph, error) {
 			}
 		}
 		if startingLen == len(gx.Node) {
-			for i, n := range gx.Node {
-				fmt.Printf("%v => %v\n", i, *n.Name)
-			}
 			return g, fmt.Errorf("Endless loop, the graph may be broken")
 		}
 	}
+
 	return g, nil
 }
