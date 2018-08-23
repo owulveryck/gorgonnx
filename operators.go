@@ -10,14 +10,10 @@ import (
 )
 
 // https://github.com/onnx/onnx/blob/master/docs/Operators.md#Conv
-//
-// TODO(owulveryck): Check if kernel_shape corresponds to what the Conv2D operator expects
-//
-// TODO(owulveryck): Check if the strides are ok
 func (d *Decoder) convOp(nx *onnx.NodeProto) error {
 	input := d.db[nx.Input[0]]
 	kernel := d.db[nx.Input[1]]
-	var kernelShape tensor.Shape
+	kernelShape := kernel.Shape()
 	pad := []int{0, 0}
 	stride := []int{1, 1}
 	dilations := []int{1, 1}
@@ -51,8 +47,9 @@ func (d *Decoder) convOp(nx *onnx.NodeProto) error {
 				pad[0] = ((input.Shape()[2]-1)*stride[0] - input.Shape()[2] + kernel.Shape()[2]) / 2
 				pad[1] = ((input.Shape()[3]-1)*stride[1] - input.Shape()[3] + kernel.Shape()[3]) / 2
 			case "SAME_LOWER":
-				pad[0] = ((input.Shape()[2]-1)*stride[0] - input.Shape()[2] + kernel.Shape()[2]) / 2
-				pad[1] = ((input.Shape()[3]-1)*stride[1] - input.Shape()[3] + kernel.Shape()[3]) / 2
+				return fmt.Errorf("Warning: lower padding not implemented")
+				//pad[0] = ((input.Shape()[2]-1)*stride[0] - input.Shape()[2] + kernel.Shape()[2]) / 2
+				//pad[1] = ((input.Shape()[3]-1)*stride[1] - input.Shape()[3] + kernel.Shape()[3]) / 2
 			case "VALID":
 				pad = []int{0, 0}
 			default:
@@ -60,9 +57,14 @@ func (d *Decoder) convOp(nx *onnx.NodeProto) error {
 
 			}
 		case "pads":
-			// BUG(owulveryck): `pad` attribute not implemented and silently ignored
+			return fmt.Errorf("Pad not implemented")
+			// BUG(owulveryck): `pad` attribute not implemented
 		case "group":
-			// BUG(owulveryck): `group` attribute not implemented and silently ignored in the 'conv' operator
+			if *attr.I == int64(1) {
+				continue
+			}
+			return fmt.Errorf("group not implemented")
+			// BUG(owulveryck): `group` attribute not implemented
 		case "dilations":
 			for i, v := range attr.Ints {
 				dilations[i] = int(v)
@@ -81,14 +83,12 @@ func (d *Decoder) convOp(nx *onnx.NodeProto) error {
 }
 
 // https://github.com/onnx/onnx/blob/master/docs/Operators.md#Reshape
-// BUG(owulveryck): Reshape's second parameter is a "shape tensor"
 func (d *Decoder) reshapeOp(nx *onnx.NodeProto) error {
 	if len(nx.Input) != 2 {
 		return fmt.Errorf("Not enough input parameters for reshape")
 	}
 	data := toIntSlice(d.db[nx.Input[1]].Value().Data().([]int64))
 
-	//n, err := gorgonia.Reshape(d.db[nx.Input[0]], data)
 	n, err := gorgonia.Reshape(d.db[nx.Input[0]], data)
 	if err != nil {
 		return fmt.Errorf("Cannot reshape: %v", err)
@@ -132,7 +132,8 @@ func (d *Decoder) maxPoolOp(nx *onnx.NodeProto) error {
 
 	var kernelShape tensor.Shape
 	input := d.db[nx.Input[0]]
-	var pad, stride []int
+	pad := []int{0, 0}
+	stride := []int{1, 1}
 	for _, attr := range nx.Attribute {
 		switch *attr.Name {
 		case "kernel_shape":
@@ -142,9 +143,10 @@ func (d *Decoder) maxPoolOp(nx *onnx.NodeProto) error {
 			}
 			kernelShape = tensor.Shape(shape)
 		case "strides":
-			stride = make([]int, len(attr.Ints))
-			for i, v := range attr.Ints {
-				stride[i] = int(v)
+			if len(attr.Ints) == 2 {
+				for i, v := range attr.Ints {
+					stride[i] = int(v)
+				}
 			}
 		case "auto_pad":
 			switch string(attr.S) {
@@ -160,14 +162,18 @@ func (d *Decoder) maxPoolOp(nx *onnx.NodeProto) error {
 
 			}
 		case "pads":
-			pad = make([]int, 2)
+			pads := attr.Ints
+			if len(pads) == 4 && pads[2] != 0 && pads[3] != 0 {
+				return fmt.Errorf("Padding at the end not implemented")
+
+			}
 			for i := 0; i < 2; i++ {
 				pad[i] = int(attr.Ints[i])
 			}
-		case "group":
-		case "dilations":
+		case "storage_order":
+			return fmt.Errorf("Attribute: %v not implemented yet for maxpool operator", attr.Name)
 		default:
-			return fmt.Errorf("Unknown attribute: %v for convolution operator", attr.Name)
+			return fmt.Errorf("Unknown attribute: %v for maxpool operator", attr.Name)
 		}
 	}
 	n, err := gorgonia.MaxPool2D(input, kernelShape, pad, stride)
