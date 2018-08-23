@@ -8,6 +8,7 @@ import (
 
 	"github.com/owulveryck/gorgonnx"
 	"github.com/owulveryck/gorgonnx/onnx"
+	"gorgonia.org/gorgonia"
 )
 
 func main() {
@@ -27,8 +28,6 @@ func main() {
 		log.Println(g)
 		log.Fatal("Cannot decode ", err)
 	}
-	// Do something with g...
-	fmt.Println(g)
 	// Open the tensorproto sample file
 
 	b, err = ioutil.ReadFile(os.Args[2])
@@ -44,5 +43,15 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	for _, n := range g.Inputs() {
+		if n.Name() == "Input3" {
+			gorgonia.Let(n, t)
+		}
+	}
+	machine := gorgonia.NewTapeMachine(g)
+	if err = machine.RunAll(); err != nil {
+		log.Fatal(err)
+	}
 	fmt.Println(t)
+
 }
