@@ -19,32 +19,7 @@ func TestAddOp(t *testing.T) {
 	domain := ""
 	docString := ""
 	dataType := onnx.TensorProto_DataType(1)
-
-	np := &onnx.NodeProto{
-		Input:     inputs,
-		Output:    outputs,
-		Name:      &opName,
-		OpType:    &opType,
-		Domain:    &domain,
-		Attribute: nil,
-		DocString: &docString,
-	}
-	// Create the input values
-	a := &onnx.TensorProto{
-		Dims:       []int64{2, 1, 1},
-		DataType:   &dataType,
-		Segment:    (*onnx.TensorProto_Segment)(nil),
-		FloatData:  []float32{1, 2},
-		Int32Data:  nil,
-		StringData: nil,
-		Int64Data:  nil,
-		Name:       &input1,
-		DocString:  (*string)(nil),
-		RawData:    nil,
-		DoubleData: nil,
-		Uint64Data: nil,
-	}
-	b := &onnx.TensorProto{
+	broadcastTest := &onnx.TensorProto{
 		Dims:     []int64{1, 2, 5, 5},
 		DataType: &dataType,
 		Segment:  (*onnx.TensorProto_Segment)(nil),
@@ -69,24 +44,55 @@ func TestAddOp(t *testing.T) {
 		DoubleData: nil,
 		Uint64Data: nil,
 	}
-	aa, err := tensonnx.NewTensor(a)
-	if err != nil {
-		t.Fatal(err)
-	}
-	bb, err := tensonnx.NewTensor(b)
-	if err != nil {
-		t.Fatal(err)
-	}
-	g := graph{
-		db: make(map[string]*gorgonia.Node, 3),
-		g:  gorgonia.NewGraph(),
-	}
-	na := gorgonia.NodeFromAny(g.g, aa, gorgonia.WithName(input1))
-	nb := gorgonia.NodeFromAny(g.g, bb, gorgonia.WithName(input2))
-	g.addNode(input1, na)
-	g.addNode(input2, nb)
-	err = g.addOp(np)
-	if err != nil {
-		t.Fatal(err)
+
+	for _, b := range []*onnx.TensorProto{
+		broadcastTest,
+	} {
+
+		np := &onnx.NodeProto{
+			Input:     inputs,
+			Output:    outputs,
+			Name:      &opName,
+			OpType:    &opType,
+			Domain:    &domain,
+			Attribute: nil,
+			DocString: &docString,
+		}
+		// Simple test...
+		// Create the input values
+		a := &onnx.TensorProto{
+			Dims:       []int64{2, 1, 1},
+			DataType:   &dataType,
+			Segment:    (*onnx.TensorProto_Segment)(nil),
+			FloatData:  []float32{1, 2},
+			Int32Data:  nil,
+			StringData: nil,
+			Int64Data:  nil,
+			Name:       &input1,
+			DocString:  (*string)(nil),
+			RawData:    nil,
+			DoubleData: nil,
+			Uint64Data: nil,
+		}
+		aa, err := tensonnx.NewTensor(a)
+		if err != nil {
+			t.Fatal(err)
+		}
+		bb, err := tensonnx.NewTensor(b)
+		if err != nil {
+			t.Fatal(err)
+		}
+		g := graph{
+			db: make(map[string]*gorgonia.Node, 3),
+			g:  gorgonia.NewGraph(),
+		}
+		na := gorgonia.NodeFromAny(g.g, aa, gorgonia.WithName(input1))
+		nb := gorgonia.NodeFromAny(g.g, bb, gorgonia.WithName(input2))
+		g.addNode(input1, na)
+		g.addNode(input2, nb)
+		err = g.addOp(np)
+		if err != nil {
+			t.Fatal(err)
+		}
 	}
 }
