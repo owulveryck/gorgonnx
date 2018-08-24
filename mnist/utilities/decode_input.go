@@ -8,8 +8,8 @@ import (
 	"log"
 	"os"
 
-	"github.com/owulveryck/gorgonnx"
-	"github.com/owulveryck/gorgonnx/onnx"
+	onnx "github.com/onnx/onnx/go"
+	"gorgonia.org/tensor/tensonnx"
 )
 
 // This little utility reads an encoded tensor and draw a picture
@@ -24,7 +24,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	t, err := gorgonnx.NewTensor(sampleTestData)
+	t, err := tensonnx.NewTensor(sampleTestData)
 	if err != nil {
 		panic(err)
 	}
@@ -55,7 +55,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	t, err = gorgonnx.NewTensor(sampleTestData)
+	t, err = tensonnx.NewTensor(sampleTestData)
 	if err != nil {
 		panic(err)
 	}

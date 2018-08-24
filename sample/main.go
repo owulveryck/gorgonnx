@@ -53,7 +53,7 @@ func main() {
 
 	for _, n := range g.AllNodes() {
 		if len(n.Shape()) == 2 && n.Shape()[0] == 1 && n.Shape()[1] == 10 {
-			log.Println(n.Value())
+			log.Printf("%v: %v", n.Name(), n.Value())
 		}
 	}
 }

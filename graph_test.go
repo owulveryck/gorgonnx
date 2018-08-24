@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 
-	"github.com/owulveryck/gorgonnx/onnx"
+	onnx "github.com/owulveryck/onnx/go"
 )
 
 func ExampleDecoder() {
@@ -18,9 +18,7 @@ func ExampleDecoder() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	gx := model.GetGraph()
-	dec := NewDecoder()
-	g, err := dec.Decode(gx)
+	g, err := NewGraph(model.GetGraph())
 	if err != nil {
 		log.Fatal("Cannot decode ", err)
 	}

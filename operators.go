@@ -4,13 +4,13 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/owulveryck/gorgonnx/onnx"
+	onnx "github.com/owulveryck/onnx/go"
 	"gorgonia.org/gorgonia"
 	"gorgonia.org/tensor"
 )
 
 // https://github.com/onnx/onnx/blob/master/docs/Operators.md#Conv
-func (d *Decoder) convOp(nx *onnx.NodeProto) error {
+func (d *graph) convOp(nx *onnx.NodeProto) error {
 	input := d.db[nx.Input[0]]
 	kernel := d.db[nx.Input[1]]
 	kernelShape := kernel.Shape()
@@ -83,7 +83,7 @@ func (d *Decoder) convOp(nx *onnx.NodeProto) error {
 }
 
 // https://github.com/onnx/onnx/blob/master/docs/Operators.md#Reshape
-func (d *Decoder) reshapeOp(nx *onnx.NodeProto) error {
+func (d *graph) reshapeOp(nx *onnx.NodeProto) error {
 	if len(nx.Input) != 2 {
 		return fmt.Errorf("Not enough input parameters for reshape")
 	}
@@ -103,14 +103,15 @@ func (d *Decoder) reshapeOp(nx *onnx.NodeProto) error {
 // See https://github.com/onnx/onnx/blob/master/docs/Broadcasting.md
 //
 // BUG(owulveryck): the broadcasting has to be implemented correctly in Gorgonia. see https://github.com/gorgonia/gorgonia/issues/223
-func (d *Decoder) addOp(nx *onnx.NodeProto) error {
+func (d *graph) addOp(nx *onnx.NodeProto) error {
 	b := d.db[nx.Input[1]]
 	a := d.db[nx.Input[0]]
 	var n *gorgonia.Node
 	var err error
 	if len(a.Shape()) != len(b.Shape()) {
 		log.Println("using broadcast")
-		n, err = gorgonia.AddBcast(a, b)
+		//n, err = gorgonia.iAddBcast(a, b)
+		n, err = gorgonia.Add(a, b)
 		if err != nil {
 			return fmt.Errorf("Cannot Add %v and %v: %v", nx.Input[0], nx.Input[1], err)
 		}
@@ -127,7 +128,7 @@ func (d *Decoder) addOp(nx *onnx.NodeProto) error {
 }
 
 // https://github.com/onnx/onnx/blob/master/docs/Operators.md#Relu
-func (d *Decoder) reluOp(nx *onnx.NodeProto) error {
+func (d *graph) reluOp(nx *onnx.NodeProto) error {
 	n, err := gorgonia.Rectify(d.db[nx.Input[0]])
 	if err != nil {
 		return err
@@ -138,7 +139,7 @@ func (d *Decoder) reluOp(nx *onnx.NodeProto) error {
 }
 
 // https://github.com/onnx/onnx/blob/master/docs/Operators.md#MaxPool
-func (d *Decoder) maxPoolOp(nx *onnx.NodeProto) error {
+func (d *graph) maxPoolOp(nx *onnx.NodeProto) error {
 
 	var kernelShape tensor.Shape
 	input := d.db[nx.Input[0]]
@@ -199,7 +200,7 @@ func (d *Decoder) maxPoolOp(nx *onnx.NodeProto) error {
 // https://github.com/onnx/onnx/blob/master/docs/Operators.md#MatMul
 //
 // BUG(owulveryck): The Mul operator should be broadcastable too
-func (d *Decoder) matMulOp(nx *onnx.NodeProto) error {
+func (d *graph) matMulOp(nx *onnx.NodeProto) error {
 	n, err := gorgonia.Mul(d.db[nx.Input[0]], d.db[nx.Input[1]])
 	if err != nil {
 		return fmt.Errorf("Cannot Multiply: %v", err)

@@ -3,13 +3,24 @@ package gorgonnx
 import (
 	"fmt"
 
-	"github.com/owulveryck/gorgonnx/onnx"
+	onnx "github.com/owulveryck/onnx/go"
 )
 
-func (d *Decoder) processNode(n *onnx.NodeProto) error {
-	op, ok := operators[*n.OpType]
-	if !ok {
-		return fmt.Errorf("Operation %v not yet implemented", *n.OpType)
+func (gi *graph) processNode(nx *onnx.NodeProto) error {
+	switch nType := *nx.OpType; nType {
+	case "Add":
+		return gi.addOp(nx)
+	case "Conv":
+		return gi.convOp(nx)
+	case "Reshape":
+		return gi.reshapeOp(nx)
+	case "Relu":
+		return gi.reluOp(nx)
+	case "MaxPool":
+		return gi.maxPoolOp(nx)
+	case "Mul":
+		return gi.matMulOp(nx)
+	default:
+		return fmt.Errorf("Operation %v not yet implemented", nType)
 	}
-	return op(n)
 }

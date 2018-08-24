@@ -3,59 +3,71 @@ package gorgonnx
 import (
 	"fmt"
 
-	"github.com/owulveryck/gorgonnx/onnx"
+	onnx "github.com/owulveryck/onnx/go"
 	"gorgonia.org/gorgonia"
+	"gorgonia.org/tensor/tensonnx"
 )
 
-var operators map[string]func(n *onnx.NodeProto) error
-
-func init() {
-	operators = make(map[string]func(n *onnx.NodeProto) error, 0)
-
-}
-
-// Decoder is a receiver
-type Decoder struct {
-	// db reference a Node by its name
+// graph is the internal representation of a graph.false
+// it handles both structure (onnx and gorgonia) as well
+// as a dictionnary of nodes
+type graph struct {
+	// db reference a Node by its name.
+	// This is mandatory as NodeProto references the output node by its name
 	db map[string]*gorgonia.Node
 	g  *gorgonia.ExprGraph
+	gx *onnx.GraphProto
 }
 
-// NewDecoder returns a new decoder that reads a graph from g
-func NewDecoder() *Decoder {
-	d := &Decoder{
-		db: make(map[string]*gorgonia.Node),
-	}
-	operators["Conv"] = d.convOp
-	operators["Reshape"] = d.reshapeOp
-	operators["Add"] = d.addOp
-	operators["Relu"] = d.reluOp
-	operators["MaxPool"] = d.maxPoolOp
-	operators["MatMul"] = d.matMulOp
+func (gi *graph) addNode(name string, n *gorgonia.Node) error {
+	gi.db[name] = n
+	gi.g.AddNode(n)
+	return nil
+}
 
-	return d
+// getNodeByName from the database. Returns nil if not found
+func (gi *graph) getNodeByName(name string) *gorgonia.Node {
+	if n, ok := gi.db[name]; ok {
+		return n
+	}
+	return nil
+}
+
+// NewGraph returns a new graph that is initialized with gx as its initial content.
+func NewGraph(gx *onnx.GraphProto) (*gorgonia.ExprGraph, error) {
+	g := &graph{
+		db: make(map[string]*gorgonia.Node),
+		gx: gx,
+	}
+	return g.parse(gx)
 }
 
 // Decode the graphproto and returns a gorgonia Graph
-func (d *Decoder) Decode(gx *onnx.GraphProto) (*gorgonia.ExprGraph, error) {
+func (gi *graph) parse(gx *onnx.GraphProto) (*gorgonia.ExprGraph, error) {
 	g := gorgonia.NewGraph(gorgonia.WithGraphName(gx.GetName()))
-	d.g = g
-	for _, initializer := range gx.Initializer {
-		_, err := d.addTensor(initializer, true)
+	for _, tensorProto := range gx.Initializer {
+		name := tensorProto.GetName()
+		t, err := tensonnx.NewTensor(tensorProto)
 		if err != nil {
-			return g, err
+			return nil, err
 		}
+		n := gorgonia.NewConstant(t, gorgonia.WithName(name))
+		gi.db[name] = n
 
 	}
 	// Process the inputs
-	for _, input := range gx.Input {
+	for _, valueInfo := range gx.Input {
 		// Check if the name is not already present in the graph
 		// as it may be an initializer (const)
-		if _, ok := d.db[*input.Name]; !ok {
-			_, err := d.addValue(input)
+		name := valueInfo.GetName()
+		if _, ok := gi.db[name]; !ok {
+			t, err := NewValue(valueInfo)
 			if err != nil {
-				return g, err
+				return nil, err
 			}
+
+			n := gorgonia.NodeFromAny(gi.g, t, gorgonia.WithName(name))
+			gi.db[name] = n
 		}
 	}
 	// Process the nodes until the list is empty
@@ -65,13 +77,13 @@ func (d *Decoder) Decode(gx *onnx.GraphProto) (*gorgonia.ExprGraph, error) {
 			// A node is addable to the graph, if all of its inputs is already in the node db
 			isAddable := true
 			for _, j := range n.Input {
-				if _, ok := d.db[j]; !ok {
+				if _, ok := gi.db[j]; !ok {
 					isAddable = false
 					break
 				}
 			}
 			if isAddable {
-				err := d.processNode(n)
+				err := gi.processNode(n)
 				if err != nil {
 					return nil, err
 				}

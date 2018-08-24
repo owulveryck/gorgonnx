@@ -3,7 +3,7 @@ package gorgonnx
 import (
 	"testing"
 
-	"github.com/owulveryck/gorgonnx/onnx"
+	onnx "github.com/owulveryck/onnx/go"
 )
 
 func TestNewValue(t *testing.T) {
