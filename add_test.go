@@ -5,8 +5,23 @@ import (
 
 	onnx "github.com/owulveryck/onnx/go"
 	"gorgonia.org/gorgonia"
+	"gorgonia.org/tensor"
 	"gorgonia.org/tensor/tensonnx"
 )
+
+func shapeEquals(a, b tensor.Tensor) bool {
+	as := a.Shape()
+	bs := b.Shape()
+	if len(as) != len(bs) {
+		return false
+	}
+	for i := range as {
+		if as[i] != bs[i] {
+			return false
+		}
+	}
+	return true
+}
 
 func TestAddOp(t *testing.T) {
 	input1 := "a"
@@ -19,6 +34,14 @@ func TestAddOp(t *testing.T) {
 	domain := ""
 	docString := ""
 	dataType := onnx.TensorProto_DataType(1)
+	simpleTest := &onnx.TensorProto{
+		Dims:      []int64{2, 1, 1},
+		DataType:  &dataType,
+		Segment:   (*onnx.TensorProto_Segment)(nil),
+		FloatData: []float32{100, 100},
+		Name:      &input1,
+	}
+	simpleResult := tensor.New(tensor.WithShape(2, 1, 1), tensor.WithBacking([]int{101, 102}))
 	broadcastTest := &onnx.TensorProto{
 		Dims:     []int64{1, 2, 5, 5},
 		DataType: &dataType,
@@ -35,17 +58,11 @@ func TestAddOp(t *testing.T) {
 			4000, 4000, 4000, 4000, 4000,
 			5000, 5000, 5000, 5000, 5000,
 		},
-		Int32Data:  nil,
-		StringData: nil,
-		Int64Data:  nil,
-		Name:       &input1,
-		DocString:  (*string)(nil),
-		RawData:    nil,
-		DoubleData: nil,
-		Uint64Data: nil,
+		Name: &input1,
 	}
 
 	for _, b := range []*onnx.TensorProto{
+		simpleTest,
 		broadcastTest,
 	} {
 
@@ -61,18 +78,12 @@ func TestAddOp(t *testing.T) {
 		// Simple test...
 		// Create the input values
 		a := &onnx.TensorProto{
-			Dims:       []int64{2, 1, 1},
-			DataType:   &dataType,
-			Segment:    (*onnx.TensorProto_Segment)(nil),
-			FloatData:  []float32{1, 2},
-			Int32Data:  nil,
-			StringData: nil,
-			Int64Data:  nil,
-			Name:       &input1,
-			DocString:  (*string)(nil),
-			RawData:    nil,
-			DoubleData: nil,
-			Uint64Data: nil,
+			Dims:      []int64{2, 1, 1},
+			DataType:  &dataType,
+			Segment:   (*onnx.TensorProto_Segment)(nil),
+			FloatData: []float32{1, 2},
+			Name:      &input1,
+			DocString: (*string)(nil),
 		}
 		aa, err := tensonnx.NewTensor(a)
 		if err != nil {
@@ -93,6 +104,14 @@ func TestAddOp(t *testing.T) {
 		err = g.addOp(np)
 		if err != nil {
 			t.Fatal(err)
+		}
+		vm := gorgonia.NewTapeMachine(g.g)
+		err = vm.RunAll()
+		if err != nil {
+			t.Fatal(err)
+		}
+		if !shapeEquals(g.getNodeByName(output).Value().(tensor.Tensor), simpleResult) {
+			t.Fatal("Size mismatch")
 		}
 	}
 }
