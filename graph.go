@@ -51,7 +51,7 @@ func (gi *graph) parse(gx *onnx.GraphProto) (*gorgonia.ExprGraph, error) {
 		if err != nil {
 			return nil, err
 		}
-		n := gorgonia.NewConstant(t, gorgonia.WithName(name))
+		n := g.AddNode(gorgonia.NewConstant(t, gorgonia.WithName(name)))
 		gi.db[name] = n
 
 	}
@@ -66,7 +66,8 @@ func (gi *graph) parse(gx *onnx.GraphProto) (*gorgonia.ExprGraph, error) {
 				return nil, err
 			}
 
-			n := gorgonia.NodeFromAny(gi.g, t, gorgonia.WithName(name))
+			// Adding node
+			n := gorgonia.NodeFromAny(g, t, gorgonia.WithName(name))
 			gi.db[name] = n
 		}
 	}

@@ -18,7 +18,7 @@ func (gi *graph) processNode(nx *onnx.NodeProto) error {
 		return gi.reluOp(nx)
 	case "MaxPool":
 		return gi.maxPoolOp(nx)
-	case "Mul":
+	case "MatMul":
 		return gi.matMulOp(nx)
 	default:
 		return fmt.Errorf("Operation %v not yet implemented", nType)

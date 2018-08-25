@@ -41,11 +41,14 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	for _, n := range g.Inputs() {
-		if n.Name() == "Input3" {
-			gorgonia.Let(n, t)
+	gorgonia.Let(g.ByName("Input3")[0], t)
+	/*
+		for _, n := range g.Inputs() {
+			if n.Name() == "Input3" {
+				gorgonia.Let(n, t)
+			}
 		}
-	}
+	*/
 	machine := gorgonia.NewTapeMachine(g)
 	if err = machine.RunAll(); err != nil {
 		log.Fatal(err)

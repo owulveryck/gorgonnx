@@ -77,7 +77,7 @@ func (d *graph) convOp(nx *onnx.NodeProto) error {
 	if err != nil {
 		return fmt.Errorf("Cannot apply Convolution operator: %v", err)
 	}
-	d.g.AddNode(n)
+	//d.g.AddNode(n)
 	d.db[nx.Output[0]] = n
 	return nil
 }
@@ -91,9 +91,9 @@ func (d *graph) reshapeOp(nx *onnx.NodeProto) error {
 
 	n, err := gorgonia.Reshape(d.db[nx.Input[0]], data)
 	if err != nil {
-		return fmt.Errorf("Cannot reshape: %v", err)
+		return fmt.Errorf("Cannot reshape from %v to %v: %v", nx.Input[0], data, err)
 	}
-	d.g.AddNode(n)
+	//d.g.AddNode(n)
 	d.db[nx.Output[0]] = n
 	return nil
 }
@@ -108,20 +108,11 @@ func (d *graph) addOp(nx *onnx.NodeProto) error {
 	a := d.db[nx.Input[0]]
 	var n *gorgonia.Node
 	var err error
-	if len(a.Shape()) != len(b.Shape()) {
-		log.Println("using broadcast")
-		//n, err = gorgonia.iAddBcast(a, b)
-		n, err = gorgonia.Add(a, b)
-		if err != nil {
-			return fmt.Errorf("Cannot Add %v and %v: %v", nx.Input[0], nx.Input[1], err)
-		}
-	} else {
-		n, err = gorgonia.Add(a, b)
-		if err != nil {
-			return fmt.Errorf("Cannot Add %v and %v: %v", nx.Input[0], nx.Input[1], err)
-		}
+	n, err = gorgonia.AddBroadcast(a, b)
+	if err != nil {
+		return fmt.Errorf("Cannot Add %v and %v: %v", nx.Input[0], nx.Input[1], err)
 	}
-	d.g.AddNode(n)
+	//d.g.AddNode(n)
 	d.db[nx.Output[0]] = n
 
 	return nil
@@ -133,7 +124,7 @@ func (d *graph) reluOp(nx *onnx.NodeProto) error {
 	if err != nil {
 		return err
 	}
-	d.g.AddNode(n)
+	//d.g.AddNode(n)
 	d.db[nx.Output[0]] = n
 	return nil
 }
@@ -191,7 +182,7 @@ func (d *graph) maxPoolOp(nx *onnx.NodeProto) error {
 	if err != nil {
 		return fmt.Errorf("Cannot apply Convolution operator: %v", err)
 	}
-	d.g.AddNode(n)
+	//d.g.AddNode(n)
 	d.db[nx.Output[0]] = n
 	return nil
 
@@ -205,7 +196,7 @@ func (d *graph) matMulOp(nx *onnx.NodeProto) error {
 	if err != nil {
 		return fmt.Errorf("Cannot Multiply: %v", err)
 	}
-	d.g.AddNode(n)
+	//d.g.AddNode(n)
 	d.db[nx.Output[0]] = n
 
 	return nil
