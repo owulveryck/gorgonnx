@@ -6,8 +6,9 @@ import (
 	"os"
 
 	"github.com/owulveryck/gorgonnx"
-	"github.com/owulveryck/gorgonnx/onnx"
+	onnx "github.com/owulveryck/onnx/go"
 	"gorgonia.org/gorgonia"
+	"gorgonia.org/tensor/tensonnx"
 )
 
 func main() {
@@ -20,12 +21,11 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	gx := model.GetGraph()
-	dec := gorgonnx.NewDecoder()
-	g, err := dec.Decode(gx)
+	g, err := gorgonnx.NewGraph(model.GetGraph())
 	if err != nil {
 		log.Fatal("Cannot decode ", err)
 	}
+
 	// Open the tensorproto sample file
 
 	b, err = ioutil.ReadFile(os.Args[2])
@@ -37,7 +37,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	t, err := gorgonnx.NewTensor(sampleTestData)
+	t, err := tensonnx.NewTensor(sampleTestData)
 	if err != nil {
 		log.Fatal(err)
 	}
