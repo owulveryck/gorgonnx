@@ -60,12 +60,38 @@ func TestAddOp(t *testing.T) {
 		},
 		Name: &input1,
 	}
+	broadcastResult := tensor.New(tensor.WithShape(1, 2, 5, 5), tensor.WithBacking([]float32{
+		101, 102, 103, 104, 105,
+		201, 202, 203, 204, 205,
+		301, 302, 303, 304, 305,
+		401, 402, 403, 404, 405,
+		501, 502, 503, 504, 505,
+		1001, 1002, 1003, 1004, 1005,
+		2001, 2002, 2003, 2004, 2005,
+		3001, 3002, 3003, 3004, 3005,
+		4001, 4002, 4003, 4004, 4005,
+		5001, 5002, 5003, 5004, 5005,
+	}))
+	type test struct {
+		input  *onnx.TensorProto
+		output tensor.Tensor
+		err    error
+	}
 
-	for _, b := range []*onnx.TensorProto{
-		simpleTest,
-		broadcastTest,
+	for _, unitTest := range []test{
+		test{
+			input:  simpleTest,
+			output: simpleResult,
+			err:    nil,
+		},
+		test{
+			input:  broadcastTest,
+			output: broadcastResult,
+			err:    nil,
+		},
 	} {
 
+		b := unitTest.input
 		np := &onnx.NodeProto{
 			Input:     inputs,
 			Output:    outputs,
@@ -110,8 +136,7 @@ func TestAddOp(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		t.Log(g.getNodeByName(output).Value())
-		if !shapeEquals(g.getNodeByName(output).Value().(tensor.Tensor), simpleResult) {
+		if !shapeEquals(g.getNodeByName(output).Value().(tensor.Tensor), unitTest.output) {
 			t.Fatal("Size mismatch")
 		}
 	}
