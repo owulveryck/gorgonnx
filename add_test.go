@@ -110,8 +110,8 @@ func TestAddOp(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
+		t.Log(g.getNodeByName(output).Value())
 		if !shapeEquals(g.getNodeByName(output).Value().(tensor.Tensor), simpleResult) {
-			t.Log(g.getNodeByName(output).Value().Shape())
 			t.Fatal("Size mismatch")
 		}
 	}

@@ -26,6 +26,7 @@ func main() {
 		log.Fatal("Cannot decode ", err)
 	}
 
+	//fmt.Println(g.ToDot())
 	// Open the tensorproto sample file
 
 	b, err = ioutil.ReadFile(os.Args[2])
