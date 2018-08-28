@@ -3,9 +3,11 @@ package gorgonnx
 import (
 	"fmt"
 	"log"
+	"math"
 
 	onnx "github.com/owulveryck/onnx/go"
 	"gorgonia.org/gorgonia"
+	nnops "gorgonia.org/gorgonia/ops/nn"
 	"gorgonia.org/tensor"
 )
 
@@ -44,12 +46,12 @@ func (d *graph) convOp(nx *onnx.NodeProto) error {
 			switch string(attr.S) {
 			case "NOTSET":
 			case "SAME_UPPER":
-				pad[0] = ((input.Shape()[2]-1)*stride[0] - input.Shape()[2] + kernel.Shape()[2]) / 2
-				pad[1] = ((input.Shape()[3]-1)*stride[1] - input.Shape()[3] + kernel.Shape()[3]) / 2
+				outputHeight := int(math.Ceil(float64(input.Shape()[2]) / float64(stride[0])))
+				outputWidth := int(math.Ceil(float64(input.Shape()[3]) / float64(stride[1])))
+				pad[0] = int(math.Max(float64((outputHeight-1)*stride[0]+kernelShape[0]-input.Shape()[2]), float64(0))) / 2
+				pad[1] = int(math.Max(float64((outputWidth-1)*stride[1]+kernelShape[1]-input.Shape()[3]), float64(0))) / 2
 			case "SAME_LOWER":
 				return fmt.Errorf("Warning: lower padding not implemented")
-				//pad[0] = ((input.Shape()[2]-1)*stride[0] - input.Shape()[2] + kernel.Shape()[2]) / 2
-				//pad[1] = ((input.Shape()[3]-1)*stride[1] - input.Shape()[3] + kernel.Shape()[3]) / 2
 			case "VALID":
 				pad = []int{0, 0}
 			default:
@@ -73,7 +75,7 @@ func (d *graph) convOp(nx *onnx.NodeProto) error {
 			return fmt.Errorf("Unknown attribute: %v for convolution operator", attr.Name)
 		}
 	}
-	n, err := gorgonia.Conv2d(input, kernel, kernelShape, pad, stride, dilations)
+	n, err := nnops.Conv2d(input, kernel, kernelShape, pad, stride, dilations)
 	if err != nil {
 		return fmt.Errorf("Cannot apply Convolution operator: %v", err)
 	}
@@ -120,11 +122,10 @@ func (d *graph) addOp(nx *onnx.NodeProto) error {
 
 // https://github.com/onnx/onnx/blob/master/docs/Operators.md#Relu
 func (d *graph) reluOp(nx *onnx.NodeProto) error {
-	n, err := gorgonia.Rectify(d.db[nx.Input[0]])
+	n, err := nnops.Rectify(d.db[nx.Input[0]])
 	if err != nil {
 		return err
 	}
-	//d.g.AddNode(n)
 	d.db[nx.Output[0]] = n
 	return nil
 }
@@ -178,7 +179,7 @@ func (d *graph) maxPoolOp(nx *onnx.NodeProto) error {
 			return fmt.Errorf("Unknown attribute: %v for maxpool operator", attr.Name)
 		}
 	}
-	n, err := gorgonia.MaxPool2D(input, kernelShape, pad, stride)
+	n, err := nnops.MaxPool2D(input, kernelShape, pad, stride)
 	if err != nil {
 		return fmt.Errorf("Cannot apply Convolution operator: %v", err)
 	}
