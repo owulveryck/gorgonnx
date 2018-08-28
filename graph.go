@@ -2,7 +2,6 @@ package gorgonnx
 
 import (
 	"fmt"
-	"log"
 
 	onnx "github.com/owulveryck/onnx/go"
 	"gorgonia.org/gorgonia"
@@ -85,7 +84,6 @@ func (gi *graph) parse(gx *onnx.GraphProto) (*gorgonia.ExprGraph, error) {
 				}
 			}
 			if isAddable {
-				log.Println(n)
 				err := gi.processNode(n)
 				if err != nil {
 					return nil, err

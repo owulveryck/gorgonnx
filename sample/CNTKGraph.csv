@@ -1,0 +1,45 @@
+ID;Op;Type;Register;Interval;Used By;Uses;Overwrites;BLAS?
+0;const Tensor-4 float32;Tensor-4 float32;CPU0;0 - 44;[9];[];;
+1;const Tensor-4 float32;Tensor-4 float32;CPU1;1 - 44;[27];[];;
+2;const Tensor-4 float32;Tensor-4 float32;CPU2;2 - 44;[11];[];;
+3;const Tensor-3 float32;Tensor-3 float32;CPU3;3 - 44;[16];[];;
+4;const Tensor-3 float32;Tensor-3 float32;CPU4;4 - 44;[32];[];;
+5;const Vector int64;Vector int64;CPU5;5 - 44;[];[];;
+6;const Vector int64;Vector int64;CPU6;6 - 44;[];[];;
+7;const Matrix float32;Matrix float32;CPU7;7 - 44;[43];[];;
+8;;Tensor-4 float32;CPU8;8 - 44;[10];[];;
+9;Reshape(256, 10);Matrix float32;CPU9;9 - 42;[42];[0];0;
+10;im2col<(5,5), (2, 2), (1,1) (1, 1)>;Tensor-4 float32;CPU10;10 - 12;[12];[8];;
+11;Reshape(8, 25);Matrix float32;CPU11;11 - 13;[13];[2];2;
+12;Reshape(784, 25);Matrix float32;CPU10;12 - 13;[13];[a];10;
+13;A × Bᵀ;Matrix float32;CPU12;13 - 14;[14];[c, b];;yes
+14;Reshape(1, 28, 28, 8);Tensor-4 float32;CPU12;14 - 15;[15];[d];13;
+15;Aᵀ{0, 3, 1, 2};Tensor-4 float32;CPU12;15 - 21;[17 18 19 21];[e];14;
+16;Reshape(1, 8, 1, 1);Tensor-4 float32;CPU13;16 - 20;[20];[3];3;
+17;SizeOf=1;float32;CPU14;17 - 20;[20];[f];;
+18;SizeOf=28;float32;CPU15;18 - 20;[20];[f];;
+19;SizeOf=28;float32;CPU16;19 - 20;[20];[f];;
+20;Repeat[0 2 3];Tensor-4 float32;CPU17;20 - 21;[21];[10, 11, 12, 13];;
+21;+ false;Tensor-4 float32;CPU12;21 - 24;[23 24];[f, 14];15;
+22;const 0;float32;CPU18;22 - 44;[23 38];[];;
+23;>= true;Tensor-4 float32;CPU19;23 - 24;[24];[15, 16];21;
+24;⊙ false;Tensor-4 float32;CPU12;24 - 25;[25];[15, 17];21;
+25;MaxPool{1, 8, 28, 28}(kernel: (2, 2), pad: (0, 0), stride: (2, 2));Tensor-4 float32;CPU20;25 - 26;[26];[18];;
+26;im2col<(5,5), (2, 2), (1,1) (1, 1)>;Tensor-4 float32;CPU21;26 - 28;[28];[19];;
+27;Reshape(16, 200);Matrix float32;CPU22;27 - 29;[29];[1];1;
+28;Reshape(196, 200);Matrix float32;CPU21;28 - 29;[29];[1a];26;
+29;A × Bᵀ;Matrix float32;CPU23;29 - 30;[30];[1c, 1b];;yes
+30;Reshape(1, 14, 14, 16);Tensor-4 float32;CPU23;30 - 31;[31];[1d];29;
+31;Aᵀ{0, 3, 1, 2};Tensor-4 float32;CPU23;31 - 37;[33 34 35 37];[1e];30;
+32;Reshape(1, 16, 1, 1);Tensor-4 float32;CPU24;32 - 36;[36];[4];4;
+33;SizeOf=1;float32;CPU25;33 - 36;[36];[1f];;
+34;SizeOf=14;float32;CPU26;34 - 36;[36];[1f];;
+35;SizeOf=14;float32;CPU27;35 - 36;[36];[1f];;
+36;Repeat[0 2 3];Tensor-4 float32;CPU28;36 - 37;[37];[20, 21, 22, 23];;
+37;+ false;Tensor-4 float32;CPU23;37 - 39;[38 39];[1f, 24];31;
+38;>= true;Tensor-4 float32;CPU29;38 - 39;[39];[25, 16];37;
+39;⊙ false;Tensor-4 float32;CPU23;39 - 40;[40];[25, 26];37;
+40;MaxPool{1, 16, 14, 14}(kernel: (3, 3), pad: (0, 0), stride: (3, 3));Tensor-4 float32;CPU30;40 - 41;[41];[27];;
+41;Reshape(1, 256);Matrix float32;CPU30;41 - 42;[42];[28];40;
+42;A × B;Matrix float32;CPU31;42 - 43;[43];[29, 9];;yes
+43;+ false;Matrix float32;CPU31;43 - 43;[];[2a, 7];42;

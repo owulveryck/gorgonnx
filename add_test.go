@@ -24,16 +24,8 @@ func shapeEquals(a, b tensor.Tensor) bool {
 }
 
 func TestAddOp(t *testing.T) {
-	input1 := "a"
-	input2 := "b"
-	output := "y"
-	inputs := []string{input1, input2}
-	outputs := []string{output}
-	opName := "Plus"
-	opType := "Add"
-	domain := ""
-	docString := ""
 	dataType := onnx.TensorProto_DataType(1)
+	input1 := "a"
 	simpleTest := &onnx.TensorProto{
 		Dims:      []int64{2, 1, 1},
 		DataType:  &dataType,
@@ -41,7 +33,7 @@ func TestAddOp(t *testing.T) {
 		FloatData: []float32{100, 100},
 		Name:      &input1,
 	}
-	simpleResult := tensor.New(tensor.WithShape(2, 1, 1), tensor.WithBacking([]int{101, 102}))
+	simpleResult := tensor.New(tensor.WithShape(2, 1, 1), tensor.WithBacking([]float32{101, 102}))
 	broadcastTest := &onnx.TensorProto{
 		Dims:     []int64{1, 2, 5, 5},
 		DataType: &dataType,
@@ -61,16 +53,16 @@ func TestAddOp(t *testing.T) {
 		Name: &input1,
 	}
 	broadcastResult := tensor.New(tensor.WithShape(1, 2, 5, 5), tensor.WithBacking([]float32{
-		101, 102, 103, 104, 105,
-		201, 202, 203, 204, 205,
-		301, 302, 303, 304, 305,
-		401, 402, 403, 404, 405,
-		501, 502, 503, 504, 505,
-		1001, 1002, 1003, 1004, 1005,
-		2001, 2002, 2003, 2004, 2005,
-		3001, 3002, 3003, 3004, 3005,
-		4001, 4002, 4003, 4004, 4005,
-		5001, 5002, 5003, 5004, 5005,
+		101, 101, 101, 101, 101,
+		201, 201, 201, 201, 201,
+		301, 301, 301, 301, 301,
+		401, 401, 401, 401, 401,
+		501, 501, 501, 501, 501,
+		1002, 1002, 1002, 1002, 1002,
+		2002, 2002, 2002, 2002, 2002,
+		3002, 3002, 3002, 3002, 3002,
+		4002, 4002, 4002, 4002, 4002,
+		5002, 5002, 5002, 5002, 5002,
 	}))
 	type test struct {
 		input  *onnx.TensorProto
@@ -80,17 +72,25 @@ func TestAddOp(t *testing.T) {
 
 	for _, unitTest := range []test{
 		test{
-			input:  simpleTest,
-			output: simpleResult,
-			err:    nil,
-		},
-		test{
 			input:  broadcastTest,
 			output: broadcastResult,
 			err:    nil,
 		},
+		test{
+			input:  simpleTest,
+			output: simpleResult,
+			err:    nil,
+		},
 	} {
 
+		input2 := "b"
+		output := "y"
+		outputs := []string{output}
+		inputs := []string{input1, input2}
+		opName := "Plus"
+		opType := "Add"
+		domain := ""
+		docString := ""
 		b := unitTest.input
 		np := &onnx.NodeProto{
 			Input:     inputs,
@@ -138,6 +138,13 @@ func TestAddOp(t *testing.T) {
 		}
 		if !shapeEquals(g.getNodeByName(output).Value().(tensor.Tensor), unitTest.output) {
 			t.Fatal("Size mismatch")
+		}
+		for i, v := range unitTest.output.Data().([]float32) {
+			if v != g.getNodeByName(output).Value().Data().([]float32)[i] {
+				t.Log("Got: ", g.getNodeByName(output).Value())
+				t.Log("Expeced: ", unitTest.output)
+				t.FailNow()
+			}
 		}
 	}
 }

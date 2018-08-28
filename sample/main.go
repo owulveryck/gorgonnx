@@ -3,16 +3,16 @@ package main
 import (
 	"io/ioutil"
 	"log"
-	"os"
 
 	"github.com/owulveryck/gorgonnx"
 	onnx "github.com/owulveryck/onnx/go"
+	"github.com/y0ssar1an/q"
 	"gorgonia.org/gorgonia"
 	"gorgonia.org/tensor/tensonnx"
 )
 
 func main() {
-	b, err := ioutil.ReadFile(os.Args[1])
+	b, err := ioutil.ReadFile("../mnist/model.onnx")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -29,7 +29,7 @@ func main() {
 	//fmt.Println(g.ToDot())
 	// Open the tensorproto sample file
 
-	b, err = ioutil.ReadFile(os.Args[2])
+	b, err = ioutil.ReadFile("../mnist/test_data_set_1/input_0.pb")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -42,6 +42,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	q.Q(t)
 	gorgonia.Let(g.ByName("Input3")[0], t)
 	/*
 		for _, n := range g.Inputs() {
