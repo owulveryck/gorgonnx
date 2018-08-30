@@ -33,6 +33,29 @@ func (gi *graph) getNodeByName(name string) *gorgonia.Node {
 	return nil
 }
 
+// GetOutputNodes returns the nodes that are the output of the graph
+func GetOutputNodes(g *gorgonia.ExprGraph) gorgonia.Nodes {
+	var output gorgonia.Nodes
+	for _, n := range g.AllNodes() {
+		if len(g.To(n.ID())) == 0 {
+			output = append(output, n)
+		}
+	}
+	return output
+}
+
+// GetOutputGraphNodes returns the nodes that are the output of the graph and not orhpan Nodes
+// This is avoid to return the nodes used for the reshape operator
+func GetOutputGraphNodes(g *gorgonia.ExprGraph) gorgonia.Nodes {
+	var output gorgonia.Nodes
+	for _, n := range GetOutputNodes(g) {
+		if len(g.From(n.ID())) != 0 {
+			output = append(output, n)
+		}
+	}
+	return output
+}
+
 // NewGraph returns a new graph that is initialized with gx as its initial content.
 func NewGraph(gx *onnx.GraphProto) (*gorgonia.ExprGraph, error) {
 	g := &graph{

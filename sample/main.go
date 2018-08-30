@@ -44,21 +44,12 @@ func main() {
 	}
 	q.Q(t)
 	gorgonia.Let(g.ByName("Input3")[0], t)
-	/*
-		for _, n := range g.Inputs() {
-			if n.Name() == "Input3" {
-				gorgonia.Let(n, t)
-			}
-		}
-	*/
 	machine := gorgonia.NewTapeMachine(g)
 	if err = machine.RunAll(); err != nil {
 		log.Fatal(err)
 	}
-
-	for _, n := range g.AllNodes() {
-		if len(n.Shape()) == 2 && n.Shape()[0] == 1 && n.Shape()[1] == 10 {
-			log.Printf("%v: %v", n.Name(), n.Value())
-		}
+	output := gorgonnx.GetOutputGraphNodes(g)
+	for _, n := range output {
+		log.Printf("%v: %v", n.Name(), n.Value())
 	}
 }
