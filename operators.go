@@ -75,11 +75,11 @@ func (d *graph) convOp(nx *onnx.NodeProto) error {
 			return fmt.Errorf("Unknown attribute: %v for convolution operator", attr.Name)
 		}
 	}
+	//log.Printf("Convolving %v with %v pad:%v stride:%v, dilations:%v", input.Name(), kernel.Name(), pad, stride, dilations)
 	n, err := nnops.Conv2d(input, kernel, kernelShape, pad, stride, dilations)
 	if err != nil {
 		return fmt.Errorf("Cannot apply Convolution operator: %v", err)
 	}
-	//d.g.AddNode(n)
 	d.db[nx.Output[0]] = n
 	return nil
 }
@@ -114,7 +114,6 @@ func (d *graph) addOp(nx *onnx.NodeProto) error {
 	if err != nil {
 		return fmt.Errorf("Cannot Add %v and %v: %v", nx.Input[0], nx.Input[1], err)
 	}
-	//d.g.AddNode(n)
 	d.db[nx.Output[0]] = n
 
 	return nil
@@ -159,7 +158,7 @@ func (d *graph) maxPoolOp(nx *onnx.NodeProto) error {
 			case "SAME_LOWER":
 				return fmt.Errorf("auto_pad %v not implemented", string(attr.S))
 			case "VALID":
-				return fmt.Errorf("auto_pad %v not implemented", string(attr.S))
+				pad = []int{0, 0}
 			default:
 				return fmt.Errorf("Invalid auto_pad value: %v", string(attr.S))
 
@@ -179,11 +178,11 @@ func (d *graph) maxPoolOp(nx *onnx.NodeProto) error {
 			return fmt.Errorf("Unknown attribute: %v for maxpool operator", attr.Name)
 		}
 	}
+	//log.Printf("MaxPool2D %v (%v) with %v pad:%v stride:%v", input.Name(), input.Shape(), kernelShape, pad, stride)
 	n, err := nnops.MaxPool2D(input, kernelShape, pad, stride)
 	if err != nil {
 		return fmt.Errorf("Cannot apply Convolution operator: %v", err)
 	}
-	//d.g.AddNode(n)
 	d.db[nx.Output[0]] = n
 	return nil
 
@@ -197,7 +196,6 @@ func (d *graph) matMulOp(nx *onnx.NodeProto) error {
 	if err != nil {
 		return fmt.Errorf("Cannot Multiply: %v", err)
 	}
-	//d.g.AddNode(n)
 	d.db[nx.Output[0]] = n
 
 	return nil
