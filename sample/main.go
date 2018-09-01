@@ -6,7 +6,6 @@ import (
 
 	"github.com/owulveryck/gorgonnx"
 	onnx "github.com/owulveryck/onnx/go"
-	"github.com/y0ssar1an/q"
 	"gorgonia.org/gorgonia"
 	"gorgonia.org/tensor/tensonnx"
 )
@@ -49,8 +48,5 @@ func main() {
 	output := gorgonnx.GetOutputGraphNodes(g)
 	for _, n := range output {
 		log.Printf("%v: %v", n.Name(), n.Value())
-	}
-	for _, n := range g.AllNodes() {
-		q.Q(n.Name(), n.Value())
 	}
 }
