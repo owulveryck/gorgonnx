@@ -26,7 +26,6 @@ func main() {
 		log.Fatal("Cannot decode ", err)
 	}
 
-	//fmt.Println(g.ToDot())
 	// Open the tensorproto sample file
 
 	b, err = ioutil.ReadFile("../mnist/test_data_set_1/input_0.pb")
@@ -42,7 +41,6 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	q.Q(t)
 	gorgonia.Let(g.ByName("Input3")[0], t)
 	machine := gorgonia.NewTapeMachine(g)
 	if err = machine.RunAll(); err != nil {
@@ -51,5 +49,8 @@ func main() {
 	output := gorgonnx.GetOutputGraphNodes(g)
 	for _, n := range output {
 		log.Printf("%v: %v", n.Name(), n.Value())
+	}
+	for _, n := range g.AllNodes() {
+		q.Q(n.Name(), n.Value())
 	}
 }

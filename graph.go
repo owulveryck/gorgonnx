@@ -123,6 +123,5 @@ func (gi *graph) parse(gx *onnx.GraphProto) (*gorgonia.ExprGraph, error) {
 			return g, fmt.Errorf("Endless loop, the graph may be broken")
 		}
 	}
-
 	return g, nil
 }

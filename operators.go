@@ -39,7 +39,6 @@ func (d *graph) convOp(nx *onnx.NodeProto) error {
 				log.Println("Warning, processing padding without stride")
 			}
 			// Evaluating the padding
-			// http://machinelearninguru.com/computer_vision/basics/convolution/convolution_layer.html
 			if attr.S == nil {
 				return fmt.Errorf("auto_pad specified without value")
 			}
@@ -76,6 +75,7 @@ func (d *graph) convOp(nx *onnx.NodeProto) error {
 		}
 	}
 	//log.Printf("Convolving %v with %v pad:%v stride:%v, dilations:%v", input.Name(), kernel.Name(), pad, stride, dilations)
+	//log.Println("Kernel", kernel.Value())
 	n, err := nnops.Conv2d(input, kernel, kernelShape, pad, stride, dilations)
 	if err != nil {
 		return fmt.Errorf("Cannot apply Convolution operator: %v", err)
@@ -110,11 +110,29 @@ func (d *graph) addOp(nx *onnx.NodeProto) error {
 	a := d.db[nx.Input[0]]
 	var n *gorgonia.Node
 	var err error
-	n, err = gorgonia.AddBroadcast(a, b)
-	if err != nil {
-		return fmt.Errorf("Cannot Add %v and %v: %v", nx.Input[0], nx.Input[1], err)
+	normalAdd := true
+	if len(a.Shape()) == len(b.Shape()) {
+		for i := range a.Shape() {
+			if a.Shape()[i] != b.Shape()[i] {
+				normalAdd = false
+			}
+		}
+	} else {
+		normalAdd = false
 	}
-	d.db[nx.Output[0]] = n
+	if normalAdd {
+		n, err = gorgonia.Add(a, b)
+		if err != nil {
+			return fmt.Errorf("Cannot Add %v and %v: %v", nx.Input[0], nx.Input[1], err)
+		}
+		d.db[nx.Output[0]] = n
+	} else {
+		n, err = gorgonia.AddBroadcast(a, b)
+		if err != nil {
+			return fmt.Errorf("Cannot Add %v and %v: %v", nx.Input[0], nx.Input[1], err)
+		}
+		d.db[nx.Output[0]] = n
+	}
 
 	return nil
 }
