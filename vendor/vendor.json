@@ -1,0 +1,61 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "M67uiqLaoMjyKyeDNtYpECMouFA=",
+			"path": "gorgonia.org/gorgonia",
+			"revision": "8453c8bde5add79890e9d0c6c59e4e33536d5b9b",
+			"revisionTime": "2018-08-19T02:50:57Z"
+		},
+		{
+			"checksumSHA1": "VhnVuHKqXxA9ifKiYqK2Ngh/mNc=",
+			"path": "gorgonia.org/gorgonia/cuda",
+			"revision": "8453c8bde5add79890e9d0c6c59e4e33536d5b9b",
+			"revisionTime": "2018-08-19T02:50:57Z"
+		},
+		{
+			"checksumSHA1": "a2kuV/QRw1La4gKkMUHAoCIQax0=",
+			"path": "gorgonia.org/gorgonia/ops/nn",
+			"revision": "8453c8bde5add79890e9d0c6c59e4e33536d5b9b",
+			"revisionTime": "2018-08-19T02:50:57Z"
+		},
+		{
+			"checksumSHA1": "0DGFA+Zc3owGw9ikmT6trRY1KDs=",
+			"path": "gorgonia.org/tensor",
+			"revision": "a796acd54c17e0ceaccdcc9412192ce257b61500",
+			"revisionTime": "2018-08-24T13:08:58Z"
+		},
+		{
+			"checksumSHA1": "vEmIc9pIGdox8U+CtRO+I01b/xU=",
+			"path": "gorgonia.org/tensor/internal/execution",
+			"revision": "a796acd54c17e0ceaccdcc9412192ce257b61500",
+			"revisionTime": "2018-08-24T13:08:58Z"
+		},
+		{
+			"checksumSHA1": "synsC+441yDJd7d0QtWnA2K9ejk=",
+			"path": "gorgonia.org/tensor/internal/serialization/fb",
+			"revision": "a796acd54c17e0ceaccdcc9412192ce257b61500",
+			"revisionTime": "2018-08-24T13:08:58Z"
+		},
+		{
+			"checksumSHA1": "SoUSWmXyKmzv6yqm6mq8YGtVrIg=",
+			"path": "gorgonia.org/tensor/internal/serialization/pb",
+			"revision": "a796acd54c17e0ceaccdcc9412192ce257b61500",
+			"revisionTime": "2018-08-24T13:08:58Z"
+		},
+		{
+			"checksumSHA1": "3E54r+ucVGkYyUi+TZJ825aQCOw=",
+			"path": "gorgonia.org/tensor/internal/storage",
+			"revision": "a796acd54c17e0ceaccdcc9412192ce257b61500",
+			"revisionTime": "2018-08-24T13:08:58Z"
+		},
+		{
+			"checksumSHA1": "BFZIm0NHDF01BUNWuU44ZiPigB4=",
+			"path": "gorgonia.org/tensor/tensonnx",
+			"revision": "a796acd54c17e0ceaccdcc9412192ce257b61500",
+			"revisionTime": "2018-08-24T13:08:58Z"
+		}
+	],
+	"rootPath": "github.com/owulveryck/gorgonnx"
+}
