@@ -91,7 +91,7 @@ func TestAddOp2(t *testing.T) {
 		nb := gorgonia.NodeFromAny(g.g, bb, gorgonia.WithName(input2))
 		g.addNode(input1, na)
 		g.addNode(input2, nb)
-		err = g.addOp(np)
+		err = g.processNode(np)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -215,7 +215,7 @@ func TestAddOp(t *testing.T) {
 		nb := gorgonia.NodeFromAny(g.g, bb, gorgonia.WithName(input2))
 		g.addNode(input1, na)
 		g.addNode(input2, nb)
-		err = g.addOp(np)
+		err = g.processNode(np)
 		if err != nil {
 			t.Fatal(err)
 		}
