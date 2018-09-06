@@ -2,3 +2,6 @@ onnxTest
 utilities/utilities
 sample/sample
 mnist/utilities/utilities
+
+sample/err.dot
+sample/output
