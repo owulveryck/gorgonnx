@@ -69,7 +69,7 @@ func TestConvOp(t *testing.T) {
 	kernelShape := &onnx.AttributeProto{
 		Name: &attrKernelShapeName,
 		Type: &attrTypeInts,
-		Ints: []int64{5, 5},
+		Ints: []int64{3, 3},
 	}
 	strides := &onnx.AttributeProto{
 		Name: &attrStridesName,
