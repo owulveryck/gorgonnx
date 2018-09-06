@@ -60,10 +60,8 @@ func TestConvOp(t *testing.T) {
 	docString := ""
 	attrKernelShapeName := "kernel_shape"
 	attrTypeInts := onnx.AttributeProto_AttributeType(7)
-	attrTypeString := onnx.AttributeProto_AttributeType(3)
+	//attrTypeString := onnx.AttributeProto_AttributeType(3)
 	attrStridesName := "strides"
-	attrAutoPadName := "auto_pad"
-	//attrPadsName := "pad"
 	//attrGroupName := "group"
 	//attrDilationsName := "dilations"
 	kernelShape := &onnx.AttributeProto{
@@ -76,11 +74,20 @@ func TestConvOp(t *testing.T) {
 		Type: &attrTypeInts,
 		Ints: []int64{1, 1},
 	}
-	autoPad := &onnx.AttributeProto{
-		Name: &attrAutoPadName,
-		Type: &attrTypeString,
-		S:    []byte(`SAME_UPPER`),
+	attrPadsName := "pads"
+	pad := &onnx.AttributeProto{
+		Name: &attrPadsName,
+		Type: &attrTypeInts,
+		Ints: []int64{1, 1, 1, 1},
 	}
+	/*
+		attrAutoPadName := "auto_pad"
+		autoPad := &onnx.AttributeProto{
+			Name: &attrAutoPadName,
+			Type: &attrTypeString,
+			S:    []byte(`SAME_UPPER`),
+		}
+	*/
 
 	np := &onnx.NodeProto{
 		Input:  inputs,
@@ -89,7 +96,7 @@ func TestConvOp(t *testing.T) {
 		OpType: &opType,
 		Domain: &domain,
 		Attribute: []*onnx.AttributeProto{
-			autoPad,
+			pad,
 			kernelShape,
 			strides,
 		},
@@ -115,13 +122,13 @@ func TestConvOp(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	t.Log(g.g.ToDot())
+	//t.Log(g.g.ToDot())
 	vm := gorgonia.NewTapeMachine(g.g)
 	err = vm.RunAll()
 	if err != nil {
 		t.Fatal(err)
 	}
-	assert.Equal(t, g.getNodeByName(output).Value().(tensor.Tensor), resultWithpadding, "Tensor should be the same")
+	assert.Equal(t, resultWithpadding, g.getNodeByName(output).Value().(tensor.Tensor), "Tensor should be the same")
 	t.Log(g.getNodeByName(output).Value().(tensor.Tensor))
 
 }
