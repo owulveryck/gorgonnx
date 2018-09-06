@@ -74,8 +74,7 @@ func (d *graph) convOp(nx *onnx.NodeProto) error {
 			return fmt.Errorf("Unknown attribute: %v for convolution operator", attr.Name)
 		}
 	}
-	//log.Printf("Convolving %v with %v pad:%v stride:%v, dilations:%v", input.Name(), kernel.Name(), pad, stride, dilations)
-	//log.Println("Kernel", kernel.Value())
+	// For testing, reshape the kernel...
 	n, err := nnops.Conv2d(input, kernel, kernelShape, pad, stride, dilations)
 	if err != nil {
 		return fmt.Errorf("Cannot apply Convolution operator: %v", err)
