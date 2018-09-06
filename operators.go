@@ -60,10 +60,11 @@ func (d *graph) convOp(nx *onnx.NodeProto) error {
 			}
 		case "pads":
 			pad = make([]int, len(attr.Ints)/2)
-			for i := 0; i < len(attr.Ints)/2; i += 2 {
+			for i := 0; i < len(attr.Ints)/2; i += 1 {
 				//pad[i] = int(attr.Ints[2*i] + attr.Ints[2*i+1])
 				pad[i] = int(attr.Ints[2*i])
 			}
+			log.Println(pad)
 			//return fmt.Errorf("Pad not implemented")
 			// BUG(owulveryck): `pad` attribute not implemented
 		case "group":
