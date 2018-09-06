@@ -1,8 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"io/ioutil"
 	"log"
+	"os"
 
 	"github.com/owulveryck/gorgonnx"
 	onnx "github.com/owulveryck/onnx/go"
@@ -20,6 +22,9 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	for _, n := range model.GetGraph().Node {
+		fmt.Println(*n.OpType)
+	}
 	g, err := gorgonnx.NewGraph(model.GetGraph())
 	if err != nil {
 		log.Fatal("Cannot decode ", err)
@@ -27,7 +32,7 @@ func main() {
 
 	// Open the tensorproto sample file
 
-	b, err = ioutil.ReadFile("../mnist/test_data_set_1/input_0.pb")
+	b, err = ioutil.ReadFile("../mnist/test_data_set_0/input_0.pb")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -41,7 +46,8 @@ func main() {
 		log.Fatal(err)
 	}
 	gorgonia.Let(g.ByName("Input3")[0], t)
-	machine := gorgonia.NewTapeMachine(g)
+	logger := log.New(os.Stdout, "", 0)
+	machine := gorgonia.NewTapeMachine(g, gorgonia.WithLogger(logger), gorgonia.WithWatchlist())
 	if err = machine.RunAll(); err != nil {
 		log.Fatal(err)
 	}
