@@ -128,7 +128,7 @@ func TestConvOp(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	assert.Equal(t, resultWithpadding, g.getNodeByName(output).Value().(tensor.Tensor), "Tensor should be the same")
+	assert.Equal(t, resultWithpadding, g.getNodeByName(output).Value().(tensor.Tensor), "Bad result for the convolution operator")
 	t.Log(g.getNodeByName(output).Value().(tensor.Tensor))
 
 }
