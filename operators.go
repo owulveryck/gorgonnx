@@ -49,6 +49,7 @@ func (d *graph) convOp(nx *onnx.NodeProto) error {
 				outputWidth := int(math.Ceil(float64(input.Shape()[3]) / float64(stride[1])))
 				pad[0] = int(math.Max(float64((outputHeight-1)*stride[0]+kernelShape[0]-input.Shape()[2]), float64(0))) / 2
 				pad[1] = int(math.Max(float64((outputWidth-1)*stride[1]+kernelShape[1]-input.Shape()[3]), float64(0))) / 2
+				log.Println(pad)
 			case "SAME_LOWER":
 				return fmt.Errorf("Warning: lower padding not implemented")
 			case "VALID":
@@ -58,7 +59,12 @@ func (d *graph) convOp(nx *onnx.NodeProto) error {
 
 			}
 		case "pads":
-			return fmt.Errorf("Pad not implemented")
+			pad = make([]int, len(attr.Ints)/2)
+			for i := 0; i < len(attr.Ints)/2; i += 2 {
+				//pad[i] = int(attr.Ints[2*i] + attr.Ints[2*i+1])
+				pad[i] = int(attr.Ints[2*i])
+			}
+			//return fmt.Errorf("Pad not implemented")
 			// BUG(owulveryck): `pad` attribute not implemented
 		case "group":
 			if *attr.I == int64(1) {
