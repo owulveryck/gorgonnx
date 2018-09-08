@@ -1,6 +1,8 @@
 package gorgonnx
 
 import (
+	"log"
+	"os"
 	"testing"
 
 	onnx "github.com/owulveryck/onnx/go"
@@ -123,12 +125,14 @@ func TestConvOp(t *testing.T) {
 		t.Fatal(err)
 	}
 	//t.Log(g.g.ToDot())
-	vm := gorgonia.NewTapeMachine(g.g)
+	logger := log.New(os.Stdout, "", 0)
+	vm := gorgonia.NewTapeMachine(g.g, gorgonia.WithLogger(logger), gorgonia.WithWatchlist())
+	//vm := gorgonia.NewTapeMachine(g.g)
 	err = vm.RunAll()
 	if err != nil {
 		t.Fatal(err)
 	}
-	assert.Equal(t, resultWithpadding, g.getNodeByName(output).Value().(tensor.Tensor), "Bad result for the convolution operator")
+	assert.Equal(t, resultWithpadding.Data(), g.getNodeByName(output).Value().(tensor.Tensor).Data(), "Bad result for the convolution operator")
 	t.Log(g.getNodeByName(output).Value().(tensor.Tensor))
 
 }
