@@ -1,8 +1,6 @@
 package gorgonnx
 
 import (
-	"log"
-	"os"
 	"testing"
 
 	onnx "github.com/owulveryck/onnx/go"
@@ -62,7 +60,7 @@ func TestConvOp(t *testing.T) {
 	docString := ""
 	attrKernelShapeName := "kernel_shape"
 	attrTypeInts := onnx.AttributeProto_AttributeType(7)
-	//attrTypeString := onnx.AttributeProto_AttributeType(3)
+	attrTypeString := onnx.AttributeProto_AttributeType(3)
 	attrStridesName := "strides"
 	//attrGroupName := "group"
 	//attrDilationsName := "dilations"
@@ -76,20 +74,20 @@ func TestConvOp(t *testing.T) {
 		Type: &attrTypeInts,
 		Ints: []int64{1, 1},
 	}
-	attrPadsName := "pads"
-	pad := &onnx.AttributeProto{
-		Name: &attrPadsName,
-		Type: &attrTypeInts,
-		Ints: []int64{1, 1, 1, 1},
-	}
 	/*
-		attrAutoPadName := "auto_pad"
-		autoPad := &onnx.AttributeProto{
-			Name: &attrAutoPadName,
-			Type: &attrTypeString,
-			S:    []byte(`SAME_UPPER`),
+		attrPadsName := "pads"
+		pad := &onnx.AttributeProto{
+			Name: &attrPadsName,
+			Type: &attrTypeInts,
+			Ints: []int64{1, 1, 1, 1},
 		}
 	*/
+	attrPadsName := "auto_pad"
+	pad := &onnx.AttributeProto{
+		Name: &attrPadsName,
+		Type: &attrTypeString,
+		S:    []byte(`SAME_UPPER`),
+	}
 
 	np := &onnx.NodeProto{
 		Input:  inputs,
@@ -98,9 +96,9 @@ func TestConvOp(t *testing.T) {
 		OpType: &opType,
 		Domain: &domain,
 		Attribute: []*onnx.AttributeProto{
-			pad,
-			kernelShape,
 			strides,
+			kernelShape,
+			pad,
 		},
 		DocString: &docString,
 	}
@@ -124,9 +122,7 @@ func TestConvOp(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	//t.Log(g.g.ToDot())
-	logger := log.New(os.Stdout, "", 0)
-	vm := gorgonia.NewTapeMachine(g.g, gorgonia.WithLogger(logger), gorgonia.WithWatchlist())
+	vm := gorgonia.NewTapeMachine(g.g)
 	//vm := gorgonia.NewTapeMachine(g.g)
 	err = vm.RunAll()
 	if err != nil {
