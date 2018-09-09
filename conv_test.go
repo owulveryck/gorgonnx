@@ -129,6 +129,4 @@ func TestConvOp(t *testing.T) {
 		t.Fatal(err)
 	}
 	assert.Equal(t, resultWithpadding.Data(), g.getNodeByName(output).Value().(tensor.Tensor).Data(), "Bad result for the convolution operator")
-	t.Log(g.getNodeByName(output).Value().(tensor.Tensor))
-
 }
