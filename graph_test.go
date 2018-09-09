@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 
-	onnx "github.com/owulveryck/onnx/go"
+	onnx "github.com/owulveryck/onnx-go"
 )
 
 func ExampleDecoder() {

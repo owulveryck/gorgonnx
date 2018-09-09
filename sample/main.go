@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
@@ -21,9 +20,6 @@ func main() {
 	err = model.Unmarshal(b)
 	if err != nil {
 		log.Fatal(err)
-	}
-	for _, n := range model.GetGraph().Node {
-		fmt.Println(*n.OpType)
 	}
 	g, err := gorgonnx.NewGraph(model.GetGraph())
 	if err != nil {

@@ -8,7 +8,7 @@ import (
 
 	"github.com/pkg/errors"
 
-	onnx "github.com/owulveryck/onnx/go"
+	onnx "github.com/owulveryck/onnx-go"
 	"gorgonia.org/tensor"
 )
 

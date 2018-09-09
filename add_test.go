@@ -3,7 +3,7 @@ package gorgonnx
 import (
 	"testing"
 
-	onnx "github.com/owulveryck/onnx/go"
+	onnx "github.com/owulveryck/onnx-go"
 	"gorgonia.org/gorgonia"
 	"gorgonia.org/tensor"
 	"gorgonia.org/tensor/tensonnx"

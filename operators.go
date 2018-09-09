@@ -5,7 +5,7 @@ import (
 	"log"
 	"math"
 
-	onnx "github.com/owulveryck/onnx/go"
+	onnx "github.com/owulveryck/onnx-go"
 	"gorgonia.org/gorgonia"
 	nnops "gorgonia.org/gorgonia/ops/nn"
 	"gorgonia.org/tensor"
@@ -64,9 +64,6 @@ func (d *graph) convOp(nx *onnx.NodeProto) error {
 				//pad[i] = int(attr.Ints[2*i] + attr.Ints[2*i+1])
 				pad[i] = int(attr.Ints[2*i])
 			}
-			log.Println(pad)
-			//return fmt.Errorf("Pad not implemented")
-			// BUG(owulveryck): `pad` attribute not implemented
 		case "group":
 			if *attr.I == int64(1) {
 				continue
@@ -202,7 +199,6 @@ func (d *graph) maxPoolOp(nx *onnx.NodeProto) error {
 			return fmt.Errorf("Unknown attribute: %v for maxpool operator", attr.Name)
 		}
 	}
-	//log.Printf("MaxPool2D %v (%v) with %v pad:%v stride:%v", input.Name(), input.Shape(), kernelShape, pad, stride)
 	n, err := nnops.MaxPool2D(input, kernelShape, pad, stride)
 	if err != nil {
 		return fmt.Errorf("Cannot apply Convolution operator: %v", err)
@@ -223,5 +219,4 @@ func (d *graph) matMulOp(nx *onnx.NodeProto) error {
 	d.db[nx.Output[0]] = n
 
 	return nil
-
 }

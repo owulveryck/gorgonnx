@@ -3,7 +3,7 @@ package tensonnx
 import (
 	"fmt"
 
-	onnx "github.com/owulveryck/onnx/go"
+	onnx "github.com/owulveryck/onnx-go"
 	"github.com/pkg/errors"
 	"gorgonia.org/tensor"
 )
