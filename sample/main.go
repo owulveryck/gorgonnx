@@ -6,7 +6,7 @@ import (
 	"os"
 
 	"github.com/owulveryck/gorgonnx"
-	onnx "github.com/owulveryck/onnx/go"
+	onnx "github.com/owulveryck/onnx-go"
 	"gorgonia.org/gorgonia"
 	"gorgonia.org/tensor/tensonnx"
 )
