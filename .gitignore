@@ -5,3 +5,5 @@ mnist/utilities/utilities
 
 sample/err.dot
 sample/output
+output
+sample/.output.swp
