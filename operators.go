@@ -61,8 +61,8 @@ func (d *graph) convOp(nx *onnx.NodeProto) error {
 		case "pads":
 			pad = make([]int, len(attr.Ints)/2)
 			for i := 0; i < len(attr.Ints)/2; i++ {
-				//pad[i] = int(attr.Ints[2*i] + attr.Ints[2*i+1])
-				pad[i] = int(attr.Ints[2*i])
+				pad[i] = int(attr.Ints[2*i] + attr.Ints[2*i+1])
+				//pad[i] = int(attr.Ints[2*i])
 			}
 		case "group":
 			if *attr.I == int64(1) {
