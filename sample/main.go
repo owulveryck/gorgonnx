@@ -3,7 +3,6 @@ package main
 import (
 	"io/ioutil"
 	"log"
-	"os"
 
 	"github.com/owulveryck/gorgonnx"
 	onnx "github.com/owulveryck/onnx-go"
@@ -42,8 +41,9 @@ func main() {
 		log.Fatal(err)
 	}
 	gorgonia.Let(g.ByName("Input3")[0], t)
-	logger := log.New(os.Stdout, "", 0)
-	machine := gorgonia.NewTapeMachine(g, gorgonia.WithLogger(logger), gorgonia.WithWatchlist())
+	//logger := log.New(os.Stdout, "", 0)
+	//machine := gorgonia.NewTapeMachine(g, gorgonia.WithLogger(logger), gorgonia.WithWatchlist())
+	machine := gorgonia.NewTapeMachine(g)
 	if err = machine.RunAll(); err != nil {
 		log.Fatal(err)
 	}
