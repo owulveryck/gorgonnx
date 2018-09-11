@@ -4,78 +4,95 @@ import (
 	"fmt"
 
 	onnx "github.com/owulveryck/onnx-go"
-	"gorgonia.org/gorgonia"
-	"gorgonia.org/tensor/tensonnx"
+	"gonum.org/v1/gonum/graph"
+	"gonum.org/v1/gonum/graph/encoding"
+	"gonum.org/v1/gonum/graph/simple"
 )
 
-// graph is the internal representation of a graph.false
+type nodeType int64
+
+const (
+	nodeConstant = iota
+	nodeInput
+	nodeComputed
+	nodeOperator
+)
+
+type node struct {
+	id        int64
+	Name      string
+	Shape     []int64
+	Operation string
+	Type      nodeType
+}
+
+// ID of the node
+func (n *node) ID() int64 {
+	return n.id
+}
+
+// DOTID for graphbviz
+func (n *node) DOTID() string {
+	return n.Name
+}
+
+// Attributes defines graph.Node or graph.Edge values that can specify graph attributes.
+func (n *node) Attributes() []encoding.Attribute {
+	if n.Type == nodeOperator {
+		return []encoding.Attribute{
+			encoding.Attribute{
+				Key:   "shape",
+				Value: "record",
+			},
+			encoding.Attribute{
+				Key:   "label",
+				Value: fmt.Sprintf(`"{ %v | %v }"`, n.Operation, n.Name),
+			},
+		}
+	}
+	return []encoding.Attribute{
+		encoding.Attribute{
+			Key:   "style",
+			Value: "rounded",
+		},
+	}
+}
+
+// graph is the internal representation of a graph.
 // it handles both structure (onnx and gorgonia) as well
 // as a dictionnary of nodes
-type graph struct {
+type exprgraph struct {
 	// db reference a Node by its name.
 	// This is mandatory as NodeProto references the output node by its name
-	db map[string]*gorgonia.Node
-	g  *gorgonia.ExprGraph
-	gx *onnx.GraphProto
-}
-
-func (gi *graph) addNode(name string, n *gorgonia.Node) error {
-	gi.db[name] = n
-	gi.g.AddNode(n)
-	return nil
-}
-
-// getNodeByName from the database. Returns nil if not found
-func (gi *graph) getNodeByName(name string) *gorgonia.Node {
-	if n, ok := gi.db[name]; ok {
-		return n
-	}
-	return nil
-}
-
-// GetOutputNodes returns the nodes that are the output of the graph
-func GetOutputNodes(g *gorgonia.ExprGraph) gorgonia.Nodes {
-	var output gorgonia.Nodes
-	for _, n := range g.AllNodes() {
-		if len(g.To(n.ID())) == 0 {
-			output = append(output, n)
-		}
-	}
-	return output
-}
-
-// GetOutputGraphNodes returns the nodes that are the output of the graph and not orhpan Nodes
-// This is avoid to return the nodes used for the reshape operator
-func GetOutputGraphNodes(g *gorgonia.ExprGraph) gorgonia.Nodes {
-	var output gorgonia.Nodes
-	for _, n := range GetOutputNodes(g) {
-		if len(g.From(n.ID())) != 0 {
-			output = append(output, n)
-		}
-	}
-	return output
+	db      map[string]*node
+	digraph *simple.DirectedGraph
 }
 
 // NewGraph returns a new graph that is initialized with gx as its initial content.
-func NewGraph(gx *onnx.GraphProto) (*gorgonia.ExprGraph, error) {
-	g := &graph{
-		db: make(map[string]*gorgonia.Node),
-		gx: gx,
+func NewGraph(gx *onnx.GraphProto) (graph.Graph, error) {
+	g := &exprgraph{
+		db:      make(map[string]*node),
+		digraph: simple.NewDirectedGraph(),
 	}
-	return g.parse(gx)
+	err := g.parse(gx)
+	if err != nil {
+		return nil, err
+	}
+	return g.digraph, nil
 }
 
 // Decode the graphproto and returns a gorgonia Graph
-func (gi *graph) parse(gx *onnx.GraphProto) (*gorgonia.ExprGraph, error) {
-	g := gorgonia.NewGraph(gorgonia.WithGraphName(gx.GetName()))
+func (g *exprgraph) parse(gx *onnx.GraphProto) error {
 	for _, tensorProto := range gx.Initializer {
 		name := tensorProto.GetName()
-		t, err := tensonnx.NewTensor(tensorProto)
-		if err != nil {
-			return nil, err
+		n := &node{
+			id:    g.digraph.NewNode().ID(),
+			Name:  name,
+			Shape: tensorProto.Dims,
+			Type:  nodeConstant,
 		}
-		n := g.AddNode(gorgonia.NewConstant(t, gorgonia.WithName(name)))
-		gi.db[name] = n
+		g.digraph.AddNode(n)
+		g.db[name] = n
 
 	}
 	// Process the inputs
@@ -83,15 +100,28 @@ func (gi *graph) parse(gx *onnx.GraphProto) (*gorgonia.ExprGraph, error) {
 		// Check if the name is not already present in the graph
 		// as it may be an initializer (const)
 		name := valueInfo.GetName()
-		if _, ok := gi.db[name]; !ok {
-			t, err := NewValue(valueInfo)
-			if err != nil {
-				return nil, err
+		if _, ok := g.db[name]; !ok {
+			// Exctract the tensor for clarity
+			t := valueInfo.Type.Value.(*onnx.TypeProto_TensorType).TensorType
+			// Get the dimensions of the tensor
+			size := make([]int64, len(t.Shape.Dim))
+			for i, dim := range t.Shape.Dim {
+				dimValue, ok := dim.Value.(*onnx.TensorShapeProto_Dimension_DimValue)
+				if !ok {
+					// TODO: implement the TensorShapeProto_Dimension_DimParam type asertion
+					return fmt.Errorf("Impossible type asertion, Only onnx.TensorShapeProto_Dimension_DimValue is implemented")
+				}
+				size[i] = int64(dimValue.DimValue)
 			}
 
-			// Adding node
-			n := gorgonia.NodeFromAny(g, t, gorgonia.WithName(name))
-			gi.db[name] = n
+			n := &node{
+				id:    g.digraph.NewNode().ID(),
+				Name:  name,
+				Shape: size,
+				Type:  nodeInput,
+			}
+			g.digraph.AddNode(n)
+			g.db[name] = n
 		}
 	}
 	// Process the nodes until the list is empty
@@ -101,15 +131,15 @@ func (gi *graph) parse(gx *onnx.GraphProto) (*gorgonia.ExprGraph, error) {
 			// A node is addable to the graph, if all of its inputs is already in the node db
 			isAddable := true
 			for _, j := range n.Input {
-				if _, ok := gi.db[j]; !ok {
+				if _, ok := g.db[j]; !ok {
 					isAddable = false
 					break
 				}
 			}
 			if isAddable {
-				err := gi.processNode(n)
+				err := g.processNode(n)
 				if err != nil {
-					return nil, err
+					return err
 				}
 				// The node has been processed, remove it from the list
 				// https://github.com/golang/go/wiki/SliceTricks
@@ -120,8 +150,29 @@ func (gi *graph) parse(gx *onnx.GraphProto) (*gorgonia.ExprGraph, error) {
 			}
 		}
 		if startingLen == len(gx.Node) {
-			return g, fmt.Errorf("Endless loop, the graph may be broken")
+			return fmt.Errorf("Endless loop, the graph may be broken")
 		}
 	}
-	return g, nil
+	return nil
+}
+
+func (g *exprgraph) processNode(nx *onnx.NodeProto) error {
+	// Get the node from the database
+	if len(nx.Output) != 1 {
+		return fmt.Errorf("Operations with a single output node is supported")
+	}
+	n := &node{
+		id:        g.digraph.NewNode().ID(),
+		Name:      nx.Output[0],
+		Type:      nodeOperator,
+		Operation: nx.GetOpType(),
+	}
+	g.digraph.AddNode(n)
+	g.db[n.Name] = n
+	for _, i := range nx.Input {
+		ni := g.db[i]
+		// Now add edge
+		g.digraph.SetEdge(g.digraph.NewEdge(ni, n))
+	}
+	return nil
 }
