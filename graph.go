@@ -5,7 +5,6 @@ import (
 
 	onnx "github.com/owulveryck/onnx-go"
 	"gonum.org/v1/gonum/graph"
-	"gonum.org/v1/gonum/graph/encoding"
 	"gonum.org/v1/gonum/graph/simple"
 )
 
@@ -24,38 +23,6 @@ type node struct {
 	Shape     []int64
 	Operation string
 	Type      nodeType
-}
-
-// ID of the node
-func (n *node) ID() int64 {
-	return n.id
-}
-
-// DOTID for graphbviz
-func (n *node) DOTID() string {
-	return n.Name
-}
-
-// Attributes defines graph.Node or graph.Edge values that can specify graph attributes.
-func (n *node) Attributes() []encoding.Attribute {
-	if n.Type == nodeOperator {
-		return []encoding.Attribute{
-			encoding.Attribute{
-				Key:   "shape",
-				Value: "record",
-			},
-			encoding.Attribute{
-				Key:   "label",
-				Value: fmt.Sprintf(`"{ %v | %v }"`, n.Operation, n.Name),
-			},
-		}
-	}
-	return []encoding.Attribute{
-		encoding.Attribute{
-			Key:   "style",
-			Value: "rounded",
-		},
-	}
 }
 
 // graph is the internal representation of a graph.
