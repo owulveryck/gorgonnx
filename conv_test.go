@@ -110,7 +110,7 @@ func TestConvOp(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	g := graph{
+	g := computationGraph{
 		db: make(map[string]*gorgonia.Node, 3),
 		g:  gorgonia.NewGraph(),
 	}

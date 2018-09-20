@@ -6,20 +6,20 @@ import (
 	onnx "github.com/owulveryck/onnx-go"
 )
 
-func (gi *graph) processNode(nx *onnx.NodeProto) error {
+func (cg *computationGraph) processNode(nx *onnx.NodeProto) error {
 	switch nType := *nx.OpType; nType {
 	case "Add":
-		return gi.addOp(nx)
+		return cg.addOp(nx)
 	case "Conv":
-		return gi.convOp(nx)
+		return cg.convOp(nx)
 	case "Reshape":
-		return gi.reshapeOp(nx)
+		return cg.reshapeOp(nx)
 	case "Relu":
-		return gi.reluOp(nx)
+		return cg.reluOp(nx)
 	case "MaxPool":
-		return gi.maxPoolOp(nx)
+		return cg.maxPoolOp(nx)
 	case "MatMul":
-		return gi.matMulOp(nx)
+		return cg.matMulOp(nx)
 	default:
 		return fmt.Errorf("Operation %v not yet implemented", nType)
 	}

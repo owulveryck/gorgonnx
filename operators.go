@@ -12,9 +12,9 @@ import (
 )
 
 // https://github.com/onnx/onnx/blob/master/docs/Operators.md#Conv
-func (d *graph) convOp(nx *onnx.NodeProto) error {
-	input := d.db[nx.Input[0]]
-	kernel := d.db[nx.Input[1]]
+func (cg *computationGraph) convOp(nx *onnx.NodeProto) error {
+	input := cg.db[nx.Input[0]]
+	kernel := cg.db[nx.Input[1]]
 	var kernelShape tensor.Shape
 	//kernelShape := kernel.Shape()
 	pad := []int{0, 0}
@@ -83,23 +83,23 @@ func (d *graph) convOp(nx *onnx.NodeProto) error {
 	if err != nil {
 		return fmt.Errorf("Cannot apply Convolution operator: %v", err)
 	}
-	d.db[nx.Output[0]] = n
+	cg.db[nx.Output[0]] = n
 	return nil
 }
 
 // https://github.com/onnx/onnx/blob/master/docs/Operators.md#Reshape
-func (d *graph) reshapeOp(nx *onnx.NodeProto) error {
+func (cg *computationGraph) reshapeOp(nx *onnx.NodeProto) error {
 	if len(nx.Input) != 2 {
 		return fmt.Errorf("Not enough input parameters for reshape")
 	}
-	data := toIntSlice(d.db[nx.Input[1]].Value().Data().([]int64))
+	data := toIntSlice(cg.db[nx.Input[1]].Value().Data().([]int64))
 
-	n, err := gorgonia.Reshape(d.db[nx.Input[0]], data)
+	n, err := gorgonia.Reshape(cg.db[nx.Input[0]], data)
 	if err != nil {
 		return fmt.Errorf("Cannot reshape from %v to %v: %v", nx.Input[0], data, err)
 	}
-	//d.g.AddNode(n)
-	d.db[nx.Output[0]] = n
+	//cg.g.AddNode(n)
+	cg.db[nx.Output[0]] = n
 	return nil
 }
 
@@ -108,9 +108,9 @@ func (d *graph) reshapeOp(nx *onnx.NodeProto) error {
 // See https://github.com/onnx/onnx/blob/master/docs/Broadcasting.md
 //
 // BUG(owulveryck): the broadcasting has to be implemented correctly in Gorgonia. see https://github.com/gorgonia/gorgonia/issues/223
-func (d *graph) addOp(nx *onnx.NodeProto) error {
-	b := d.db[nx.Input[1]]
-	a := d.db[nx.Input[0]]
+func (cg *computationGraph) addOp(nx *onnx.NodeProto) error {
+	b := cg.db[nx.Input[1]]
+	a := cg.db[nx.Input[0]]
 	var n *gorgonia.Node
 	var err error
 	normalAdd := true
@@ -128,33 +128,33 @@ func (d *graph) addOp(nx *onnx.NodeProto) error {
 		if err != nil {
 			return fmt.Errorf("Cannot Add %v and %v: %v", nx.Input[0], nx.Input[1], err)
 		}
-		d.db[nx.Output[0]] = n
+		cg.db[nx.Output[0]] = n
 	} else {
 		n, err = gorgonia.AddBroadcast(a, b)
 		if err != nil {
 			return fmt.Errorf("Cannot Add %v and %v: %v", nx.Input[0], nx.Input[1], err)
 		}
-		d.db[nx.Output[0]] = n
+		cg.db[nx.Output[0]] = n
 	}
 
 	return nil
 }
 
 // https://github.com/onnx/onnx/blob/master/docs/Operators.md#Relu
-func (d *graph) reluOp(nx *onnx.NodeProto) error {
-	n, err := nnops.Rectify(d.db[nx.Input[0]])
+func (cg *computationGraph) reluOp(nx *onnx.NodeProto) error {
+	n, err := nnops.Rectify(cg.db[nx.Input[0]])
 	if err != nil {
 		return err
 	}
-	d.db[nx.Output[0]] = n
+	cg.db[nx.Output[0]] = n
 	return nil
 }
 
 // https://github.com/onnx/onnx/blob/master/docs/Operators.md#MaxPool
-func (d *graph) maxPoolOp(nx *onnx.NodeProto) error {
+func (cg *computationGraph) maxPoolOp(nx *onnx.NodeProto) error {
 
 	var kernelShape tensor.Shape
-	input := d.db[nx.Input[0]]
+	input := cg.db[nx.Input[0]]
 	pad := []int{0, 0}
 	stride := []int{1, 1}
 	for _, attr := range nx.Attribute {
@@ -203,7 +203,7 @@ func (d *graph) maxPoolOp(nx *onnx.NodeProto) error {
 	if err != nil {
 		return fmt.Errorf("Cannot apply Convolution operator: %v", err)
 	}
-	d.db[nx.Output[0]] = n
+	cg.db[nx.Output[0]] = n
 	return nil
 
 }
@@ -211,12 +211,12 @@ func (d *graph) maxPoolOp(nx *onnx.NodeProto) error {
 // https://github.com/onnx/onnx/blob/master/docs/Operators.md#MatMul
 //
 // BUG(owulveryck): The Mul operator should be broadcastable too
-func (d *graph) matMulOp(nx *onnx.NodeProto) error {
-	n, err := gorgonia.Mul(d.db[nx.Input[0]], d.db[nx.Input[1]])
+func (cg *computationGraph) matMulOp(nx *onnx.NodeProto) error {
+	n, err := gorgonia.Mul(cg.db[nx.Input[0]], cg.db[nx.Input[1]])
 	if err != nil {
 		return fmt.Errorf("Cannot Multiply: %v", err)
 	}
-	d.db[nx.Output[0]] = n
+	cg.db[nx.Output[0]] = n
 
 	return nil
 }

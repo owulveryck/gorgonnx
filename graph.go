@@ -11,7 +11,7 @@ import (
 // graph is the internal representation of a graph.false
 // it handles both structure (onnx and gorgonia) as well
 // as a dictionnary of nodes
-type graph struct {
+type computationGraph struct {
 	// db reference a Node by its name.
 	// This is mandatory as NodeProto references the output node by its name
 	db map[string]*gorgonia.Node
@@ -19,15 +19,15 @@ type graph struct {
 	gx *onnx.GraphProto
 }
 
-func (gi *graph) addNode(name string, n *gorgonia.Node) error {
-	gi.db[name] = n
-	gi.g.AddNode(n)
+func (cg *computationGraph) addNode(name string, n *gorgonia.Node) error {
+	cg.db[name] = n
+	cg.g.AddNode(n)
 	return nil
 }
 
 // getNodeByName from the database. Returns nil if not found
-func (gi *graph) getNodeByName(name string) *gorgonia.Node {
-	if n, ok := gi.db[name]; ok {
+func (cg *computationGraph) getNodeByName(name string) *gorgonia.Node {
+	if n, ok := cg.db[name]; ok {
 		return n
 	}
 	return nil
@@ -58,7 +58,7 @@ func GetOutputGraphNodes(g *gorgonia.ExprGraph) gorgonia.Nodes {
 
 // NewGraph returns a new graph that is initialized with gx as its initial content.
 func NewGraph(gx *onnx.GraphProto) (*gorgonia.ExprGraph, error) {
-	g := &graph{
+	g := &computationGraph{
 		db: make(map[string]*gorgonia.Node),
 		gx: gx,
 	}
@@ -66,7 +66,7 @@ func NewGraph(gx *onnx.GraphProto) (*gorgonia.ExprGraph, error) {
 }
 
 // Decode the graphproto and returns a gorgonia Graph
-func (gi *graph) parse(gx *onnx.GraphProto) (*gorgonia.ExprGraph, error) {
+func (cg *computationGraph) parse(gx *onnx.GraphProto) (*gorgonia.ExprGraph, error) {
 	g := gorgonia.NewGraph(gorgonia.WithGraphName(gx.GetName()))
 	for _, tensorProto := range gx.Initializer {
 		name := tensorProto.GetName()
@@ -75,7 +75,7 @@ func (gi *graph) parse(gx *onnx.GraphProto) (*gorgonia.ExprGraph, error) {
 			return nil, err
 		}
 		n := g.AddNode(gorgonia.NewConstant(t, gorgonia.WithName(name)))
-		gi.db[name] = n
+		cg.db[name] = n
 
 	}
 	// Process the inputs
@@ -83,7 +83,7 @@ func (gi *graph) parse(gx *onnx.GraphProto) (*gorgonia.ExprGraph, error) {
 		// Check if the name is not already present in the graph
 		// as it may be an initializer (const)
 		name := valueInfo.GetName()
-		if _, ok := gi.db[name]; !ok {
+		if _, ok := cg.db[name]; !ok {
 			t, err := NewValue(valueInfo)
 			if err != nil {
 				return nil, err
@@ -91,7 +91,7 @@ func (gi *graph) parse(gx *onnx.GraphProto) (*gorgonia.ExprGraph, error) {
 
 			// Adding node
 			n := gorgonia.NodeFromAny(g, t, gorgonia.WithName(name))
-			gi.db[name] = n
+			cg.db[name] = n
 		}
 	}
 	// Process the nodes until the list is empty
@@ -101,13 +101,13 @@ func (gi *graph) parse(gx *onnx.GraphProto) (*gorgonia.ExprGraph, error) {
 			// A node is addable to the graph, if all of its inputs is already in the node db
 			isAddable := true
 			for _, j := range n.Input {
-				if _, ok := gi.db[j]; !ok {
+				if _, ok := cg.db[j]; !ok {
 					isAddable = false
 					break
 				}
 			}
 			if isAddable {
-				err := gi.processNode(n)
+				err := cg.processNode(n)
 				if err != nil {
 					return nil, err
 				}
