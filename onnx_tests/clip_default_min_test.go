@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestClipDefaultMin(t *testing.T) {
+func TestClipOp_default_min(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_clip_default_min/"

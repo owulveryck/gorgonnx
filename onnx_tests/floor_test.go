@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestFloor(t *testing.T) {
+func TestFloorOp(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_floor/"

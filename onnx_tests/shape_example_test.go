@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestShapeExample(t *testing.T) {
+func TestShapeOp_example(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_shape_example/"

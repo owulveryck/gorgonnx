@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestLogsoftmaxExample1(t *testing.T) {
+func TestLogsoftmaxOp_example_1(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_logsoftmax_example_1/"

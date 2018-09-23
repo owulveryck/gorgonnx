@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestHardsigmoidDefault(t *testing.T) {
+func TestHardsigmoidOp_default(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_hardsigmoid_default/"

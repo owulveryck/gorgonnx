@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestOr4d(t *testing.T) {
+func TestOr4dOp(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_or4d/"

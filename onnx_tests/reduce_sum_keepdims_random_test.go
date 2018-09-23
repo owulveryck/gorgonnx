@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestReduceSumKeepdimsRandom(t *testing.T) {
+func TestReduceOp_sum_keepdims_random(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_reduce_sum_keepdims_random/"

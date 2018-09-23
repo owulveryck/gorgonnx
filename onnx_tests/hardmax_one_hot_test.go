@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestHardmaxOneHot(t *testing.T) {
+func TestHardmaxOp_one_hot(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_hardmax_one_hot/"

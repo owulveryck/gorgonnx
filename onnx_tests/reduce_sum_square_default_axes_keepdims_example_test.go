@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestReduceSumSquareDefaultAxesKeepdimsExample(t *testing.T) {
+func TestReduceOp_sum_square_default_axes_keepdims_example(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_reduce_sum_square_default_axes_keepdims_example/"

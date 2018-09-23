@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestReciprocalExample(t *testing.T) {
+func TestReciprocalOp_example(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_reciprocal_example/"

@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestMeanTwoInputs(t *testing.T) {
+func TestMeanOp_two_inputs(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_mean_two_inputs/"

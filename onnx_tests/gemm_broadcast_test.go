@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestGemmBroadcast(t *testing.T) {
+func TestGemmOp_broadcast(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_gemm_broadcast/"

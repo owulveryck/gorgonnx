@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestPreluBroadcast(t *testing.T) {
+func TestPreluOp_broadcast(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_prelu_broadcast/"

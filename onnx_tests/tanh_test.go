@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestTanh(t *testing.T) {
+func TestTanhOp(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_tanh/"

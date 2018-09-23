@@ -13,10 +13,10 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestAdd(t *testing.T) {
+func TestAddOp(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := "./onnx_tests/test_data/test_add/"
+	onnxTest := basedir + "test_data/test_add/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)
@@ -27,6 +27,9 @@ func TestAdd(t *testing.T) {
 		t.Fatal(err)
 	}
 	g, err := gorgonnx.NewGraph(model.GetGraph())
+	if err == gorgonnx.ErrOpNotImplemented {
+		t.Skip()
+	}
 	if err != nil {
 		t.Fatal("Cannot decode ", err)
 	}

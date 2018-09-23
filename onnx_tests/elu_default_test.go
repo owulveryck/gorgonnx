@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestEluDefault(t *testing.T) {
+func TestEluOp_default(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_elu_default/"

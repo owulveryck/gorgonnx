@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestCos(t *testing.T) {
+func TestCosOp(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_cos/"

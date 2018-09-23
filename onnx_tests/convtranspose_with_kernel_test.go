@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestConvtransposeWithKernel(t *testing.T) {
+func TestConvtransposeOp_with_kernel(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_convtranspose_with_kernel/"

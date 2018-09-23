@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestDepthtospaceExample(t *testing.T) {
+func TestDepthtospaceOp_example(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_depthtospace_example/"

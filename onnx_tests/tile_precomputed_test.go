@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestTilePrecomputed(t *testing.T) {
+func TestTileOp_precomputed(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_tile_precomputed/"

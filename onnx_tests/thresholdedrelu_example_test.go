@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestThresholdedreluExample(t *testing.T) {
+func TestThresholdedreluOp_example(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_thresholdedrelu_example/"

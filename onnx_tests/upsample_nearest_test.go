@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestUpsampleNearest(t *testing.T) {
+func TestUpsampleOp_nearest(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_upsample_nearest/"

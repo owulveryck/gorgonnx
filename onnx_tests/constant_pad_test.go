@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestConstantPad(t *testing.T) {
+func TestConstantOp_pad(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_constant_pad/"

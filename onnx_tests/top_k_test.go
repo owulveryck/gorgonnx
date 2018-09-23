@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestTopK(t *testing.T) {
+func TestTopOp_k(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_top_k/"

@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestAveragepool2dPads(t *testing.T) {
+func TestAveragepoolOp_2d_pads(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_averagepool_2d_pads/"

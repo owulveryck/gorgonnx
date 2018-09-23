@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestDynamicSliceNeg(t *testing.T) {
+func TestDynamicOp_slice_neg(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_dynamic_slice_neg/"

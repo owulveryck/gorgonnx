@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestRnnSeqLength(t *testing.T) {
+func TestRnnOp_seq_length(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_rnn_seq_length/"

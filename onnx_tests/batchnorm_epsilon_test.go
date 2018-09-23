@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestBatchnormEpsilon(t *testing.T) {
+func TestBatchnormOp_epsilon(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_batchnorm_epsilon/"

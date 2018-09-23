@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestSumTwoInputs(t *testing.T) {
+func TestSumOp_two_inputs(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_sum_two_inputs/"

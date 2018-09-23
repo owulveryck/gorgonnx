@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestGather1(t *testing.T) {
+func TestGatherOp_1(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_gather_1/"

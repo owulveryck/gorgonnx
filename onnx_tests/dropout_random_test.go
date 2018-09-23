@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestDropoutRandom(t *testing.T) {
+func TestDropoutOp_random(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_dropout_random/"

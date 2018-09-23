@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestArgminKeepdimsRandom(t *testing.T) {
+func TestArgminOp_keepdims_random(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_argmin_keepdims_random/"

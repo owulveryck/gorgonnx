@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestEdgePad(t *testing.T) {
+func TestEdgeOp_pad(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_edge_pad/"

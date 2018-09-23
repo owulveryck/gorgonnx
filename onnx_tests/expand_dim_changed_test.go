@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestExpandDimChanged(t *testing.T) {
+func TestExpandOp_dim_changed(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_expand_dim_changed/"

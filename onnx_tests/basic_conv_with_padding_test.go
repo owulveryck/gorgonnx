@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestBasicConvWithPadding(t *testing.T) {
+func TestBasicOp_conv_with_padding(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_basic_conv_with_padding/"

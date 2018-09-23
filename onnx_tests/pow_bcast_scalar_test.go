@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestPowBcastScalar(t *testing.T) {
+func TestPowOp_bcast_scalar(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_pow_bcast_scalar/"

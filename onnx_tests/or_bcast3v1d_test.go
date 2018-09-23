@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestOrBcast3v1d(t *testing.T) {
+func TestOrOp_bcast3v1d(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_or_bcast3v1d/"

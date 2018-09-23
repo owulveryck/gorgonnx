@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestReduceL1KeepDimsRandom(t *testing.T) {
+func TestReduceOp_l1_keep_dims_random(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_reduce_l1_keep_dims_random/"

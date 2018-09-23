@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestTransposeAllPermutations1(t *testing.T) {
+func TestTransposeOp_all_permutations_1(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_transpose_all_permutations_1/"

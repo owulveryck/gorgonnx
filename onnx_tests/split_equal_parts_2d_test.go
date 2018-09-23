@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestSplitEqualParts2d(t *testing.T) {
+func TestSplitOp_equal_parts_2d(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_split_equal_parts_2d/"

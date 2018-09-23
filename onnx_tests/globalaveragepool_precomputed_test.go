@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestGlobalaveragepoolPrecomputed(t *testing.T) {
+func TestGlobalaveragepoolOp_precomputed(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_globalaveragepool_precomputed/"

@@ -6,7 +6,7 @@ do
   TEST=$(basename $PATHTOTEST)
   FILENAME=$(echo $TEST | sed 's/test_\(.*\)/\1_test.go/')
   DIRNAME=$(dirname $PATHTOTEST)
-  TESTNAME=$(echo $TEST | gsed -e 's/_\(.\)/\U\1/g' -e 's/test/Test/g')
+  TESTNAME=$(echo $TEST | gsed -e 's/test_\(.\)\([^_.]*\)\(.*\)/Test\u\1\2Op\3/')
   echo $TEST
 (
 cat << EOF

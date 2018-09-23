@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestCastDOUBLEToFLOAT16(t *testing.T) {
+func TestCastOp_DOUBLE_to_FLOAT16(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_cast_DOUBLE_to_FLOAT16/"

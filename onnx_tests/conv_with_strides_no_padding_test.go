@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestConvWithStridesNoPadding(t *testing.T) {
+func TestConvOp_WithStridesNoPadding(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_conv_with_strides_no_padding/"

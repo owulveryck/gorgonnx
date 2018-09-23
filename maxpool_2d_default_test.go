@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestMaxpool2dDefault(t *testing.T) {
+func TestMaxpoolOp_2d_default(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_maxpool_2d_default/"

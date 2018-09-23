@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestReshapeNegativeDim(t *testing.T) {
+func TestReshapeOp_negative_dim(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_reshape_negative_dim/"

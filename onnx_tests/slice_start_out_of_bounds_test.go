@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestSliceStartOutOfBounds(t *testing.T) {
+func TestSliceOp_start_out_of_bounds(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_slice_start_out_of_bounds/"

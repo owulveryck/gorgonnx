@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestLogsoftmaxAxis0(t *testing.T) {
+func TestLogsoftmaxOp_axis_0(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_logsoftmax_axis_0/"

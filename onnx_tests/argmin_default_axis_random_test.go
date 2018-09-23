@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestArgminDefaultAxisRandom(t *testing.T) {
+func TestArgminOp_default_axis_random(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_argmin_default_axis_random/"

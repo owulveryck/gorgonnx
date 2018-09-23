@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestArgmaxDefaultAxisExample(t *testing.T) {
+func TestArgmaxOp_default_axis_example(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_argmax_default_axis_example/"

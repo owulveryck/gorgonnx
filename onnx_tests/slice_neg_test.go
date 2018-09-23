@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestSliceNeg(t *testing.T) {
+func TestSliceOp_neg(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_slice_neg/"

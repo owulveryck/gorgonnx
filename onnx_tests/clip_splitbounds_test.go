@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestClipSplitbounds(t *testing.T) {
+func TestClipOp_splitbounds(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_clip_splitbounds/"

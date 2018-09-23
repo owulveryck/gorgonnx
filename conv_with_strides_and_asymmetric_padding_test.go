@@ -13,7 +13,8 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestConvWithStridesAndAsymmetricPadding(t *testing.T) {
+func TestConvOp_WithStridesAndAsymmetricPadding(t *testing.T) {
+	t.Skip()
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_conv_with_strides_and_asymmetric_padding/"

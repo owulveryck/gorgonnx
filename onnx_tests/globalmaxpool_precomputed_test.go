@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestGlobalmaxpoolPrecomputed(t *testing.T) {
+func TestGlobalmaxpoolOp_precomputed(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_globalmaxpool_precomputed/"

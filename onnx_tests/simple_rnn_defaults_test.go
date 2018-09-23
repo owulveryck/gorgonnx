@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestSimpleRnnDefaults(t *testing.T) {
+func TestSimpleOp_rnn_defaults(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_simple_rnn_defaults/"

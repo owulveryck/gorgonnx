@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestSliceDefaultAxes(t *testing.T) {
+func TestSliceOp_default_axes(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_slice_default_axes/"

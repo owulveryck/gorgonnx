@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestClipDefaultInbounds(t *testing.T) {
+func TestClipOp_default_inbounds(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_clip_default_inbounds/"

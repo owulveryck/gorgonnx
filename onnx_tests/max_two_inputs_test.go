@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestMaxTwoInputs(t *testing.T) {
+func TestMaxOp_two_inputs(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_max_two_inputs/"

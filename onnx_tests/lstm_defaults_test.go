@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestLstmDefaults(t *testing.T) {
+func TestLstmOp_defaults(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_lstm_defaults/"

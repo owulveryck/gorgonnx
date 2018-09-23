@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestSplitVariablePartsDefaultAxis(t *testing.T) {
+func TestSplitOp_variable_parts_default_axis(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_split_variable_parts_default_axis/"

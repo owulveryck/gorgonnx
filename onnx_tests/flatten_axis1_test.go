@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestFlattenAxis1(t *testing.T) {
+func TestFlattenOp_axis1(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_flatten_axis1/"

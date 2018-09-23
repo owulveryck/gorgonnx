@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestMaxOneInput(t *testing.T) {
+func TestMaxOp_one_input(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_max_one_input/"

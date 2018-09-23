@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestReduceMinDefaultAxesKeepdimsRandom(t *testing.T) {
+func TestReduceOp_min_default_axes_keepdims_random(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_reduce_min_default_axes_keepdims_random/"

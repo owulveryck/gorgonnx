@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestMaxpool1dDefault(t *testing.T) {
+func TestMaxpoolOp_1d_default(t *testing.T) {
 	t.Skip()
 	assert := assert.New(t)
 

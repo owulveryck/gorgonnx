@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestAveragepool3dDefault(t *testing.T) {
+func TestAveragepoolOp_3d_default(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_averagepool_3d_default/"

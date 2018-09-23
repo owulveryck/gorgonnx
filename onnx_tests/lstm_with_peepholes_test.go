@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestLstmWithPeepholes(t *testing.T) {
+func TestLstmOp_with_peepholes(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_lstm_with_peepholes/"

@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestReshapeOneDim(t *testing.T) {
+func TestReshapeOp_one_dim(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_reshape_one_dim/"

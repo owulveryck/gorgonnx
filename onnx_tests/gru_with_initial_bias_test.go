@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestGruWithInitialBias(t *testing.T) {
+func TestGruOp_with_initial_bias(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_gru_with_initial_bias/"

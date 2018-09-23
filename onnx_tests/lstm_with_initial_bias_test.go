@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestLstmWithInitialBias(t *testing.T) {
+func TestLstmOp_with_initial_bias(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_lstm_with_initial_bias/"

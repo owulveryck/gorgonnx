@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestMinOneInput(t *testing.T) {
+func TestMinOp_one_input(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_min_one_input/"

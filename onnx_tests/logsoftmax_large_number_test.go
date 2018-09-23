@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestLogsoftmaxLargeNumber(t *testing.T) {
+func TestLogsoftmaxOp_large_number(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_logsoftmax_large_number/"

@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestConcat1dAxis0(t *testing.T) {
+func TestConcatOp_1d_axis_0(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_concat_1d_axis_0/"

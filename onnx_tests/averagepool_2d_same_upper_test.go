@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestAveragepool2dSameUpper(t *testing.T) {
+func TestAveragepoolOp_2d_same_upper(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_averagepool_2d_same_upper/"

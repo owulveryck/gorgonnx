@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestReshapeReorderedDims(t *testing.T) {
+func TestReshapeOp_reordered_dims(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_reshape_reordered_dims/"

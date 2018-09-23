@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestReduceMinDoNotKeepdimsExample(t *testing.T) {
+func TestReduceOp_min_do_not_keepdims_example(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_reduce_min_do_not_keepdims_example/"
