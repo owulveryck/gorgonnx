@@ -1,10 +1,13 @@
 package gorgonnx
 
 import (
-	"fmt"
+	"errors"
 
 	onnx "github.com/owulveryck/onnx-go"
 )
+
+// ErrOpNotImplemented ...
+var ErrOpNotImplemented = errors.New("Operation not implemented")
 
 func (cg *computationGraph) processNode(nx *onnx.NodeProto) error {
 	switch nType := *nx.OpType; nType {
@@ -21,6 +24,6 @@ func (cg *computationGraph) processNode(nx *onnx.NodeProto) error {
 	case "MatMul":
 		return cg.matMulOp(nx)
 	default:
-		return fmt.Errorf("Operation %v not yet implemented", nType)
+		return ErrOpNotImplemented
 	}
 }
