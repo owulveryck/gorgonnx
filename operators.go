@@ -92,7 +92,13 @@ func (cg *computationGraph) reshapeOp(nx *onnx.NodeProto) error {
 	if len(nx.Input) != 2 {
 		return fmt.Errorf("Not enough input parameters for reshape")
 	}
-	data := toIntSlice(cg.db[nx.Input[1]].Value().Data().([]int64))
+	var data []int
+	d, ok := cg.db[nx.Input[1]].Value().Data().([]int64)
+	if ok {
+		data = toIntSlice(d)
+	} else {
+		data = []int{int(cg.db[nx.Input[1]].Value().Data().(int64))}
+	}
 
 	n, err := gorgonia.Reshape(cg.db[nx.Input[0]], data)
 	if err != nil {
