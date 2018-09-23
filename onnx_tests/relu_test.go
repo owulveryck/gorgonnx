@@ -1,3 +1,4 @@
+// This file is auto-generated
 package gorgonnx_test
 
 import (
@@ -13,9 +14,10 @@ import (
 )
 
 func TestRelu(t *testing.T) {
+	t.Skip()
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_relu/"
+	onnxTest := "./test_data/test_relu"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)
