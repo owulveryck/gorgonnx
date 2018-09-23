@@ -7,11 +7,14 @@ import (
 
 	"github.com/owulveryck/gorgonnx"
 	onnx "github.com/owulveryck/onnx-go"
+	"github.com/stretchr/testify/assert"
 	"gorgonia.org/gorgonia"
 	"gorgonia.org/tensor/tensonnx"
 )
 
 func TestConv(t *testing.T) {
+	assert := assert.New(t)
+
 	onnxTest := "./test_data/test_conv_with_strides_padding/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
@@ -90,16 +93,21 @@ func TestConv(t *testing.T) {
 	}
 	if len(gorgonnx.GetOutputGraphNodes(g)) == 1 {
 		computedOutput := gorgonnx.GetOutputGraphNodes(g)[0]
-		expectedOutput := outputs[0]
-		if len(computedOutput.Shape()) != len(expectedOutput.Dims) {
-			t.Fatalf("Different shape: expected %v, got %v", expectedOutput.Dims, computedOutput.Shape())
+		//expectedOutput := outputs[0]
+		expectedOutput, err := tensonnx.NewTensor(outputs[0])
+		if err != nil {
+			t.Fatal(err)
 		}
-		for i := range expectedOutput.Dims {
-			if expectedOutput.Dims[i] != int64(computedOutput.Shape()[i]) {
-				t.Fatalf("Different shape: expected %v, got %v", expectedOutput.Dims, computedOutput.Shape())
+		if len(computedOutput.Shape()) != len(expectedOutput.Shape()) {
+			t.Fatalf("Different shape: expected %v, got %v", expectedOutput.Shape(), computedOutput.Shape())
+		}
+		for i := range expectedOutput.Shape() {
+			if expectedOutput.Shape()[i] != computedOutput.Shape()[i] {
+				t.Fatalf("Different shape: expected %v, got %v", expectedOutput.Shape(), computedOutput.Shape())
 			}
 		}
-		t.Log(computedOutput.Shape())
-		t.Log(expectedOutput.Dims)
+		assert.Equal(expectedOutput.Data(), computedOutput.Value().Data(), "Tensors should be the same")
+	} else {
+		t.Fail()
 	}
 }
