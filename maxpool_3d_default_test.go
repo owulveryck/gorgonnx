@@ -14,6 +14,7 @@ import (
 )
 
 func TestMaxpoolOp_3d_default(t *testing.T) {
+	t.Skip("Not yet implemented in Gorgonia")
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_maxpool_3d_default/"
