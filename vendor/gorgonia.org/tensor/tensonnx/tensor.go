@@ -58,14 +58,15 @@ func NewTensor(tx *onnx.TensorProto) (tensor.Tensor, error) {
 		case tx.DoubleData != nil:
 			opts = append(opts, tensor.WithBacking(tx.DoubleData))
 		case tx.RawData != nil:
-			return nil, errors.Wrap(ErrNotYetImplemented, "RawData found")
+			return nil, errors.Wrap(ErrNotYetImplemented, "RawData found for float64")
 		default:
 			return nil, errors.New("No data found")
 		}
 	case tensor.Int64:
 		switch {
 		case tx.RawData != nil:
-			return nil, errors.Wrap(ErrNotYetImplemented, "RawData found")
+			opts = append(opts, tensor.WithBacking(tx.Int64Data))
+			//return nil, errors.Wrap(ErrNotYetImplemented, "RawData found for int64")
 		case tx.Int64Data != nil:
 			opts = append(opts, tensor.WithBacking(tx.Int64Data))
 		default:
@@ -74,7 +75,7 @@ func NewTensor(tx *onnx.TensorProto) (tensor.Tensor, error) {
 	case tensor.Int32:
 		switch {
 		case tx.RawData != nil:
-			return nil, errors.Wrap(ErrNotYetImplemented, "RawData found")
+			return nil, errors.Wrap(ErrNotYetImplemented, "RawData found for int32")
 		case tx.Int32Data != nil:
 			opts = append(opts, tensor.WithBacking(tx.Int32Data))
 		default:
