@@ -14,6 +14,7 @@ import (
 )
 
 func TestMatmulOp_3d(t *testing.T) {
+	t.Skip("Not implemented in Gorgonia")
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_matmul_3d/"
