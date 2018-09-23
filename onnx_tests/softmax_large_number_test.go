@@ -16,7 +16,7 @@ import (
 func TestSoftmaxLargeNumber(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_softmax_large_number/"
+	onnxTest := basedir + "test_data/test_softmax_large_number/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

@@ -16,7 +16,7 @@ import (
 func TestHardmaxAxis2(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_hardmax_axis_2/"
+	onnxTest := basedir + "test_data/test_hardmax_axis_2/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

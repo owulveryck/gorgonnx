@@ -16,7 +16,7 @@ import (
 func TestArgminDefaultAxisRandom(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_argmin_default_axis_random/"
+	onnxTest := basedir + "test_data/test_argmin_default_axis_random/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

@@ -16,7 +16,7 @@ import (
 func TestAveragepool2dSameUpper(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_averagepool_2d_same_upper/"
+	onnxTest := basedir + "test_data/test_averagepool_2d_same_upper/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

@@ -16,7 +16,7 @@ import (
 func TestConvtranspose(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_convtranspose/"
+	onnxTest := basedir + "test_data/test_convtranspose/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

@@ -16,7 +16,7 @@ import (
 func TestMaxpool3dDefault(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_maxpool_3d_default/"
+	onnxTest := basedir + "test_data/test_maxpool_3d_default/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

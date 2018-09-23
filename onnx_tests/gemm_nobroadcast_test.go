@@ -16,7 +16,7 @@ import (
 func TestGemmNobroadcast(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_gemm_nobroadcast/"
+	onnxTest := basedir + "test_data/test_gemm_nobroadcast/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

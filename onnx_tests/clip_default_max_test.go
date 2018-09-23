@@ -16,7 +16,7 @@ import (
 func TestClipDefaultMax(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_clip_default_max/"
+	onnxTest := basedir + "test_data/test_clip_default_max/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

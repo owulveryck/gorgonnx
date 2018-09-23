@@ -16,7 +16,7 @@ import (
 func TestReduceProdKeepdimsRandom(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_reduce_prod_keepdims_random/"
+	onnxTest := basedir + "test_data/test_reduce_prod_keepdims_random/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

@@ -16,7 +16,7 @@ import (
 func TestIdentity(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_identity/"
+	onnxTest := basedir + "test_data/test_identity/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

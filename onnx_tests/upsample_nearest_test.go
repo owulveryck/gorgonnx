@@ -16,7 +16,7 @@ import (
 func TestUpsampleNearest(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_upsample_nearest/"
+	onnxTest := basedir + "test_data/test_upsample_nearest/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

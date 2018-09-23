@@ -16,7 +16,7 @@ import (
 func TestReduceL2KeepDimsExample(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_reduce_l2_keep_dims_example/"
+	onnxTest := basedir + "test_data/test_reduce_l2_keep_dims_example/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

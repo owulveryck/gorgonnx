@@ -16,7 +16,7 @@ import (
 func TestCastDOUBLEToFLOAT(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_cast_DOUBLE_to_FLOAT/"
+	onnxTest := basedir + "test_data/test_cast_DOUBLE_to_FLOAT/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

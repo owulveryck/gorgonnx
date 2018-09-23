@@ -16,7 +16,7 @@ import (
 func TestMaxpool2dPrecomputedSameUpper(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_maxpool_2d_precomputed_same_upper/"
+	onnxTest := basedir + "test_data/test_maxpool_2d_precomputed_same_upper/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

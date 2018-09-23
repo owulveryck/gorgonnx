@@ -16,7 +16,7 @@ import (
 func TestReduceMaxDefaultAxesKeepdimExample(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_reduce_max_default_axes_keepdim_example/"
+	onnxTest := basedir + "test_data/test_reduce_max_default_axes_keepdim_example/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

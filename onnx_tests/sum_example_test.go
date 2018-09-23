@@ -16,7 +16,7 @@ import (
 func TestSumExample(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_sum_example/"
+	onnxTest := basedir + "test_data/test_sum_example/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

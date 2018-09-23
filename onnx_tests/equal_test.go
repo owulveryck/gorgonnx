@@ -16,7 +16,7 @@ import (
 func TestEqual(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_equal/"
+	onnxTest := basedir + "test_data/test_equal/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

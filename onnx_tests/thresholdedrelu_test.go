@@ -16,7 +16,7 @@ import (
 func TestThresholdedrelu(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_thresholdedrelu/"
+	onnxTest := basedir + "test_data/test_thresholdedrelu/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

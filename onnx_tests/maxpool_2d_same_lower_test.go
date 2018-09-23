@@ -16,7 +16,7 @@ import (
 func TestMaxpool2dSameLower(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_maxpool_2d_same_lower/"
+	onnxTest := basedir + "test_data/test_maxpool_2d_same_lower/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

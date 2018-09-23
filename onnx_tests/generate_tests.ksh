@@ -1,6 +1,6 @@
 #!/bin/ksh
 
-for i in ./test_data/*/ 
+for i in test_data/*/ 
 do
   PATHTOTEST=$i
   TEST=$(basename $PATHTOTEST)
@@ -28,7 +28,7 @@ import (
 func TESTNAME(t *testing.T) {
         assert := assert.New(t)
 
-        onnxTest := "PATHTOTEST"
+        onnxTest := basedir + "PATHTOTEST"
         b, err := ioutil.ReadFile(onnxTest + "model.onnx")
         if err != nil {
                 t.Fatal(err)

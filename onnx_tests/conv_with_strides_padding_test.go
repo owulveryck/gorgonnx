@@ -16,7 +16,7 @@ import (
 func TestConvWithStridesPadding(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_conv_with_strides_padding/"
+	onnxTest := basedir + "test_data/test_conv_with_strides_padding/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

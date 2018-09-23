@@ -16,7 +16,7 @@ import (
 func TestGruDefaults(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_gru_defaults/"
+	onnxTest := basedir + "test_data/test_gru_defaults/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

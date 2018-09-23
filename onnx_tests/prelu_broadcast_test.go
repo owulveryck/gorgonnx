@@ -16,7 +16,7 @@ import (
 func TestPreluBroadcast(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_prelu_broadcast/"
+	onnxTest := basedir + "test_data/test_prelu_broadcast/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

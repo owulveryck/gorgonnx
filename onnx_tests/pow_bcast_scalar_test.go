@@ -16,7 +16,7 @@ import (
 func TestPowBcastScalar(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_pow_bcast_scalar/"
+	onnxTest := basedir + "test_data/test_pow_bcast_scalar/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

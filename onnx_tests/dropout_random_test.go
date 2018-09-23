@@ -16,7 +16,7 @@ import (
 func TestDropoutRandom(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_dropout_random/"
+	onnxTest := basedir + "test_data/test_dropout_random/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

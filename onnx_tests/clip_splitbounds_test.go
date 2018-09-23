@@ -16,7 +16,7 @@ import (
 func TestClipSplitbounds(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_clip_splitbounds/"
+	onnxTest := basedir + "test_data/test_clip_splitbounds/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

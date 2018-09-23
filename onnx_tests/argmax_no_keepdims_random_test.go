@@ -16,7 +16,7 @@ import (
 func TestArgmaxNoKeepdimsRandom(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_argmax_no_keepdims_random/"
+	onnxTest := basedir + "test_data/test_argmax_no_keepdims_random/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

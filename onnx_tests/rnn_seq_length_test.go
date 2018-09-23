@@ -16,7 +16,7 @@ import (
 func TestRnnSeqLength(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_rnn_seq_length/"
+	onnxTest := basedir + "test_data/test_rnn_seq_length/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

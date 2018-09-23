@@ -16,7 +16,7 @@ import (
 func TestBatchnormEpsilon(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_batchnorm_epsilon/"
+	onnxTest := basedir + "test_data/test_batchnorm_epsilon/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

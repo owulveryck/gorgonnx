@@ -16,7 +16,7 @@ import (
 func TestDynamicSliceEndOutOfBounds(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_dynamic_slice_end_out_of_bounds/"
+	onnxTest := basedir + "test_data/test_dynamic_slice_end_out_of_bounds/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

@@ -16,7 +16,7 @@ import (
 func TestEdgePad(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_edge_pad/"
+	onnxTest := basedir + "test_data/test_edge_pad/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

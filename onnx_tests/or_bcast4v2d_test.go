@@ -16,7 +16,7 @@ import (
 func TestOrBcast4v2d(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_or_bcast4v2d/"
+	onnxTest := basedir + "test_data/test_or_bcast4v2d/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

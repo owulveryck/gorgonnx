@@ -16,7 +16,7 @@ import (
 func TestGlobalaveragepool(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_globalaveragepool/"
+	onnxTest := basedir + "test_data/test_globalaveragepool/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

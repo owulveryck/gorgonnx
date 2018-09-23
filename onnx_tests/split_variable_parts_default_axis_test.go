@@ -16,7 +16,7 @@ import (
 func TestSplitVariablePartsDefaultAxis(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_split_variable_parts_default_axis/"
+	onnxTest := basedir + "test_data/test_split_variable_parts_default_axis/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

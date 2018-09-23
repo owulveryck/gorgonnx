@@ -16,7 +16,7 @@ import (
 func TestFlattenAxis0(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_flatten_axis0/"
+	onnxTest := basedir + "test_data/test_flatten_axis0/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

@@ -16,7 +16,7 @@ import (
 func TestReshapeExtendedDims(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_reshape_extended_dims/"
+	onnxTest := basedir + "test_data/test_reshape_extended_dims/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

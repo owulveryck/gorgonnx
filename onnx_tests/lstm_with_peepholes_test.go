@@ -16,7 +16,7 @@ import (
 func TestLstmWithPeepholes(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_lstm_with_peepholes/"
+	onnxTest := basedir + "test_data/test_lstm_with_peepholes/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

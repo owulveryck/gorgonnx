@@ -16,7 +16,7 @@ import (
 func TestMvn(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_mvn/"
+	onnxTest := basedir + "test_data/test_mvn/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

@@ -16,7 +16,7 @@ import (
 func TestGlobalmaxpool(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_globalmaxpool/"
+	onnxTest := basedir + "test_data/test_globalmaxpool/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

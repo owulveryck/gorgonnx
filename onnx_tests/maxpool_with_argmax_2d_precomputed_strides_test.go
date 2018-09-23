@@ -16,7 +16,7 @@ import (
 func TestMaxpoolWithArgmax2dPrecomputedStrides(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_maxpool_with_argmax_2d_precomputed_strides/"
+	onnxTest := basedir + "test_data/test_maxpool_with_argmax_2d_precomputed_strides/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

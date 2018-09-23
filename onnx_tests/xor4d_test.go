@@ -16,7 +16,7 @@ import (
 func TestXor4d(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_xor4d/"
+	onnxTest := basedir + "test_data/test_xor4d/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

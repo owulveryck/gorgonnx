@@ -16,7 +16,7 @@ import (
 func TestLessBcast(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_less_bcast/"
+	onnxTest := basedir + "test_data/test_less_bcast/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

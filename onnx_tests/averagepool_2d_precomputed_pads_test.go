@@ -16,7 +16,7 @@ import (
 func TestAveragepool2dPrecomputedPads(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_averagepool_2d_precomputed_pads/"
+	onnxTest := basedir + "test_data/test_averagepool_2d_precomputed_pads/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

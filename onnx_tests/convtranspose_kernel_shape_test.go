@@ -16,7 +16,7 @@ import (
 func TestConvtransposeKernelShape(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_convtranspose_kernel_shape/"
+	onnxTest := basedir + "test_data/test_convtranspose_kernel_shape/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

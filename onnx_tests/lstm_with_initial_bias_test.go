@@ -16,7 +16,7 @@ import (
 func TestLstmWithInitialBias(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_lstm_with_initial_bias/"
+	onnxTest := basedir + "test_data/test_lstm_with_initial_bias/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

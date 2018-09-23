@@ -16,7 +16,7 @@ import (
 func TestHardsigmoidExample(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_hardsigmoid_example/"
+	onnxTest := basedir + "test_data/test_hardsigmoid_example/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)
