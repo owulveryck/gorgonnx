@@ -14,7 +14,6 @@ import (
 )
 
 func TestAndBcast4v4d(t *testing.T) {
-	t.Skip()
 	assert := assert.New(t)
 
 	onnxTest := "./test_data/test_and_bcast4v4d/"
@@ -28,6 +27,9 @@ func TestAndBcast4v4d(t *testing.T) {
 		t.Fatal(err)
 	}
 	g, err := gorgonnx.NewGraph(model.GetGraph())
+	if err == gorgonnx.ErrOpNotImplemented {
+		t.Skip()
+	}
 	if err != nil {
 		t.Fatal("Cannot decode ", err)
 	}

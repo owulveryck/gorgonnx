@@ -14,7 +14,6 @@ import (
 )
 
 func TestReduceMaxDefaultAxesKeepdimExample(t *testing.T) {
-	t.Skip()
 	assert := assert.New(t)
 
 	onnxTest := "./test_data/test_reduce_max_default_axes_keepdim_example/"
@@ -28,6 +27,9 @@ func TestReduceMaxDefaultAxesKeepdimExample(t *testing.T) {
 		t.Fatal(err)
 	}
 	g, err := gorgonnx.NewGraph(model.GetGraph())
+	if err == gorgonnx.ErrOpNotImplemented {
+		t.Skip()
+	}
 	if err != nil {
 		t.Fatal("Cannot decode ", err)
 	}

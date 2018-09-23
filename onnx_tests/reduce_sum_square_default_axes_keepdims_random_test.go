@@ -14,7 +14,6 @@ import (
 )
 
 func TestReduceSumSquareDefaultAxesKeepdimsRandom(t *testing.T) {
-	t.Skip()
 	assert := assert.New(t)
 
 	onnxTest := "./test_data/test_reduce_sum_square_default_axes_keepdims_random/"
@@ -28,6 +27,9 @@ func TestReduceSumSquareDefaultAxesKeepdimsRandom(t *testing.T) {
 		t.Fatal(err)
 	}
 	g, err := gorgonnx.NewGraph(model.GetGraph())
+	if err == gorgonnx.ErrOpNotImplemented {
+		t.Skip()
+	}
 	if err != nil {
 		t.Fatal("Cannot decode ", err)
 	}

@@ -14,7 +14,6 @@ import (
 )
 
 func TestSoftmaxAxis1(t *testing.T) {
-	t.Skip()
 	assert := assert.New(t)
 
 	onnxTest := "./test_data/test_softmax_axis_1/"
@@ -28,6 +27,9 @@ func TestSoftmaxAxis1(t *testing.T) {
 		t.Fatal(err)
 	}
 	g, err := gorgonnx.NewGraph(model.GetGraph())
+	if err == gorgonnx.ErrOpNotImplemented {
+		t.Skip()
+	}
 	if err != nil {
 		t.Fatal("Cannot decode ", err)
 	}

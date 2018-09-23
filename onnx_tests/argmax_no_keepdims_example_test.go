@@ -14,7 +14,6 @@ import (
 )
 
 func TestArgmaxNoKeepdimsExample(t *testing.T) {
-	t.Skip()
 	assert := assert.New(t)
 
 	onnxTest := "./test_data/test_argmax_no_keepdims_example/"
@@ -28,6 +27,9 @@ func TestArgmaxNoKeepdimsExample(t *testing.T) {
 		t.Fatal(err)
 	}
 	g, err := gorgonnx.NewGraph(model.GetGraph())
+	if err == gorgonnx.ErrOpNotImplemented {
+		t.Skip()
+	}
 	if err != nil {
 		t.Fatal("Cannot decode ", err)
 	}

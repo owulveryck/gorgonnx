@@ -14,7 +14,6 @@ import (
 )
 
 func TestArgminNoKeepdimsRandom(t *testing.T) {
-	t.Skip()
 	assert := assert.New(t)
 
 	onnxTest := "./test_data/test_argmin_no_keepdims_random/"
@@ -28,6 +27,9 @@ func TestArgminNoKeepdimsRandom(t *testing.T) {
 		t.Fatal(err)
 	}
 	g, err := gorgonnx.NewGraph(model.GetGraph())
+	if err == gorgonnx.ErrOpNotImplemented {
+		t.Skip()
+	}
 	if err != nil {
 		t.Fatal("Cannot decode ", err)
 	}

@@ -14,7 +14,6 @@ import (
 )
 
 func TestCastFLOAT16ToFLOAT(t *testing.T) {
-	t.Skip()
 	assert := assert.New(t)
 
 	onnxTest := "./test_data/test_cast_FLOAT16_to_FLOAT/"
@@ -28,6 +27,9 @@ func TestCastFLOAT16ToFLOAT(t *testing.T) {
 		t.Fatal(err)
 	}
 	g, err := gorgonnx.NewGraph(model.GetGraph())
+	if err == gorgonnx.ErrOpNotImplemented {
+		t.Skip()
+	}
 	if err != nil {
 		t.Fatal("Cannot decode ", err)
 	}
