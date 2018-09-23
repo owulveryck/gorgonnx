@@ -16,7 +16,7 @@ import (
 func TestConvWithStridesNoPadding(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := "./onnx_tests/test_data/test_conv_with_strides_no_padding/"
+	onnxTest := basedir + "test_data/test_conv_with_strides_no_padding/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)
@@ -27,6 +27,9 @@ func TestConvWithStridesNoPadding(t *testing.T) {
 		t.Fatal(err)
 	}
 	g, err := gorgonnx.NewGraph(model.GetGraph())
+	if err == gorgonnx.ErrOpNotImplemented {
+		t.Skip()
+	}
 	if err != nil {
 		t.Fatal("Cannot decode ", err)
 	}

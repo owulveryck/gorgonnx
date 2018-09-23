@@ -13,10 +13,10 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestMaxpool2dStrides(t *testing.T) {
+func TestMatmul2d(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := basedir + "test_data/test_maxpool_2d_strides/"
+	onnxTest := basedir + "test_data/test_matmul_2d/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

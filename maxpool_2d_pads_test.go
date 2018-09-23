@@ -16,7 +16,7 @@ import (
 func TestMaxpool2dPads(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := "./onnx_tests/test_data/test_maxpool_2d_pads/"
+	onnxTest := basedir + "test_data/test_maxpool_2d_pads/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)
@@ -27,6 +27,9 @@ func TestMaxpool2dPads(t *testing.T) {
 		t.Fatal(err)
 	}
 	g, err := gorgonnx.NewGraph(model.GetGraph())
+	if err == gorgonnx.ErrOpNotImplemented {
+		t.Skip()
+	}
 	if err != nil {
 		t.Fatal("Cannot decode ", err)
 	}
