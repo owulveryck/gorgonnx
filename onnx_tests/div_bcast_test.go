@@ -17,7 +17,7 @@ func TestDivBcast(t *testing.T) {
 	t.Skip()
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_div_bcast"
+	onnxTest := "./test_data/test_div_bcast/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

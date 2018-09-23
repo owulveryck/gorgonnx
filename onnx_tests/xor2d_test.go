@@ -17,7 +17,7 @@ func TestXor2d(t *testing.T) {
 	t.Skip()
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_xor2d"
+	onnxTest := "./test_data/test_xor2d/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

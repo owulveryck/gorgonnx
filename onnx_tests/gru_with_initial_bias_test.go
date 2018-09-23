@@ -17,7 +17,7 @@ func TestGruWithInitialBias(t *testing.T) {
 	t.Skip()
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_gru_with_initial_bias"
+	onnxTest := "./test_data/test_gru_with_initial_bias/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

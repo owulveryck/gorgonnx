@@ -17,7 +17,7 @@ func TestFlattenAxis3(t *testing.T) {
 	t.Skip()
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_flatten_axis3"
+	onnxTest := "./test_data/test_flatten_axis3/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

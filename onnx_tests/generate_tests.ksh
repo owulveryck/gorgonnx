@@ -1,6 +1,6 @@
 #!/bin/ksh
 
-for i in ./test_data/* 
+for i in ./test_data/*/ 
 do
   PATHTOTEST=$i
   TEST=$(basename $PATHTOTEST)

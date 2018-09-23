@@ -1,238 +1,114 @@
-package gorgonnx
+// This file is auto-generated
+package gorgonnx_test
 
 import (
+	"io/ioutil"
+	"regexp"
 	"testing"
 
+	"github.com/owulveryck/gorgonnx"
 	onnx "github.com/owulveryck/onnx-go"
+	"github.com/stretchr/testify/assert"
 	"gorgonia.org/gorgonia"
-	"gorgonia.org/tensor"
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func shapeEquals(a, b tensor.Tensor) bool {
-	as := a.Shape()
-	bs := b.Shape()
-	if len(as) != len(bs) {
-		return false
-	}
-	for i := range as {
-		if as[i] != bs[i] {
-			return false
-		}
-	}
-	return true
-}
+func TestAdd(t *testing.T) {
+	assert := assert.New(t)
 
-func TestAddOp2(t *testing.T) {
-	dataType := onnx.TensorProto_DataType(1)
-	input1 := "a"
-	simpleTest := &onnx.TensorProto{
-		Dims:      []int64{1, 10},
-		DataType:  &dataType,
-		Segment:   (*onnx.TensorProto_Segment)(nil),
-		FloatData: []float32{100, 100, 100, 100, 100, 100, 100, 100, 100, 100},
-		Name:      &input1,
+	onnxTest := "./onnx_tests/test_data/test_add/"
+	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
+	if err != nil {
+		t.Fatal(err)
 	}
-	simpleResult := tensor.New(tensor.WithShape(1, 10), tensor.WithBacking([]float32{101, 102, 103, 104, 105, 106, 107, 108, 109, 110}))
-	type test struct {
-		input  *onnx.TensorProto
-		output tensor.Tensor
-		err    error
+	model := new(onnx.ModelProto)
+	err = model.Unmarshal(b)
+	if err != nil {
+		t.Fatal(err)
+	}
+	g, err := gorgonnx.NewGraph(model.GetGraph())
+	if err != nil {
+		t.Fatal("Cannot decode ", err)
 	}
 
-	for _, unitTest := range []test{
-		test{
-			input:  simpleTest,
-			output: simpleResult,
-			err:    nil,
-		},
-	} {
-		input2 := "b"
-		output := "y"
-		outputs := []string{output}
-		inputs := []string{input1, input2}
-		opName := "Plus"
-		opType := "Add"
-		domain := ""
-		docString := ""
-		b := unitTest.input
-		np := &onnx.NodeProto{
-			Input:     inputs,
-			Output:    outputs,
-			Name:      &opName,
-			OpType:    &opType,
-			Domain:    &domain,
-			Attribute: nil,
-			DocString: &docString,
+	// Open the tensorproto sample file
+	files, err := ioutil.ReadDir(onnxTest)
+	if err != nil {
+		t.Fatal(err)
+	}
+	outputs := make([]*onnx.TensorProto, 0)
+	for _, dir := range files {
+		if dir.IsDir() {
+			files, err := ioutil.ReadDir(onnxTest + dir.Name())
+			if err != nil {
+				t.Fatal(err)
+			}
+			for _, file := range files {
+				matched, err := regexp.MatchString("input.*pb", file.Name())
+				if err != nil {
+					t.Fatal(err)
+				}
+				if matched {
+					b, err = ioutil.ReadFile(onnxTest + dir.Name() + "/" + file.Name())
+					if err != nil {
+						t.Fatal(err)
+					}
+					sampleTestData := new(onnx.TensorProto)
+					err = sampleTestData.Unmarshal(b)
+					if err != nil {
+						t.Fatal(err)
+					}
+					tens, err := tensonnx.NewTensor(sampleTestData)
+					if err != nil {
+						t.Fatal(err)
+					}
+					gorgonia.Let(g.ByName(*sampleTestData.Name)[0], tens)
+
+				}
+				matched, err = regexp.MatchString("output.*pb", file.Name())
+				if err != nil {
+					t.Fatal(err)
+				}
+				if matched {
+					b, err = ioutil.ReadFile(onnxTest + dir.Name() + "/" + file.Name())
+					if err != nil {
+						t.Fatal(err)
+					}
+					sampleTestData := new(onnx.TensorProto)
+					err = sampleTestData.Unmarshal(b)
+					if err != nil {
+						t.Fatal(err)
+					}
+					outputs = append(outputs, sampleTestData)
+				}
+			}
+
 		}
-		// Simple test...
-		// Create the input values
-		a := &onnx.TensorProto{
-			Dims:      []int64{1, 10},
-			DataType:  &dataType,
-			Segment:   (*onnx.TensorProto_Segment)(nil),
-			FloatData: []float32{1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
-			Name:      &input1,
-			DocString: (*string)(nil),
-		}
-		aa, err := tensonnx.NewTensor(a)
+	}
+	machine := gorgonia.NewTapeMachine(g)
+	if err = machine.RunAll(); err != nil {
+		t.Fatal(err)
+	}
+	if len(gorgonnx.GetOutputGraphNodes(g)) != len(outputs) {
+		t.Fatal("Bad number of output")
+	}
+	if len(gorgonnx.GetOutputGraphNodes(g)) == 1 {
+		computedOutput := gorgonnx.GetOutputGraphNodes(g)[0]
+		//expectedOutput := outputs[0]
+		expectedOutput, err := tensonnx.NewTensor(outputs[0])
 		if err != nil {
 			t.Fatal(err)
 		}
-		bb, err := tensonnx.NewTensor(b)
-		if err != nil {
-			t.Fatal(err)
+		if len(computedOutput.Shape()) != len(expectedOutput.Shape()) {
+			t.Fatalf("Different shape: expected %v, got %v", expectedOutput.Shape(), computedOutput.Shape())
 		}
-		g := computationGraph{
-			db: make(map[string]*gorgonia.Node, 3),
-			g:  gorgonia.NewGraph(),
-		}
-		na := gorgonia.NodeFromAny(g.g, aa, gorgonia.WithName(input1))
-		nb := gorgonia.NodeFromAny(g.g, bb, gorgonia.WithName(input2))
-		g.addNode(input1, na)
-		g.addNode(input2, nb)
-		err = g.processNode(np)
-		if err != nil {
-			t.Fatal(err)
-		}
-		vm := gorgonia.NewTapeMachine(g.g)
-		err = vm.RunAll()
-		if err != nil {
-			t.Fatal(err)
-		}
-		if !shapeEquals(g.getNodeByName(output).Value().(tensor.Tensor), unitTest.output) {
-			t.Fatal("Size mismatch")
-		}
-		for i, v := range unitTest.output.Data().([]float32) {
-			if v != g.getNodeByName(output).Value().Data().([]float32)[i] {
-				t.Log("Got: ", g.getNodeByName(output).Value())
-				t.Log("Expeced: ", unitTest.output)
-				t.FailNow()
+		for i := range expectedOutput.Shape() {
+			if expectedOutput.Shape()[i] != computedOutput.Shape()[i] {
+				t.Fatalf("Different shape: expected %v, got %v", expectedOutput.Shape(), computedOutput.Shape())
 			}
 		}
-	}
-}
-func TestAddOp(t *testing.T) {
-	dataType := onnx.TensorProto_DataType(1)
-	input1 := "a"
-	simpleTest := &onnx.TensorProto{
-		Dims:      []int64{2, 1, 1},
-		DataType:  &dataType,
-		Segment:   (*onnx.TensorProto_Segment)(nil),
-		FloatData: []float32{100, 100},
-		Name:      &input1,
-	}
-	simpleResult := tensor.New(tensor.WithShape(2, 1, 1), tensor.WithBacking([]float32{101, 102}))
-	broadcastTest := &onnx.TensorProto{
-		Dims:     []int64{1, 2, 5, 5},
-		DataType: &dataType,
-		Segment:  (*onnx.TensorProto_Segment)(nil),
-		FloatData: []float32{
-			100, 100, 100, 100, 100,
-			200, 200, 200, 200, 200,
-			300, 300, 300, 300, 300,
-			400, 400, 400, 400, 400,
-			500, 500, 500, 500, 500,
-			1000, 1000, 1000, 1000, 1000,
-			2000, 2000, 2000, 2000, 2000,
-			3000, 3000, 3000, 3000, 3000,
-			4000, 4000, 4000, 4000, 4000,
-			5000, 5000, 5000, 5000, 5000,
-		},
-		Name: &input1,
-	}
-	broadcastResult := tensor.New(tensor.WithShape(1, 2, 5, 5), tensor.WithBacking([]float32{
-		101, 101, 101, 101, 101,
-		201, 201, 201, 201, 201,
-		301, 301, 301, 301, 301,
-		401, 401, 401, 401, 401,
-		501, 501, 501, 501, 501,
-		1002, 1002, 1002, 1002, 1002,
-		2002, 2002, 2002, 2002, 2002,
-		3002, 3002, 3002, 3002, 3002,
-		4002, 4002, 4002, 4002, 4002,
-		5002, 5002, 5002, 5002, 5002,
-	}))
-	type test struct {
-		input  *onnx.TensorProto
-		output tensor.Tensor
-		err    error
-	}
-
-	for _, unitTest := range []test{
-		test{
-			input:  broadcastTest,
-			output: broadcastResult,
-			err:    nil,
-		},
-		test{
-			input:  simpleTest,
-			output: simpleResult,
-			err:    nil,
-		},
-	} {
-		input2 := "b"
-		output := "y"
-		outputs := []string{output}
-		inputs := []string{input1, input2}
-		opName := "Plus"
-		opType := "Add"
-		domain := ""
-		docString := ""
-		b := unitTest.input
-		np := &onnx.NodeProto{
-			Input:     inputs,
-			Output:    outputs,
-			Name:      &opName,
-			OpType:    &opType,
-			Domain:    &domain,
-			Attribute: nil,
-			DocString: &docString,
-		}
-		// Simple test...
-		// Create the input values
-		a := &onnx.TensorProto{
-			Dims:      []int64{2, 1, 1},
-			DataType:  &dataType,
-			Segment:   (*onnx.TensorProto_Segment)(nil),
-			FloatData: []float32{1, 2},
-			Name:      &input1,
-			DocString: (*string)(nil),
-		}
-		aa, err := tensonnx.NewTensor(a)
-		if err != nil {
-			t.Fatal(err)
-		}
-		bb, err := tensonnx.NewTensor(b)
-		if err != nil {
-			t.Fatal(err)
-		}
-		g := computationGraph{
-			db: make(map[string]*gorgonia.Node, 3),
-			g:  gorgonia.NewGraph(),
-		}
-		na := gorgonia.NodeFromAny(g.g, aa, gorgonia.WithName(input1))
-		nb := gorgonia.NodeFromAny(g.g, bb, gorgonia.WithName(input2))
-		g.addNode(input1, na)
-		g.addNode(input2, nb)
-		err = g.processNode(np)
-		if err != nil {
-			t.Fatal(err)
-		}
-		vm := gorgonia.NewTapeMachine(g.g)
-		err = vm.RunAll()
-		if err != nil {
-			t.Fatal(err)
-		}
-		if !shapeEquals(g.getNodeByName(output).Value().(tensor.Tensor), unitTest.output) {
-			t.Fatal("Size mismatch")
-		}
-		for i, v := range unitTest.output.Data().([]float32) {
-			if v != g.getNodeByName(output).Value().Data().([]float32)[i] {
-				t.Log("Got: ", g.getNodeByName(output).Value())
-				t.Log("Expeced: ", unitTest.output)
-				t.FailNow()
-			}
-		}
+		assert.Equal(expectedOutput.Data(), computedOutput.Value().Data(), "Tensors should be the same")
+	} else {
+		t.Fail()
 	}
 }

@@ -17,7 +17,7 @@ func TestMeanTwoInputs(t *testing.T) {
 	t.Skip()
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_mean_two_inputs"
+	onnxTest := "./test_data/test_mean_two_inputs/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

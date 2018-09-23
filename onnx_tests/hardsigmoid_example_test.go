@@ -17,7 +17,7 @@ func TestHardsigmoidExample(t *testing.T) {
 	t.Skip()
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_hardsigmoid_example"
+	onnxTest := "./test_data/test_hardsigmoid_example/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

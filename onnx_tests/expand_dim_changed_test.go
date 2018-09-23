@@ -17,7 +17,7 @@ func TestExpandDimChanged(t *testing.T) {
 	t.Skip()
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_expand_dim_changed"
+	onnxTest := "./test_data/test_expand_dim_changed/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

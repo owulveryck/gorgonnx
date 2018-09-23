@@ -17,7 +17,7 @@ func TestFloor(t *testing.T) {
 	t.Skip()
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_floor"
+	onnxTest := "./test_data/test_floor/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)
