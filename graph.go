@@ -14,9 +14,10 @@ import (
 type computationGraph struct {
 	// db reference a Node by its name.
 	// This is mandatory as NodeProto references the output node by its name
-	db map[string]*gorgonia.Node
-	g  *gorgonia.ExprGraph
-	gx *onnx.GraphProto
+	db     map[string]*gorgonia.Node
+	g      *gorgonia.ExprGraph
+	gx     *onnx.GraphProto
+	inputs []string
 }
 
 func (cg *computationGraph) addNode(name string, n *gorgonia.Node) error {
@@ -91,6 +92,7 @@ func (cg *computationGraph) parse(gx *onnx.GraphProto) (*gorgonia.ExprGraph, err
 
 			// Adding node
 			n := gorgonia.NodeFromAny(g, t, gorgonia.WithName(name))
+			cg.inputs = append(cg.inputs, name)
 			cg.db[name] = n
 		}
 	}
