@@ -13,7 +13,7 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestConvOp_WithStridesNoPadding(t *testing.T) {
+func TestConvOp_with_strides_no_padding(t *testing.T) {
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_conv_with_strides_no_padding/"
@@ -27,10 +27,11 @@ func TestConvOp_WithStridesNoPadding(t *testing.T) {
 		t.Fatal(err)
 	}
 	g, err := gorgonnx.NewGraph(model.GetGraph())
-	if err == gorgonnx.ErrOpNotImplemented {
-		t.Skip()
-	}
 	if err != nil {
+		implemErr, ok := err.(gorgonnx.ErrToBeImplemented)
+		if ok {
+			t.Skip(implemErr)
+		}
 		t.Fatal("Cannot decode ", err)
 	}
 

@@ -58,15 +58,46 @@ func NewTensor(tx *onnx.TensorProto) (tensor.Tensor, error) {
 		case tx.DoubleData != nil:
 			opts = append(opts, tensor.WithBacking(tx.DoubleData))
 		case tx.RawData != nil:
-			return nil, errors.Wrap(ErrNotYetImplemented, "RawData found for float64")
+			buf := bytes.NewReader(tx.RawData)
+			element := make([]byte, 8)
+			var err error
+			var backing []float64
+			for {
+				var n int
+				n, err = buf.Read(element)
+				if err != nil || n != 8 {
+					break
+				}
+				uintElement := binary.LittleEndian.Uint64(element)
+				backing = append(backing, math.Float64frombits(uintElement))
+			}
+			if err != io.EOF {
+				return nil, errors.Wrapf(err, "%v", ErrCorruptedData)
+			}
+			opts = append(opts, tensor.WithBacking(backing))
 		default:
 			return nil, errors.New("No data found")
 		}
 	case tensor.Int64:
 		switch {
 		case tx.RawData != nil:
-			opts = append(opts, tensor.WithBacking(tx.Int64Data))
-			//return nil, errors.Wrap(ErrNotYetImplemented, "RawData found for int64")
+			buf := bytes.NewReader(tx.RawData)
+			element := make([]byte, 8)
+			var err error
+			var backing []int64
+			for {
+				var n int
+				n, err = buf.Read(element)
+				if err != nil || n != 8 {
+					break
+				}
+				uintElement := binary.LittleEndian.Uint64(element)
+				backing = append(backing, int64(uintElement))
+			}
+			if err != io.EOF {
+				return nil, errors.Wrapf(err, "%v", ErrCorruptedData)
+			}
+			opts = append(opts, tensor.WithBacking(backing))
 		case tx.Int64Data != nil:
 			opts = append(opts, tensor.WithBacking(tx.Int64Data))
 		default:

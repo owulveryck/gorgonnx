@@ -27,10 +27,11 @@ func TestEdgeOp_pad(t *testing.T) {
 		t.Fatal(err)
 	}
 	g, err := gorgonnx.NewGraph(model.GetGraph())
-	if err == gorgonnx.ErrOpNotImplemented {
-		t.Skip()
-	}
 	if err != nil {
+		implemErr, ok := err.(gorgonnx.ErrToBeImplemented)
+		if ok {
+			t.Skip(implemErr)
+		}
 		t.Fatal("Cannot decode ", err)
 	}
 

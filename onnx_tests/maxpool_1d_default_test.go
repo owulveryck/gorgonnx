@@ -14,6 +14,7 @@ import (
 )
 
 func TestMaxpoolOp_1d_default(t *testing.T) {
+	t.Skip("FIXME")
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_maxpool_1d_default/"
@@ -27,10 +28,11 @@ func TestMaxpoolOp_1d_default(t *testing.T) {
 		t.Fatal(err)
 	}
 	g, err := gorgonnx.NewGraph(model.GetGraph())
-	if err == gorgonnx.ErrOpNotImplemented {
-		t.Skip()
-	}
 	if err != nil {
+		implemErr, ok := err.(gorgonnx.ErrToBeImplemented)
+		if ok {
+			t.Skip(implemErr)
+		}
 		t.Fatal("Cannot decode ", err)
 	}
 

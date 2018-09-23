@@ -51,7 +51,11 @@ func (cg *computationGraph) convOp(nx *onnx.NodeProto) error {
 				pad[0] = int(math.Max(float64((outputHeight-1)*stride[0]+kernelShape[0]-input.Shape()[2]), float64(0))) / 2
 				pad[1] = int(math.Max(float64((outputWidth-1)*stride[1]+kernelShape[1]-input.Shape()[3]), float64(0))) / 2
 			case "SAME_LOWER":
-				return fmt.Errorf("Warning: lower padding not implemented")
+				return ErrToBeImplemented{
+					"ConvOp",
+					"auto_pad",
+					"SAME_LOWER",
+				}
 			case "VALID":
 				pad = []int{0, 0}
 			default:
@@ -68,7 +72,11 @@ func (cg *computationGraph) convOp(nx *onnx.NodeProto) error {
 			if *attr.I == int64(1) {
 				continue
 			}
-			return fmt.Errorf("group not implemented")
+			return ErrToBeImplemented{
+				"ConvOp",
+				"group",
+				*attr.I,
+			}
 			// BUG(owulveryck): `group` attribute not implemented
 		case "dilations":
 			for i, v := range attr.Ints {
@@ -181,9 +189,17 @@ func (cg *computationGraph) maxPoolOp(nx *onnx.NodeProto) error {
 			switch string(attr.S) {
 			case "NOTSET":
 			case "SAME_UPPER":
-				return fmt.Errorf("auto_pad %v not implemented", string(attr.S))
+				return ErrToBeImplemented{
+					"MaxpoolOp",
+					"auto_pad",
+					"SAME_UPPER",
+				}
 			case "SAME_LOWER":
-				return fmt.Errorf("auto_pad %v not implemented", string(attr.S))
+				return ErrToBeImplemented{
+					"MaxpoolOp",
+					"auto_pad",
+					"SAME_LOWER",
+				}
 			case "VALID":
 				pad = []int{0, 0}
 			default:
@@ -193,14 +209,21 @@ func (cg *computationGraph) maxPoolOp(nx *onnx.NodeProto) error {
 		case "pads":
 			pads := attr.Ints
 			if len(pads) == 4 && pads[2] != 0 && pads[3] != 0 {
-				return fmt.Errorf("Padding at the end not implemented")
-
+				return ErrToBeImplemented{
+					"MaxpoolOp",
+					"pads",
+					"End padding",
+				}
 			}
 			for i := 0; i < 2; i++ {
 				pad[i] = int(attr.Ints[i])
 			}
 		case "storage_order":
-			return fmt.Errorf("Attribute: %v not implemented yet for maxpool operator", attr.Name)
+			return ErrToBeImplemented{
+				"MaxpoolOp",
+				"storage_order",
+				"",
+			}
 		default:
 			return fmt.Errorf("Unknown attribute: %v for maxpool operator", attr.Name)
 		}
