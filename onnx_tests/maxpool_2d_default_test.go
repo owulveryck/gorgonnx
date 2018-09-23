@@ -12,10 +12,10 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestConvWithStridesPadding(t *testing.T) {
+func TestMaxpool2DDefault(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := "./test_data/test_conv_with_strides_padding/"
+	onnxTest := "./test_data/test_maxpool_2d_default/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)
