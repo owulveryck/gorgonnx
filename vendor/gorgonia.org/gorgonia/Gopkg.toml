@@ -26,7 +26,7 @@
   version = "~2.0.0"
 
 [[constraint]]
-  branch = "v0.9.0-working"
+  version = "~0.8.0"
   name = "gorgonia.org/cu"
 
 [[constraint]]
@@ -62,5 +62,5 @@
   name = "gonum.org/v1/netlib"
 
 [[constraint]]
-  branch = "onnx"
+  version = "~v0.8.1"
   name = "gorgonia.org/tensor"

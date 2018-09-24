@@ -3,10 +3,10 @@
 	"ignore": "test",
 	"package": [
 		{
-			"checksumSHA1": "M67uiqLaoMjyKyeDNtYpECMouFA=",
+			"checksumSHA1": "0Qxsj0AM+glecYiOm8ndLskoQxg=",
 			"path": "gorgonia.org/gorgonia",
-			"revision": "8453c8bde5add79890e9d0c6c59e4e33536d5b9b",
-			"revisionTime": "2018-08-19T02:50:57Z"
+			"revision": "978b1c3c0f795d09d0710238cb5f82853b99a460",
+			"revisionTime": "2018-08-19T03:01:43Z"
 		},
 		{
 			"checksumSHA1": "VhnVuHKqXxA9ifKiYqK2Ngh/mNc=",
@@ -23,8 +23,8 @@
 		{
 			"checksumSHA1": "0DGFA+Zc3owGw9ikmT6trRY1KDs=",
 			"path": "gorgonia.org/tensor",
-			"revision": "a796acd54c17e0ceaccdcc9412192ce257b61500",
-			"revisionTime": "2018-08-24T13:08:58Z"
+			"revision": "7c341ea3bc9717dbeb73f2a135d778bf045247f0",
+			"revisionTime": "2018-09-09T12:54:29Z"
 		},
 		{
 			"checksumSHA1": "vEmIc9pIGdox8U+CtRO+I01b/xU=",

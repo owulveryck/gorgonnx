@@ -2,7 +2,6 @@
 
 
 [[projects]]
-  digest = "1:1c8ee7543ae60103ae543f79e6044d768e6de6cfaa245c53e45f3681c7f682a0"
   name = "github.com/awalterschulze/gographviz"
   packages = [
     ".",
@@ -10,163 +9,103 @@
     "internal/errors",
     "internal/lexer",
     "internal/parser",
-    "internal/token",
+    "internal/token"
   ]
-  pruneopts = ""
   revision = "c84395e536e1a1199093a4e6253d1bee99e4cd2a"
   version = "v2.0"
 
 [[projects]]
-  digest = "1:6469c328b65de06b5e6c69f55d55599d00c67917909dfb705033b9b7c7fd66b9"
   name = "github.com/chewxy/hm"
   packages = ["."]
-  pruneopts = ""
   revision = "61efb3290a086d1335e8954b3734c102126818ba"
   version = "v1.0.0"
 
 [[projects]]
-  digest = "1:44bfa822819c2707ebc72916d24145494c778af59e91a5aa138606776fe6052b"
   name = "github.com/chewxy/math32"
   packages = ["."]
-  pruneopts = ""
   revision = "d1e7b22839c693f54edf7811dd9487623abf2cd2"
   version = "v1.0.0"
 
 [[projects]]
   branch = "master"
-  digest = "1:f67ed8741d24fd0bec9ef588fe9a3fd6e38c14703757c60df1d2c006024b089c"
   name = "github.com/cznic/cc"
   packages = ["."]
-  pruneopts = ""
-  revision = "a422565e861229b00e364493be001bed4ef239cd"
+  revision = "4b6ffb9b78274da2e22ebec3c84c7603ac6c21f8"
 
 [[projects]]
   branch = "master"
-  digest = "1:45fa602dc91a68efd99beaf39891dee7f931a08ac03ebb491a10d148e3c12232"
   name = "github.com/cznic/golex"
   packages = ["lex"]
-  pruneopts = ""
   revision = "4ab7c5e190e49208c823ce8ec803aa39e6a4b31a"
 
 [[projects]]
   branch = "master"
-  digest = "1:65701cfd10a1ce214a1a6b54b6a4da0598ba0fe7ab892edd1ec332b7a82427a7"
   name = "github.com/cznic/mathutil"
   packages = ["."]
-  pruneopts = ""
-  revision = "ca4c9f2c136954238c3158b92de72078c7672ecc"
+  revision = "7764e6a2216aaa02c36f75aad62538d39c2962c2"
 
 [[projects]]
   branch = "master"
-  digest = "1:10c156466dc5691a650ca4835325201de098f323ef91996d6d73844e1f4ec6ba"
   name = "github.com/cznic/strutil"
   packages = ["."]
-  pruneopts = ""
   revision = "529a34b1c186b483642a7a230c67521d9aa4b0fb"
 
 [[projects]]
   branch = "master"
-  digest = "1:cad85088fbc2d4433c86f6d1be069c9ebf90badf62c627863f8442f94b1f4165"
   name = "github.com/cznic/xc"
   packages = ["."]
-  pruneopts = ""
   revision = "056465bb2be50ec239d754187e1cccbe1b940aa6"
 
 [[projects]]
-  digest = "1:0deddd908b6b4b768cfc272c16ee61e7088a60f7fe2f06c547bd3d8e1f8b8e77"
   name = "github.com/davecgh/go-spew"
   packages = ["spew"]
-  pruneopts = ""
-  revision = "8991bc29aa16c548c550c7ff78260e27b9ab7c73"
-  version = "v1.1.1"
-
-[[projects]]
-  digest = "1:6e73003ecd35f4487a5e88270d3ca0a81bc80dc88053ac7e4dcfec5fba30d918"
-  name = "github.com/gogo/protobuf"
-  packages = [
-    "gogoproto",
-    "proto",
-    "protoc-gen-gogo/descriptor",
-  ]
-  pruneopts = ""
-  revision = "636bf0302bc95575d69441b25a2603156ffdddf1"
-  version = "v1.1.1"
-
-[[projects]]
-  digest = "1:3dd078fda7500c341bc26cfbc6c6a34614f295a2457149fc1045cab767cbcf18"
-  name = "github.com/golang/protobuf"
-  packages = ["proto"]
-  pruneopts = ""
-  revision = "aa810b61a9c79d51363740d207bb46cf8e620ed5"
-  version = "v1.2.0"
-
-[[projects]]
-  digest = "1:415c43f5b1bde8c4edcbbb8a5c1abb054c160a4a48551534f92548dd76affc11"
-  name = "github.com/google/flatbuffers"
-  packages = ["go"]
-  pruneopts = ""
-  revision = "20a400e940634108bad812f571582eeffc728eac"
-  version = "v1.9.0"
+  revision = "346938d642f2ec3594ed81d874461961cd0faa76"
+  version = "v1.1.0"
 
 [[projects]]
   branch = "master"
-  digest = "1:cf63454c1e81409484ded047413228de0f7a3031f0fcd36d4e1db7620c3c7d1b"
   name = "github.com/leesper/go_rng"
   packages = ["."]
-  pruneopts = ""
   revision = "5344a9259b21627d94279721ab1f27eb029194e7"
 
 [[projects]]
-  digest = "1:82b912465c1da0668582a7d1117339c278e786c2536b3c3623029a0c7141c2d0"
   name = "github.com/mattn/go-runewidth"
   packages = ["."]
-  pruneopts = ""
-  revision = "ce7b0b5c7b45a81508558cd1dba6bb1e4ddb51bb"
-  version = "v0.0.3"
+  revision = "9e777a8366cce605130a531d2cd6363d07ad7317"
+  version = "v0.0.2"
 
 [[projects]]
-  digest = "1:7365acd48986e205ccb8652cc746f09c8b7876030d53710ea6ef7d0bd0dcd7ca"
   name = "github.com/pkg/errors"
   packages = ["."]
-  pruneopts = ""
   revision = "645ef00459ed84a119197bfb8d8205042c6df63d"
   version = "v0.8.0"
 
 [[projects]]
-  digest = "1:256484dbbcd271f9ecebc6795b2df8cad4c458dd0f5fd82a8c2fa0c29f233411"
   name = "github.com/pmezard/go-difflib"
   packages = ["difflib"]
-  pruneopts = ""
   revision = "792786c7400a136282c1664665ae0a8db921c6c2"
   version = "v1.0.0"
 
 [[projects]]
-  digest = "1:3926a4ec9a4ff1a072458451aa2d9b98acd059a45b38f7335d31e06c3d6a0159"
   name = "github.com/stretchr/testify"
   packages = ["assert"]
-  pruneopts = ""
   revision = "69483b4bd14f5845b5a1e55bca19e954e827f1d0"
   version = "v1.1.4"
 
 [[projects]]
-  branch = "master"
-  digest = "1:32c03c94654389e0b14c002654ebc7d5946cf8aac9f43bcaf8ae054c62ebde22"
   name = "github.com/xtgo/set"
   packages = ["."]
-  pruneopts = ""
   revision = "708d80f4a27458f99f8ca12bd0e638c6ee65627f"
+  version = "v1.0.0"
 
 [[projects]]
   branch = "master"
-  digest = "1:85fab7aaca4239017b02462635379f0b2203ab47961216c8e64b5fb48601ab4f"
   name = "golang.org/x/sys"
   packages = ["unix"]
-  pruneopts = ""
-  revision = "fa5fdf94c78965f1aa8423f0cc50b8b8d728b05a"
+  revision = "7dca6fe1f43775aa6d1334576870ff63f978f539"
 
 [[projects]]
   branch = "master"
-  digest = "1:075ee2cd04858c8bd9e07350e2c38cc11e9bdba422d8890c554cc111f6690dda"
   name = "gonum.org/v1/gonum"
   packages = [
     "blas",
@@ -186,104 +125,63 @@
     "lapack",
     "lapack/gonum",
     "lapack/lapack64",
-    "mat",
+    "mat"
   ]
-  pruneopts = ""
-  revision = "e0fce0cf699de990a4f9d1913e23ca1bbb76a39a"
+  revision = "e9e56344e335b77c52738092530a60fd12db0351"
+
 
 [[projects]]
   branch = "master"
-  digest = "1:845b35271b4fe1c41b095d0170b6e5155283b5398363ccd0ebf2e1fcd22e401d"
   name = "gonum.org/v1/netlib"
   packages = [
     "blas/netlib",
-    "internal/binding",
+    "internal/binding"
   ]
-  pruneopts = ""
-  revision = "ebcc3d2662d35980c9cea7f39228826ff2096406"
+  revision = "d22599e22c25311208d69b30773390fc4d359d1f"
 
 [[projects]]
-  digest = "1:bad73557501d55d722d9f1591b70382dbaa82b318702daebc60cbb1452f80a5b"
   name = "gopkg.in/cheggaaa/pb.v1"
   packages = ["."]
-  pruneopts = ""
-  revision = "2af8bbdea9e99e83b3ac400d8f6b6d1b8cbbf338"
-  version = "v1.0.25"
+  revision = "72b964305fba1230d3d818711138195f22b9ceea"
+  version = "v1.0.22"
 
 [[projects]]
-  branch = "v0.9.0-working"
-  digest = "1:f0b19b8a1c5bc93ab16c99fb9929528aa2041214fc00ecb4b7c40c1b56a2abcb"
   name = "gorgonia.org/cu"
-  packages = [
-    ".",
-    "blas",
-    "dnn",
-  ]
-  pruneopts = ""
-  revision = "3759f7e643160c2b87c33c3c8806f9505fcb9a41"
+  packages = ["."]
+  revision = "32f165836e285c14a4f78c455872d069e0cc5a7d"
+  version = "v0.8.0"
 
 [[projects]]
-  digest = "1:73708f5e0c15b1112ec7e7c5393ca415d653d00b0e00900d3c5128b77f411b34"
   name = "gorgonia.org/dawson"
   packages = ["."]
-  pruneopts = ""
-  revision = "d40e73e0905e44096404b2dc2bed1167d791d0b7"
-  version = "v1.1.0"
+  revision = "533b0e96b43fab42278a9b8cb04b8a1f5ca566b3"
+  version = "v1.0.0"
 
 [[projects]]
-  branch = "onnx"
-  digest = "1:f766df1ce3e72da751426f8dcb23d5464cb99e2cc1d04e86fdd2afeecf09e516"
   name = "gorgonia.org/tensor"
   packages = [
     ".",
     "internal/execution",
-    "internal/serialization/fb",
-    "internal/serialization/pb",
-    "internal/storage",
+    "internal/storage"
   ]
-  pruneopts = ""
-  revision = "a796acd54c17e0ceaccdcc9412192ce257b61500"
+  revision = "2ab2564f998fe504b94a1679c1c95277cdedea47"
+  version = "v0.8.1"
 
 [[projects]]
   branch = "master"
-  digest = "1:b3505a92cbaa6a613e622f4b787b43d0f9e2e72d2e945101ed49fcdb3b8ce98b"
   name = "gorgonia.org/vecf32"
   packages = ["."]
-  pruneopts = ""
-  revision = "64df62f0b841c2424c7acfa09dd45dcd07d3a7bd"
+  revision = "da24147133d9b1c7aa847b9e9d77d6ffa3980e0b"
 
 [[projects]]
   branch = "master"
-  digest = "1:68513aa070ee4f30454e6998533bea12af990c72e899a5804f63af579428d2f6"
   name = "gorgonia.org/vecf64"
   packages = ["."]
-  pruneopts = ""
-  revision = "8f2bcc9f3977945c8e2107267681282e23e13ca1"
+  revision = "6314d1b6cefc75ece7e9b787afabac009c892b1e"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  input-imports = [
-    "github.com/awalterschulze/gographviz",
-    "github.com/chewxy/hm",
-    "github.com/chewxy/math32",
-    "github.com/leesper/go_rng",
-    "github.com/pkg/errors",
-    "github.com/stretchr/testify/assert",
-    "github.com/xtgo/set",
-    "gonum.org/v1/gonum/blas",
-    "gonum.org/v1/gonum/blas/gonum",
-    "gonum.org/v1/gonum/graph",
-    "gonum.org/v1/gonum/graph/topo",
-    "gonum.org/v1/netlib/blas/netlib",
-    "gopkg.in/cheggaaa/pb.v1",
-    "gorgonia.org/cu",
-    "gorgonia.org/cu/blas",
-    "gorgonia.org/cu/dnn",
-    "gorgonia.org/dawson",
-    "gorgonia.org/tensor",
-    "gorgonia.org/vecf32",
-    "gorgonia.org/vecf64",
-  ]
+  inputs-digest = "de22ff6398b8e12e011839b5f6030a3ece63c08462c043c9f8993e8ead721c52"
   solver-name = "gps-cdcl"
   solver-version = 1

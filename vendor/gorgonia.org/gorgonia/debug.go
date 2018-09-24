@@ -28,7 +28,7 @@ var (
 	machineDev        = false
 	stabilizationDev  = false
 	solverDev         = false
-	cudaDev           = false
+	cudaDev           = true
 	allocatorDev      = false
 )
 
