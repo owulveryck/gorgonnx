@@ -8,7 +8,7 @@ import (
 	"log"
 	"os"
 
-	onnx "github.com/onnx/onnx/go"
+	onnx "github.com/owulveryck/onnx-go"
 	"gorgonia.org/tensor/tensonnx"
 )
 
