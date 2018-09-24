@@ -1,3 +1,10 @@
+[![CircleCI](https://circleci.com/gh/owulveryck/gorgonnx.svg?style=svg)](https://circleci.com/gh/owulveryck/gorgonnx)
+[![GoDoc][1]][2]
+
+[1]: https://godoc.org/github.com/owulveryck/gorgonnx?status.svg
+[2]: https://godoc.org/github.com/owulveryck/gorgonnx
+
+
 # Disclaimer
 
 This repository is a work in progress.
