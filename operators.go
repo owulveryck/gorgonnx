@@ -63,6 +63,13 @@ func (cg *computationGraph) convOp(nx *onnx.NodeProto) error {
 
 			}
 		case "pads":
+			if attr.Ints[0] != attr.Ints[1] || attr.Ints[2] != attr.Ints[3] {
+				return ErrToBeImplemented{
+					"ConvOp",
+					"pads",
+					"Asymetric padding",
+				}
+			}
 			pad = make([]int, len(attr.Ints)/2)
 			for i := 0; i < len(attr.Ints)/2; i++ {
 				//pad[i] = int(attr.Ints[2*i] + attr.Ints[2*i+1])
@@ -112,7 +119,6 @@ func (cg *computationGraph) reshapeOp(nx *onnx.NodeProto) error {
 	if err != nil {
 		return fmt.Errorf("Cannot reshape from %v to %v: %v", nx.Input[0], data, err)
 	}
-	//cg.g.AddNode(n)
 	cg.db[nx.Output[0]] = n
 	return nil
 }
