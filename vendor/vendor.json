@@ -3,10 +3,10 @@
 	"ignore": "test",
 	"package": [
 		{
-			"checksumSHA1": "g1/MSPFH6ULoybya265CtoKAf/Q=",
+			"checksumSHA1": "/+q6JfMDGXJpvAJbk8bjIe0I9EM=",
 			"path": "gorgonia.org/gorgonia",
-			"revision": "ca37f2210908b9f45e14cac5ba738e8898d4726d",
-			"revisionTime": "2018-09-08T08:21:52Z"
+			"revision": "4e05c3bc3cc53311f7684371c4198d934c773d7f",
+			"revisionTime": "2018-09-26T09:50:33Z"
 		},
 		{
 			"checksumSHA1": "VhnVuHKqXxA9ifKiYqK2Ngh/mNc=",

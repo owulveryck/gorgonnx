@@ -1,0 +1,427 @@
+digraph fullGraph {
+	nodesep=1;
+	rankdir=TB;
+	ranksep="1.5 equally";
+	Node_0xc0003bf450:Node_0xc0003bf450:anchor->Node_0xc0003bf1e0:Node_0xc0003bf1e0:anchor[ labelfloat=false, taillabel=" 0 " ];
+	Node_0xc0003bf520:Node_0xc0003bf520:anchor->Node_0xc0003bf2b0:Node_0xc0003bf2b0:anchor[ labelfloat=false, taillabel=" 0 " ];
+	Node_0xc0003bf520:Node_0xc0003bf520:anchor->Node_0xc0003bf450:Node_0xc0003bf450:anchor[ labelfloat=false, taillabel=" 1 " ];
+	Node_0xc0003bf5f0:Node_0xc0003bf5f0:anchor->Node_0xc0003bf520:Node_0xc0003bf520:anchor[ labelfloat=false, taillabel=" 0 " ];
+	Node_0xc0003bf5f0:Node_0xc0003bf5f0:anchor->Node_0xc0003bf380:Node_0xc0003bf380:anchor[ labelfloat=false, taillabel=" 1 " ];
+	Node_0xc0003bf6c0:Node_0xc0003bf6c0:anchor->Node_0xc0003bf5f0:Node_0xc0003bf5f0:anchor[ labelfloat=false, taillabel=" 0 " ];
+	Node_0xc0003bf790:Node_0xc0003bf790:anchor->Node_0xc0003bf5f0:Node_0xc0003bf5f0:anchor[ labelfloat=false, taillabel=" 0 " ];
+	Node_0xc0003bf860:Node_0xc0003bf860:anchor->Node_0xc0003bf5f0:Node_0xc0003bf5f0:anchor[ labelfloat=false, taillabel=" 0 " ];
+	Node_0xc0003bf930:Node_0xc0003bf930:anchor->Node_0xc0003bf5f0:Node_0xc0003bf5f0:anchor[ labelfloat=false, taillabel=" 0 " ];
+	Node_0xc0003bfba0:Node_0xc0003bfba0:anchor->Node_0xc0003bf5f0:Node_0xc0003bf5f0:anchor[ labelfloat=false, taillabel=" 0 " ];
+	Node_0xc0003bfc70:Node_0xc0003bfc70:anchor->Node_0xc0003bf5f0:Node_0xc0003bf5f0:anchor[ labelfloat=false, taillabel=" 0 " ];
+	Node_0xc0003bfd40:Node_0xc0003bfd40:anchor->Node_0xc0003bf860:Node_0xc0003bf860:anchor[ labelfloat=false, taillabel=" 0 " ];
+	Node_0xc0003bfd40:Node_0xc0003bfd40:anchor->Node_0xc0003bf930:Node_0xc0003bf930:anchor[ labelfloat=false, taillabel=" 1 " ];
+	Node_0xc0003bfe10:Node_0xc0003bfe10:anchor->Node_0xc0003bfd40:Node_0xc0003bfd40:anchor[ labelfloat=false, taillabel=" 0 " ];
+	Node_0xc0003bfe10:Node_0xc0003bfe10:anchor->Node_0xc0003bfba0:Node_0xc0003bfba0:anchor[ labelfloat=false, taillabel=" 1 " ];
+	Node_0xc0003bfee0:Node_0xc0003bfee0:anchor->Node_0xc0003bfe10:Node_0xc0003bfe10:anchor[ labelfloat=false, taillabel=" 0 " ];
+	Node_0xc0003bfee0:Node_0xc0003bfee0:anchor->Node_0xc0003bfc70:Node_0xc0003bfc70:anchor[ labelfloat=false, taillabel=" 1 " ];
+	Node_0xc00020ea90:Node_0xc00020ea90:anchor->Node_0xc0003bf790:Node_0xc0003bf790:anchor[ labelfloat=false, taillabel=" 0 " ];
+	Node_0xc00020ea90:Node_0xc00020ea90:anchor->Node_0xc0003bfee0:Node_0xc0003bfee0:anchor[ labelfloat=false, taillabel=" 1 " ];
+	Node_0xc00020f450:Node_0xc00020f450:anchor->Node_0xc00020eb60:Node_0xc00020eb60:anchor[ labelfloat=false, taillabel=" 0 " ];
+	Node_0xc00020f450:Node_0xc00020f450:anchor->Node_0xc0003bfee0:Node_0xc0003bfee0:anchor[ labelfloat=false, taillabel=" 1 " ];
+	Node_0xc00020f520:Node_0xc00020f520:anchor->Node_0xc00020ea90:Node_0xc00020ea90:anchor[ labelfloat=false, taillabel=" 0 " ];
+	Node_0xc00020f520:Node_0xc00020f520:anchor->Node_0xc0003bfee0:Node_0xc0003bfee0:anchor[ labelfloat=false, taillabel=" 1 " ];
+	Node_0xc00020f520:Node_0xc00020f520:anchor->Node_0xc00020f5f0:Node_0xc00020f5f0:anchor[ dir=back, labelfloat=false, taillabel=" 0 " ];
+	Node_0xc00020f5f0:Node_0xc00020f5f0:anchor->Node_0xc00020f6c0:Node_0xc00020f6c0:anchor[ dir=back, labelfloat=false, taillabel=" 0 " ];
+	Node_0xc00020f6c0:Node_0xc00020f6c0:anchor->Node_0xc00020eb60:Node_0xc00020eb60:anchor[ labelfloat=false, taillabel=" 1 " ];
+	Node_0xc00020f450:Node_0xc00020f450:anchor->Node_0xc00020f790:Node_0xc00020f790:anchor[ dir=back, labelfloat=false, taillabel=" 0 " ];
+	Node_0xc0003bf860:Node_0xc0003bf860:anchor->Node_0xc00020f790:Node_0xc00020f790:anchor[ dir=back, labelfloat=false, taillabel=" 1 " ];
+	Node_0xc0003bf930:Node_0xc0003bf930:anchor->Node_0xc00020f790:Node_0xc00020f790:anchor[ dir=back, labelfloat=false, taillabel=" 2 " ];
+	Node_0xc0003bfba0:Node_0xc0003bfba0:anchor->Node_0xc00020f790:Node_0xc00020f790:anchor[ dir=back, labelfloat=false, taillabel=" 3 " ];
+	Node_0xc0003bfc70:Node_0xc0003bfc70:anchor->Node_0xc00020f790:Node_0xc00020f790:anchor[ dir=back, labelfloat=false, taillabel=" 4 " ];
+	Node_0xc00020f860:Node_0xc00020f860:anchor->Node_0xc0003bf450:Node_0xc0003bf450:anchor[ labelfloat=false, taillabel=" 0 " ];
+	Node_0xc00020f790:Node_0xc00020f790:anchor->Node_0xc00020f860:Node_0xc00020f860:anchor[ dir=back, labelfloat=false, taillabel=" 1 " ];
+	Node_0xc00020f930:Node_0xc00020f930:anchor->Node_0xc0003bf2b0:Node_0xc0003bf2b0:anchor[ labelfloat=false, taillabel=" 0 " ];
+	Node_0xc00020f790:Node_0xc00020f790:anchor->Node_0xc00020f930:Node_0xc00020f930:anchor[ dir=back, labelfloat=false, taillabel=" 1 " ];
+	Node_0xc00020fa00:Node_0xc00020fa00:anchor->Node_0xc0003bf1e0:Node_0xc0003bf1e0:anchor[ labelfloat=false, taillabel=" 0 " ];
+	Node_0xc00020f930:Node_0xc00020f930:anchor->Node_0xc00020fa00:Node_0xc00020fa00:anchor[ dir=back, labelfloat=false, taillabel=" 1 " ];
+	Node_0xc00020f930->Node_0xc0003bf450[ constraint=false, style=dashed, weight=999 ];
+	Node_0xc00020f790->Node_0xc0003bf5f0[ constraint=false, style=dashed, weight=999 ];
+	Node_0xc00020f790->Node_0xc0003bf520[ constraint=false, style=dashed, weight=999 ];
+	Node_0xc00020eb60->Node_0xc00020ea90[ constraint=false, style=dashed, weight=999 ];
+	Node_0xc00020f450->Node_0xc0003bf790[ constraint=false, style=dashed, weight=999 ];
+	Node_0xc00020fa00->Node_0xc0003bf1e0[ constraint=false, style=dashed, weight=999 ];
+	outsideRoot->insideInputs[ constraint=false, style=invis, weight=999 ];
+	outsideConsts->insideConsts[ constraint=false, style=invis, weight=999 ];
+	outsideRoot->outsideConsts[ constraint=false, style=invis, weight=999 ];
+	insideInputs->insideConsts[ constraint=false, style=invis, weight=999 ];
+	outsideExprG->insideExprG[ constraint=false, style=invis, weight=999 ];
+	outsideConsts->outsideExprG[ constraint=false, style=invis, weight=999 ];
+	insideConsts->insideExprG[ constraint=false, style=invis, weight=999 ];
+	outside_gradients->inside_gradients[ constraint=false, style=invis, weight=999 ];
+	outsideExprG->outside_gradients[ constraint=false, style=invis, weight=999 ];
+	insideExprG->inside_gradients[ constraint=false, style=invis, weight=999 ];
+	subgraph cluster_expressionGraph {
+	label=expressionGraph;
+	Node_0xc00020ea90 [ fontname=monospace, label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" PORT="anchor" >
+
+<TR><TD>f</TD><TD>÷ false(%7, %e) :: float64</TD></TR>
+<TR><TD>Op</TD><TD>÷ false :: a → a → a</TD></TR>
+<TR><TD>Shape</TD><TD>()</TD></TR>
+<TR><TD>Overwrites Input -1</TD><TD>Data On: CPU</TD></TR>
+<TR><TD>Value</TD><TD>Grad</TD></TR>
+<TR><TD>float64 9.25e-19</TD><TD>float64   1 </TD></TR>
+<TR><TD>Ptr: 0x824633867392x </TD><TD>Ptr: 0xc000161ac8 </TD></TR>
+
+
+</TABLE>
+>, shape=none ];
+	Node_0xc0003bf450 [ fontname=monospace, label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" PORT="anchor" >
+
+<TR><TD>3</TD><TD>batchnorm-0.9-0.0(%0) :: Tensor-4 float64</TD></TR>
+<TR><TD>Op</TD><TD>batchnorm-0.9-0.0 :: Tensor-4 a → Tensor-4 a</TD></TR>
+<TR><TD>Shape</TD><TD>(5, 2, 3, 4)</TD></TR>
+<TR><TD>Overwrites Input -1</TD><TD>Data On: CPU</TD></TR>
+<TR><TD>Value</TD><TD>Grad</TD></TR>
+<TR><TD>Tensor-4 (5, 2, 3, 4) [24 12 4 1]<BR />⎡  -1.35   -0.515     2.02    0.777⎤<BR />⎢0.00389    -1.25   -0.808    0.901⎥<BR />⎣   1.62     1.26     1.44   -0.587⎦<BR /><BR /><BR />⎡  -1.28   -0.308   -0.104     1.33⎤<BR />⎢  0.498     1.08     1.58    0.931⎥<BR />⎣  0.298   -0.442    0.597     1.01⎦<BR /><BR /><BR />⎡-0.0181   -0.748    0.137   -0.127⎤<BR />⎢ -0.644   -0.846   -0.582    0.147⎥<BR />⎣   1.39    0.711    -1.88   -0.612⎦<BR /><BR /><BR />⎡  -1.19    0.102   -0.812    0.292⎤<BR />⎢ -0.752    -1.61   -0.536     1.69⎥<BR />⎣  0.495    0.923  -0.0283   -0.282⎦<BR /><BR /><BR />⎡ -0.153    -1.02    0.199   -0.972⎤<BR />⎢  -1.45    0.124   -0.073     1.43⎥<BR />⎣  -1.29   -0.932     1.29    -1.59⎦<BR /><BR /><BR />⎡   1.55    0.681    -1.03    -2.27⎤<BR />⎢   1.68     1.63    -1.09    -1.78⎥<BR />⎣   1.26    -1.12  -0.0102    0.209⎦<BR /><BR /><BR />⎡  0.139    -1.54    0.227     1.06⎤<BR />⎢  0.443   -0.347    -1.28    0.342⎥<BR />⎣ -0.997     1.27   -0.199    0.138⎦<BR /><BR /><BR />⎡ -0.988   -0.626   -0.432     2.13⎤<BR />⎢ -0.907     1.19    0.526     0.49⎥<BR />⎣  -1.01   -0.995    0.648    0.342⎦<BR /><BR /><BR />⎡  0.547   -0.196   -0.181   -0.743⎤<BR />⎢  -1.63     1.75    0.739     1.37⎥<BR />⎣-0.0878    0.622     2.05    0.508⎦<BR /><BR /><BR />⎡  -1.37   -0.123    -1.48    0.146⎤<BR />⎢  -0.42    0.803    -1.15    0.517⎥<BR />⎣ -0.327   -0.481   -0.264    0.578⎦<BR /><BR /><BR /></TD><TD>Tensor-4 (5, 2, 3, 4) [24 12 4 1]<BR />⎡0.00833  0.00833  0.00833  0.00833⎤<BR />⎢0.00833  0.00833  0.00833  0.00833⎥<BR />⎣0.00833  0.00833  0.00833  0.00833⎦<BR /><BR /><BR />⎡0.00833  0.00833  0.00833  0.00833⎤<BR />⎢0.00833  0.00833  0.00833  0.00833⎥<BR />⎣0.00833  0.00833  0.00833  0.00833⎦<BR /><BR /><BR />⎡0.00833  0.00833  0.00833  0.00833⎤<BR />⎢0.00833  0.00833  0.00833  0.00833⎥<BR />⎣0.00833  0.00833  0.00833  0.00833⎦<BR /><BR /><BR />⎡0.00833  0.00833  0.00833  0.00833⎤<BR />⎢0.00833  0.00833  0.00833  0.00833⎥<BR />⎣0.00833  0.00833  0.00833  0.00833⎦<BR /><BR /><BR />⎡0.00833  0.00833  0.00833  0.00833⎤<BR />⎢0.00833  0.00833  0.00833  0.00833⎥<BR />⎣0.00833  0.00833  0.00833  0.00833⎦<BR /><BR /><BR />⎡0.00833  0.00833  0.00833  0.00833⎤<BR />⎢0.00833  0.00833  0.00833  0.00833⎥<BR />⎣0.00833  0.00833  0.00833  0.00833⎦<BR /><BR /><BR />⎡0.00833  0.00833  0.00833  0.00833⎤<BR />⎢0.00833  0.00833  0.00833  0.00833⎥<BR />⎣0.00833  0.00833  0.00833  0.00833⎦<BR /><BR /><BR />⎡0.00833  0.00833  0.00833  0.00833⎤<BR />⎢0.00833  0.00833  0.00833  0.00833⎥<BR />⎣0.00833  0.00833  0.00833  0.00833⎦<BR /><BR /><BR />⎡0.00833  0.00833  0.00833  0.00833⎤<BR />⎢0.00833  0.00833  0.00833  0.00833⎥<BR />⎣0.00833  0.00833  0.00833  0.00833⎦<BR /><BR /><BR />⎡0.00833  0.00833  0.00833  0.00833⎤<BR />⎢0.00833  0.00833  0.00833  0.00833⎥<BR />⎣0.00833  0.00833  0.00833  0.00833⎦<BR /><BR /><BR /> </TD></TR>
+<TR><TD>Ptr: 0x824634551296x </TD><TD>Ptr: 0xc0001cf000 </TD></TR>
+
+
+</TABLE>
+>, shape=none ];
+	Node_0xc0003bf520 [ fontname=monospace, label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" PORT="anchor" >
+
+<TR><TD>4</TD><TD>⊙ false(%1, %3) :: Tensor-4 float64</TD></TR>
+<TR><TD>Op</TD><TD>⊙ false :: Tensor-4 a → Tensor-4 a → Tensor-4 a</TD></TR>
+<TR><TD>Shape</TD><TD>(5, 2, 3, 4)</TD></TR>
+<TR><TD>Overwrites Input 0</TD><TD>Data On: CPU</TD></TR>
+<TR><TD>Value</TD><TD>Grad</TD></TR>
+<TR><TD>Tensor-4 (5, 2, 3, 4) [24 12 4 1]<BR />⎡  -1.35   -0.515     2.02    0.777⎤<BR />⎢0.00389    -1.25   -0.808    0.901⎥<BR />⎣   1.62     1.26     1.44   -0.587⎦<BR /><BR /><BR />⎡  -1.28   -0.308   -0.104     1.33⎤<BR />⎢  0.498     1.08     1.58    0.931⎥<BR />⎣  0.298   -0.442    0.597     1.01⎦<BR /><BR /><BR />⎡-0.0181   -0.748    0.137   -0.127⎤<BR />⎢ -0.644   -0.846   -0.582    0.147⎥<BR />⎣   1.39    0.711    -1.88   -0.612⎦<BR /><BR /><BR />⎡  -1.19    0.102   -0.812    0.292⎤<BR />⎢ -0.752    -1.61   -0.536     1.69⎥<BR />⎣  0.495    0.923  -0.0283   -0.282⎦<BR /><BR /><BR />⎡ -0.153    -1.02    0.199   -0.972⎤<BR />⎢  -1.45    0.124   -0.073     1.43⎥<BR />⎣  -1.29   -0.932     1.29    -1.59⎦<BR /><BR /><BR />⎡   1.55    0.681    -1.03    -2.27⎤<BR />⎢   1.68     1.63    -1.09    -1.78⎥<BR />⎣   1.26    -1.12  -0.0102    0.209⎦<BR /><BR /><BR />⎡  0.139    -1.54    0.227     1.06⎤<BR />⎢  0.443   -0.347    -1.28    0.342⎥<BR />⎣ -0.997     1.27   -0.199    0.138⎦<BR /><BR /><BR />⎡ -0.988   -0.626   -0.432     2.13⎤<BR />⎢ -0.907     1.19    0.526     0.49⎥<BR />⎣  -1.01   -0.995    0.648    0.342⎦<BR /><BR /><BR />⎡  0.547   -0.196   -0.181   -0.743⎤<BR />⎢  -1.63     1.75    0.739     1.37⎥<BR />⎣-0.0878    0.622     2.05    0.508⎦<BR /><BR /><BR />⎡  -1.37   -0.123    -1.48    0.146⎤<BR />⎢  -0.42    0.803    -1.15    0.517⎥<BR />⎣ -0.327   -0.481   -0.264    0.578⎦<BR /><BR /><BR /></TD><TD>Tensor-4 (5, 2, 3, 4) [24 12 4 1]<BR />⎡0.00833  0.00833  0.00833  0.00833⎤<BR />⎢0.00833  0.00833  0.00833  0.00833⎥<BR />⎣0.00833  0.00833  0.00833  0.00833⎦<BR /><BR /><BR />⎡0.00833  0.00833  0.00833  0.00833⎤<BR />⎢0.00833  0.00833  0.00833  0.00833⎥<BR />⎣0.00833  0.00833  0.00833  0.00833⎦<BR /><BR /><BR />⎡0.00833  0.00833  0.00833  0.00833⎤<BR />⎢0.00833  0.00833  0.00833  0.00833⎥<BR />⎣0.00833  0.00833  0.00833  0.00833⎦<BR /><BR /><BR />⎡0.00833  0.00833  0.00833  0.00833⎤<BR />⎢0.00833  0.00833  0.00833  0.00833⎥<BR />⎣0.00833  0.00833  0.00833  0.00833⎦<BR /><BR /><BR />⎡0.00833  0.00833  0.00833  0.00833⎤<BR />⎢0.00833  0.00833  0.00833  0.00833⎥<BR />⎣0.00833  0.00833  0.00833  0.00833⎦<BR /><BR /><BR />⎡0.00833  0.00833  0.00833  0.00833⎤<BR />⎢0.00833  0.00833  0.00833  0.00833⎥<BR />⎣0.00833  0.00833  0.00833  0.00833⎦<BR /><BR /><BR />⎡0.00833  0.00833  0.00833  0.00833⎤<BR />⎢0.00833  0.00833  0.00833  0.00833⎥<BR />⎣0.00833  0.00833  0.00833  0.00833⎦<BR /><BR /><BR />⎡0.00833  0.00833  0.00833  0.00833⎤<BR />⎢0.00833  0.00833  0.00833  0.00833⎥<BR />⎣0.00833  0.00833  0.00833  0.00833⎦<BR /><BR /><BR />⎡0.00833  0.00833  0.00833  0.00833⎤<BR />⎢0.00833  0.00833  0.00833  0.00833⎥<BR />⎣0.00833  0.00833  0.00833  0.00833⎦<BR /><BR /><BR />⎡0.00833  0.00833  0.00833  0.00833⎤<BR />⎢0.00833  0.00833  0.00833  0.00833⎥<BR />⎣0.00833  0.00833  0.00833  0.00833⎦<BR /><BR /><BR /> </TD></TR>
+<TR><TD>Ptr: 0x824634553344x </TD><TD>Ptr: 0xc0001ce400 </TD></TR>
+
+
+</TABLE>
+>, shape=none ];
+	Node_0xc0003bf5f0 [ fontname=monospace, label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" PORT="anchor" >
+
+<TR><TD>5</TD><TD>+ false(%4, %2) :: Tensor-4 float64</TD></TR>
+<TR><TD>Op</TD><TD>+ false :: Tensor-4 a → Tensor-4 a → Tensor-4 a</TD></TR>
+<TR><TD>Shape</TD><TD>(5, 2, 3, 4)</TD></TR>
+<TR><TD>Overwrites Input 0</TD><TD>Data On: CPU</TD></TR>
+<TR><TD>Value</TD><TD>Grad</TD></TR>
+<TR><TD>Tensor-4 (5, 2, 3, 4) [24 12 4 1]<BR />⎡  -1.35   -0.515     2.02    0.777⎤<BR />⎢0.00389    -1.25   -0.808    0.901⎥<BR />⎣   1.62     1.26     1.44   -0.587⎦<BR /><BR /><BR />⎡  -1.28   -0.308   -0.104     1.33⎤<BR />⎢  0.498     1.08     1.58    0.931⎥<BR />⎣  0.298   -0.442    0.597     1.01⎦<BR /><BR /><BR />⎡-0.0181   -0.748    0.137   -0.127⎤<BR />⎢ -0.644   -0.846   -0.582    0.147⎥<BR />⎣   1.39    0.711    -1.88   -0.612⎦<BR /><BR /><BR />⎡  -1.19    0.102   -0.812    0.292⎤<BR />⎢ -0.752    -1.61   -0.536     1.69⎥<BR />⎣  0.495    0.923  -0.0283   -0.282⎦<BR /><BR /><BR />⎡ -0.153    -1.02    0.199   -0.972⎤<BR />⎢  -1.45    0.124   -0.073     1.43⎥<BR />⎣  -1.29   -0.932     1.29    -1.59⎦<BR /><BR /><BR />⎡   1.55    0.681    -1.03    -2.27⎤<BR />⎢   1.68     1.63    -1.09    -1.78⎥<BR />⎣   1.26    -1.12  -0.0102    0.209⎦<BR /><BR /><BR />⎡  0.139    -1.54    0.227     1.06⎤<BR />⎢  0.443   -0.347    -1.28    0.342⎥<BR />⎣ -0.997     1.27   -0.199    0.138⎦<BR /><BR /><BR />⎡ -0.988   -0.626   -0.432     2.13⎤<BR />⎢ -0.907     1.19    0.526     0.49⎥<BR />⎣  -1.01   -0.995    0.648    0.342⎦<BR /><BR /><BR />⎡  0.547   -0.196   -0.181   -0.743⎤<BR />⎢  -1.63     1.75    0.739     1.37⎥<BR />⎣-0.0878    0.622     2.05    0.508⎦<BR /><BR /><BR />⎡  -1.37   -0.123    -1.48    0.146⎤<BR />⎢  -0.42    0.803    -1.15    0.517⎥<BR />⎣ -0.327   -0.481   -0.264    0.578⎦<BR /><BR /><BR /></TD><TD>Tensor-4 (5, 2, 3, 4) [24 12 4 1]<BR />⎡0.00833  0.00833  0.00833  0.00833⎤<BR />⎢0.00833  0.00833  0.00833  0.00833⎥<BR />⎣0.00833  0.00833  0.00833  0.00833⎦<BR /><BR /><BR />⎡0.00833  0.00833  0.00833  0.00833⎤<BR />⎢0.00833  0.00833  0.00833  0.00833⎥<BR />⎣0.00833  0.00833  0.00833  0.00833⎦<BR /><BR /><BR />⎡0.00833  0.00833  0.00833  0.00833⎤<BR />⎢0.00833  0.00833  0.00833  0.00833⎥<BR />⎣0.00833  0.00833  0.00833  0.00833⎦<BR /><BR /><BR />⎡0.00833  0.00833  0.00833  0.00833⎤<BR />⎢0.00833  0.00833  0.00833  0.00833⎥<BR />⎣0.00833  0.00833  0.00833  0.00833⎦<BR /><BR /><BR />⎡0.00833  0.00833  0.00833  0.00833⎤<BR />⎢0.00833  0.00833  0.00833  0.00833⎥<BR />⎣0.00833  0.00833  0.00833  0.00833⎦<BR /><BR /><BR />⎡0.00833  0.00833  0.00833  0.00833⎤<BR />⎢0.00833  0.00833  0.00833  0.00833⎥<BR />⎣0.00833  0.00833  0.00833  0.00833⎦<BR /><BR /><BR />⎡0.00833  0.00833  0.00833  0.00833⎤<BR />⎢0.00833  0.00833  0.00833  0.00833⎥<BR />⎣0.00833  0.00833  0.00833  0.00833⎦<BR /><BR /><BR />⎡0.00833  0.00833  0.00833  0.00833⎤<BR />⎢0.00833  0.00833  0.00833  0.00833⎥<BR />⎣0.00833  0.00833  0.00833  0.00833⎦<BR /><BR /><BR />⎡0.00833  0.00833  0.00833  0.00833⎤<BR />⎢0.00833  0.00833  0.00833  0.00833⎥<BR />⎣0.00833  0.00833  0.00833  0.00833⎦<BR /><BR /><BR />⎡0.00833  0.00833  0.00833  0.00833⎤<BR />⎢0.00833  0.00833  0.00833  0.00833⎥<BR />⎣0.00833  0.00833  0.00833  0.00833⎦<BR /><BR /><BR /> </TD></TR>
+<TR><TD>Ptr: 0x824634554368x </TD><TD>Ptr: 0xc0001ce400 </TD></TR>
+
+
+</TABLE>
+>, shape=none ];
+	Node_0xc0003bf6c0 [ fontname=monospace, label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" PORT="anchor"  COLOR="#FF0000;"  BGCOLOR="lightblue">
+
+<TR><TD>6</TD><TD>read + false(%4, %2) :: Tensor-4 float64 into 0xc00005a090 :: NIL</TD></TR>
+
+
+<TR><TD>Overwrites Input 0</TD><TD>Data On: CPU</TD></TR>
+
+<TR><TD>Value</TD><TD>%!s(NIL)</TD></TR>
+
+
+</TABLE>
+>, shape=none ];
+	Node_0xc0003bf790 [ fontname=monospace, label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" PORT="anchor" >
+
+<TR><TD>7</TD><TD>Σ[0 1 2 3](%5) :: float64</TD></TR>
+<TR><TD>Op</TD><TD>Σ[0 1 2 3] :: Tensor-4 a → a</TD></TR>
+<TR><TD>Shape</TD><TD>()</TD></TR>
+<TR><TD>Overwrites Input 0</TD><TD>Data On: CPU</TD></TR>
+<TR><TD>Value</TD><TD>Grad</TD></TR>
+<TR><TD>float64 1.11e-16</TD><TD>float64 0.00833 </TD></TR>
+<TR><TD>Ptr: 0x824633867008x </TD><TD>Ptr: 0xc000023cd8 </TD></TR>
+
+
+</TABLE>
+>, shape=none ];
+	Node_0xc0003bfd40 [ fontname=monospace, label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" PORT="anchor" >
+
+<TR><TD>c</TD><TD>⊙ false(%8, %9) :: float64</TD></TR>
+<TR><TD>Op</TD><TD>⊙ false :: a → a → a</TD></TR>
+<TR><TD>Shape</TD><TD>()</TD></TR>
+<TR><TD>Overwrites Input -1</TD><TD>Data On: CPU</TD></TR>
+
+<TR><TD>Value</TD><TD>float64  10</TD></TR>
+
+
+</TABLE>
+>, shape=none ];
+	Node_0xc0003bfe10 [ fontname=monospace, label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" PORT="anchor" >
+
+<TR><TD>d</TD><TD>⊙ false(%c, %a) :: float64</TD></TR>
+<TR><TD>Op</TD><TD>⊙ false :: a → a → a</TD></TR>
+<TR><TD>Shape</TD><TD>()</TD></TR>
+<TR><TD>Overwrites Input -1</TD><TD>Data On: CPU</TD></TR>
+
+<TR><TD>Value</TD><TD>float64  30</TD></TR>
+
+
+</TABLE>
+>, shape=none ];
+	Node_0xc0003bfee0 [ fontname=monospace, label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" PORT="anchor" >
+
+<TR><TD>e</TD><TD>⊙ false(%d, %b) :: float64</TD></TR>
+<TR><TD>Op</TD><TD>⊙ false :: a → a → a</TD></TR>
+<TR><TD>Shape</TD><TD>()</TD></TR>
+<TR><TD>Overwrites Input -1</TD><TD>Data On: CPU</TD></TR>
+
+<TR><TD>Value</TD><TD>float64 120</TD></TR>
+
+
+</TABLE>
+>, shape=none ];
+	insideExprG [ style=invis ];
+
+}
+;
+	subgraph cluster_gradients {
+	label=gradients;
+	Node_0xc00020f450 [ fontname=monospace, label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" PORT="anchor" >
+
+<TR><TD>11</TD><TD>÷ false(%10, %e) :: float64</TD></TR>
+<TR><TD>Op</TD><TD>÷ false :: a → a → a</TD></TR>
+<TR><TD>Shape</TD><TD>()</TD></TR>
+<TR><TD>Overwrites Input -1</TD><TD>Data On: CPU</TD></TR>
+
+<TR><TD>Value</TD><TD>float64 0.00833</TD></TR>
+
+
+</TABLE>
+>, shape=none ];
+	Node_0xc00020f520 [ fontname=monospace, label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" PORT="anchor" >
+
+<TR><TD>12</TD><TD>÷ false(%f, %e) :: float64</TD></TR>
+<TR><TD>Op</TD><TD>÷ false :: a → a → a</TD></TR>
+<TR><TD>Shape</TD><TD>()</TD></TR>
+<TR><TD>Overwrites Input -1</TD><TD>Data On: CPU</TD></TR>
+
+<TR><TD>Value</TD><TD>float64 7.71e-21</TD></TR>
+
+
+</TABLE>
+>, shape=none ];
+	Node_0xc00020f5f0 [ fontname=monospace, label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" PORT="anchor" >
+
+<TR><TD>13</TD><TD>neg(%12) :: float64</TD></TR>
+<TR><TD>Op</TD><TD>neg :: a → a</TD></TR>
+<TR><TD>Shape</TD><TD>()</TD></TR>
+<TR><TD>Overwrites Input -1</TD><TD>Data On: CPU</TD></TR>
+
+<TR><TD>Value</TD><TD>float64 -7.71e-21</TD></TR>
+
+
+</TABLE>
+>, shape=none ];
+	Node_0xc00020f6c0 [ fontname=monospace, label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" PORT="anchor"  COLOR="#FF0000;" >
+
+<TR><TD>14</TD><TD>⊙ false(%13, %10) :: float64</TD></TR>
+<TR><TD>Op</TD><TD>⊙ false :: a → a → a</TD></TR>
+<TR><TD>Shape</TD><TD>()</TD></TR>
+<TR><TD>Overwrites Input -1</TD><TD>Data On: CPU</TD></TR>
+
+<TR><TD>Value</TD><TD>float64 -7.71e-21</TD></TR>
+
+
+</TABLE>
+>, shape=none ];
+	Node_0xc00020f790 [ fontname=monospace, label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" PORT="anchor" >
+
+<TR><TD>15</TD><TD>Repeat[0 1 2 3](%11, %8, %9, %a, %b) :: Tensor-4 float64</TD></TR>
+<TR><TD>Op</TD><TD>Repeat[0 1 2 3] :: a → a → a → a → a → Tensor-4 a</TD></TR>
+<TR><TD>Shape</TD><TD>(5, 2, 3, 4)</TD></TR>
+<TR><TD>Overwrites Input -1</TD><TD>Data On: CPU</TD></TR>
+
+<TR><TD>Value</TD><TD>Tensor-4 (5, 2, 3, 4) [24 12 4 1]<BR />⎡0.00833  0.00833  0.00833  0.00833⎤<BR />⎢0.00833  0.00833  0.00833  0.00833⎥<BR />⎣0.00833  0.00833  0.00833  0.00833⎦<BR /><BR /><BR />⎡0.00833  0.00833  0.00833  0.00833⎤<BR />⎢0.00833  0.00833  0.00833  0.00833⎥<BR />⎣0.00833  0.00833  0.00833  0.00833⎦<BR /><BR /><BR />⎡0.00833  0.00833  0.00833  0.00833⎤<BR />⎢0.00833  0.00833  0.00833  0.00833⎥<BR />⎣0.00833  0.00833  0.00833  0.00833⎦<BR /><BR /><BR />⎡0.00833  0.00833  0.00833  0.00833⎤<BR />⎢0.00833  0.00833  0.00833  0.00833⎥<BR />⎣0.00833  0.00833  0.00833  0.00833⎦<BR /><BR /><BR />⎡0.00833  0.00833  0.00833  0.00833⎤<BR />⎢0.00833  0.00833  0.00833  0.00833⎥<BR />⎣0.00833  0.00833  0.00833  0.00833⎦<BR /><BR /><BR />⎡0.00833  0.00833  0.00833  0.00833⎤<BR />⎢0.00833  0.00833  0.00833  0.00833⎥<BR />⎣0.00833  0.00833  0.00833  0.00833⎦<BR /><BR /><BR />⎡0.00833  0.00833  0.00833  0.00833⎤<BR />⎢0.00833  0.00833  0.00833  0.00833⎥<BR />⎣0.00833  0.00833  0.00833  0.00833⎦<BR /><BR /><BR />⎡0.00833  0.00833  0.00833  0.00833⎤<BR />⎢0.00833  0.00833  0.00833  0.00833⎥<BR />⎣0.00833  0.00833  0.00833  0.00833⎦<BR /><BR /><BR />⎡0.00833  0.00833  0.00833  0.00833⎤<BR />⎢0.00833  0.00833  0.00833  0.00833⎥<BR />⎣0.00833  0.00833  0.00833  0.00833⎦<BR /><BR /><BR />⎡0.00833  0.00833  0.00833  0.00833⎤<BR />⎢0.00833  0.00833  0.00833  0.00833⎥<BR />⎣0.00833  0.00833  0.00833  0.00833⎦<BR /><BR /><BR /></TD></TR>
+
+
+</TABLE>
+>, shape=none ];
+	Node_0xc00020f860 [ fontname=monospace, label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" PORT="anchor"  COLOR="#FF0000;" >
+
+<TR><TD>16</TD><TD>⊙ false(%3, %15) :: Tensor-4 float64</TD></TR>
+<TR><TD>Op</TD><TD>⊙ false :: Tensor-4 a → Tensor-4 a → Tensor-4 a</TD></TR>
+<TR><TD>Shape</TD><TD>(5, 2, 3, 4)</TD></TR>
+<TR><TD>Overwrites Input 0</TD><TD>Data On: CPU</TD></TR>
+
+<TR><TD>Value</TD><TD>Tensor-4 (5, 2, 3, 4) [24 12 4 1]<BR />⎡  -0.0112   -0.00429     0.0168    0.00647⎤<BR />⎢ 3.24e-05    -0.0105   -0.00673    0.00751⎥<BR />⎣   0.0135     0.0105      0.012   -0.00489⎦<BR /><BR /><BR />⎡  -0.0106   -0.00257  -0.000863     0.0111⎤<BR />⎢  0.00415    0.00904     0.0131    0.00775⎥<BR />⎣  0.00248   -0.00368    0.00497    0.00839⎦<BR /><BR /><BR />⎡-0.000151   -0.00624    0.00114   -0.00106⎤<BR />⎢ -0.00537   -0.00705   -0.00485    0.00123⎥<BR />⎣   0.0116    0.00593    -0.0156    -0.0051⎦<BR /><BR /><BR />⎡  -0.0099   0.000852   -0.00676    0.00243⎤<BR />⎢ -0.00627    -0.0134   -0.00447     0.0141⎥<BR />⎣  0.00412    0.00769  -0.000236   -0.00235⎦<BR /><BR /><BR />⎡ -0.00128   -0.00849    0.00166    -0.0081⎤<BR />⎢  -0.0121    0.00103  -0.000609     0.0119⎥<BR />⎣  -0.0107   -0.00777     0.0107    -0.0132⎦<BR /><BR /><BR />⎡   0.0129    0.00568   -0.00855    -0.0189⎤<BR />⎢    0.014     0.0136    -0.0091    -0.0148⎥<BR />⎣   0.0105   -0.00932  -8.47e-05    0.00174⎦<BR /><BR /><BR />⎡  0.00116    -0.0128    0.00189    0.00884⎤<BR />⎢  0.00369   -0.00289    -0.0107    0.00285⎥<BR />⎣ -0.00831     0.0106   -0.00166    0.00115⎦<BR /><BR /><BR />⎡ -0.00823   -0.00522    -0.0036     0.0177⎤<BR />⎢ -0.00756    0.00991    0.00438    0.00409⎥<BR />⎣ -0.00841   -0.00829     0.0054    0.00285⎦<BR /><BR /><BR />⎡  0.00456   -0.00164   -0.00151   -0.00619⎤<BR />⎢  -0.0136     0.0146    0.00616     0.0114⎥<BR />⎣-0.000732    0.00518     0.0171    0.00424⎦<BR /><BR /><BR />⎡  -0.0114   -0.00102    -0.0123    0.00122⎤<BR />⎢  -0.0035    0.00669    -0.0096    0.00431⎥<BR />⎣ -0.00272   -0.00401    -0.0022    0.00482⎦<BR /><BR /><BR /></TD></TR>
+
+
+</TABLE>
+>, shape=none ];
+	Node_0xc00020f930 [ fontname=monospace, label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" PORT="anchor" >
+
+<TR><TD>17</TD><TD>⊙ false(%1, %15) :: Tensor-4 float64</TD></TR>
+<TR><TD>Op</TD><TD>⊙ false :: Tensor-4 a → Tensor-4 a → Tensor-4 a</TD></TR>
+<TR><TD>Shape</TD><TD>(5, 2, 3, 4)</TD></TR>
+<TR><TD>Overwrites Input 0</TD><TD>Data On: CPU</TD></TR>
+
+<TR><TD>Value</TD><TD>Tensor-4 (5, 2, 3, 4) [24 12 4 1]<BR />⎡0.00833  0.00833  0.00833  0.00833⎤<BR />⎢0.00833  0.00833  0.00833  0.00833⎥<BR />⎣0.00833  0.00833  0.00833  0.00833⎦<BR /><BR /><BR />⎡0.00833  0.00833  0.00833  0.00833⎤<BR />⎢0.00833  0.00833  0.00833  0.00833⎥<BR />⎣0.00833  0.00833  0.00833  0.00833⎦<BR /><BR /><BR />⎡0.00833  0.00833  0.00833  0.00833⎤<BR />⎢0.00833  0.00833  0.00833  0.00833⎥<BR />⎣0.00833  0.00833  0.00833  0.00833⎦<BR /><BR /><BR />⎡0.00833  0.00833  0.00833  0.00833⎤<BR />⎢0.00833  0.00833  0.00833  0.00833⎥<BR />⎣0.00833  0.00833  0.00833  0.00833⎦<BR /><BR /><BR />⎡0.00833  0.00833  0.00833  0.00833⎤<BR />⎢0.00833  0.00833  0.00833  0.00833⎥<BR />⎣0.00833  0.00833  0.00833  0.00833⎦<BR /><BR /><BR />⎡0.00833  0.00833  0.00833  0.00833⎤<BR />⎢0.00833  0.00833  0.00833  0.00833⎥<BR />⎣0.00833  0.00833  0.00833  0.00833⎦<BR /><BR /><BR />⎡0.00833  0.00833  0.00833  0.00833⎤<BR />⎢0.00833  0.00833  0.00833  0.00833⎥<BR />⎣0.00833  0.00833  0.00833  0.00833⎦<BR /><BR /><BR />⎡0.00833  0.00833  0.00833  0.00833⎤<BR />⎢0.00833  0.00833  0.00833  0.00833⎥<BR />⎣0.00833  0.00833  0.00833  0.00833⎦<BR /><BR /><BR />⎡0.00833  0.00833  0.00833  0.00833⎤<BR />⎢0.00833  0.00833  0.00833  0.00833⎥<BR />⎣0.00833  0.00833  0.00833  0.00833⎦<BR /><BR /><BR />⎡0.00833  0.00833  0.00833  0.00833⎤<BR />⎢0.00833  0.00833  0.00833  0.00833⎥<BR />⎣0.00833  0.00833  0.00833  0.00833⎦<BR /><BR /><BR /></TD></TR>
+
+
+</TABLE>
+>, shape=none ];
+	Node_0xc00020fa00 [ fontname=monospace, label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" PORT="anchor"  COLOR="#FF0000;" >
+
+<TR><TD>18</TD><TD>batchnormdiff-0.9-0.0(%0, %17) :: Tensor-4 float64</TD></TR>
+<TR><TD>Op</TD><TD>batchnormdiff-0.9-0.0 :: Tensor-4 a → Tensor-4 a → Tensor-4 a</TD></TR>
+<TR><TD>Shape</TD><TD>(5, 2, 3, 4)</TD></TR>
+<TR><TD>Overwrites Input -1</TD><TD>Data On: CPU</TD></TR>
+
+<TR><TD>Value</TD><TD>Tensor-4 (5, 2, 3, 4) [24 12 4 1]<BR />⎡-0.0415  -0.0415  -0.0415  -0.0415⎤<BR />⎢-0.0415  -0.0415  -0.0415  -0.0415⎥<BR />⎣-0.0415  -0.0415  -0.0415  -0.0415⎦<BR /><BR /><BR />⎡-0.0406  -0.0406  -0.0406  -0.0406⎤<BR />⎢-0.0406  -0.0406  -0.0406  -0.0406⎥<BR />⎣-0.0406  -0.0406  -0.0406  -0.0406⎦<BR /><BR /><BR />⎡-0.0415  -0.0415  -0.0415  -0.0415⎤<BR />⎢-0.0415  -0.0415  -0.0415  -0.0415⎥<BR />⎣-0.0415  -0.0415  -0.0415  -0.0415⎦<BR /><BR /><BR />⎡-0.0406  -0.0406  -0.0406  -0.0406⎤<BR />⎢-0.0406  -0.0406  -0.0406  -0.0406⎥<BR />⎣-0.0406  -0.0406  -0.0406  -0.0406⎦<BR /><BR /><BR />⎡-0.0415  -0.0415  -0.0415  -0.0415⎤<BR />⎢-0.0415  -0.0415  -0.0415  -0.0415⎥<BR />⎣-0.0415  -0.0415  -0.0415  -0.0415⎦<BR /><BR /><BR />⎡-0.0406  -0.0406  -0.0406  -0.0406⎤<BR />⎢-0.0406  -0.0406  -0.0406  -0.0406⎥<BR />⎣-0.0406  -0.0406  -0.0406  -0.0406⎦<BR /><BR /><BR />⎡-0.0415  -0.0415  -0.0415  -0.0415⎤<BR />⎢-0.0415  -0.0415  -0.0415  -0.0415⎥<BR />⎣-0.0415  -0.0415  -0.0415  -0.0415⎦<BR /><BR /><BR />⎡-0.0406  -0.0406  -0.0406  -0.0406⎤<BR />⎢-0.0406  -0.0406  -0.0406  -0.0406⎥<BR />⎣-0.0406  -0.0406  -0.0406  -0.0406⎦<BR /><BR /><BR />⎡-0.0415  -0.0415  -0.0415  -0.0415⎤<BR />⎢-0.0415  -0.0415  -0.0415  -0.0415⎥<BR />⎣-0.0415  -0.0415  -0.0415  -0.0415⎦<BR /><BR /><BR />⎡-0.0406  -0.0406  -0.0406  -0.0406⎤<BR />⎢-0.0406  -0.0406  -0.0406  -0.0406⎥<BR />⎣-0.0406  -0.0406  -0.0406  -0.0406⎦<BR /><BR /><BR /></TD></TR>
+
+
+</TABLE>
+>, shape=none ];
+	Node_0xc0003bf860 [ fontname=monospace, label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" PORT="anchor" >
+
+<TR><TD>8</TD><TD>SizeOf=5(%5) :: float64</TD></TR>
+<TR><TD>Op</TD><TD>SizeOf=5 :: Tensor-4 a → a</TD></TR>
+<TR><TD>Shape</TD><TD>()</TD></TR>
+<TR><TD>Overwrites Input -1</TD><TD>Data On: CPU</TD></TR>
+
+<TR><TD>Value</TD><TD>float64   5</TD></TR>
+
+
+</TABLE>
+>, shape=none ];
+	Node_0xc0003bf930 [ fontname=monospace, label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" PORT="anchor" >
+
+<TR><TD>9</TD><TD>SizeOf=2(%5) :: float64</TD></TR>
+<TR><TD>Op</TD><TD>SizeOf=2 :: Tensor-4 a → a</TD></TR>
+<TR><TD>Shape</TD><TD>()</TD></TR>
+<TR><TD>Overwrites Input -1</TD><TD>Data On: CPU</TD></TR>
+
+<TR><TD>Value</TD><TD>float64   2</TD></TR>
+
+
+</TABLE>
+>, shape=none ];
+	Node_0xc0003bfba0 [ fontname=monospace, label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" PORT="anchor" >
+
+<TR><TD>a</TD><TD>SizeOf=3(%5) :: float64</TD></TR>
+<TR><TD>Op</TD><TD>SizeOf=3 :: Tensor-4 a → a</TD></TR>
+<TR><TD>Shape</TD><TD>()</TD></TR>
+<TR><TD>Overwrites Input -1</TD><TD>Data On: CPU</TD></TR>
+
+<TR><TD>Value</TD><TD>float64   3</TD></TR>
+
+
+</TABLE>
+>, shape=none ];
+	Node_0xc0003bfc70 [ fontname=monospace, label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" PORT="anchor" >
+
+<TR><TD>b</TD><TD>SizeOf=4(%5) :: float64</TD></TR>
+<TR><TD>Op</TD><TD>SizeOf=4 :: Tensor-4 a → a</TD></TR>
+<TR><TD>Shape</TD><TD>()</TD></TR>
+<TR><TD>Overwrites Input -1</TD><TD>Data On: CPU</TD></TR>
+
+<TR><TD>Value</TD><TD>float64   4</TD></TR>
+
+
+</TABLE>
+>, shape=none ];
+	inside_gradients [ style=invis ];
+
+}
+;
+	subgraph inputConsts {
+	rank=max;
+	subgraph cluster_constants {
+	label=constants;
+	Node_0xc00020eb60 [ fontname=monospace, label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" PORT="anchor"  COLOR="#00FF00;">
+
+<TR><TD>10</TD><TD>1 :: float64</TD></TR>
+<TR><TD>Op</TD><TD>const 1 :: float64</TD></TR>
+<TR><TD>Shape</TD><TD>()</TD></TR>
+<TR><TD>Overwrites Input -1</TD><TD>Data On: CPU</TD></TR>
+
+<TR><TD>Value</TD><TD>float64   1</TD></TR>
+
+
+</TABLE>
+>, shape=none ];
+	insideConsts [ style=invis ];
+
+}
+;
+	subgraph cluster_inputs {
+	label=inputs;
+	Node_0xc0003bf1e0 [ fontname=monospace, label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" PORT="anchor"  COLOR="#00FF00;" BGCOLOR="lightyellow">
+
+<TR><TD>0</TD><TD>x :: Tensor-4 float64</TD></TR>
+
+<TR><TD>Shape</TD><TD>(5, 2, 3, 4)</TD></TR>
+<TR><TD>Overwrites Input -1</TD><TD>Data On: CPU</TD></TR>
+<TR><TD>Value</TD><TD>Grad</TD></TR>
+<TR><TD>Tensor-4 (5, 2, 3, 4) [24 12 4 1]<BR />⎡  -1.37   -0.537     2.01     0.76⎤<BR />⎢-0.0157    -1.28   -0.831    0.886⎥<BR />⎣   1.61     1.24     1.42   -0.609⎦<BR /><BR /><BR />⎡  -1.34   -0.346   -0.136     1.33⎤<BR />⎢  0.482     1.08     1.59    0.925⎥<BR />⎣  0.276   -0.483    0.583        1⎦<BR /><BR /><BR />⎡-0.0378   -0.771    0.118   -0.148⎤<BR />⎢ -0.667   -0.869   -0.604    0.128⎥<BR />⎣   1.38    0.695     -1.9   -0.634⎦<BR /><BR /><BR />⎡  -1.25   0.0754   -0.862     0.27⎤<BR />⎢ -0.801    -1.68    -0.58     1.71⎥<BR />⎣  0.478    0.917  -0.0585   -0.318⎦<BR /><BR /><BR />⎡ -0.174    -1.04     0.18   -0.996⎤<BR />⎢  -1.48    0.105   -0.093     1.42⎥<BR />⎣  -1.31   -0.956     1.27    -1.61⎦<BR /><BR /><BR />⎡   1.56    0.669    -1.08    -2.36⎤<BR />⎢   1.69     1.65    -1.15    -1.85⎥<BR />⎣   1.26    -1.18  -0.0399    0.184⎦<BR /><BR /><BR />⎡   0.12    -1.57    0.208     1.05⎤<BR />⎢  0.425   -0.368    -1.31    0.324⎥<BR />⎣  -1.02     1.25   -0.219    0.119⎦<BR /><BR /><BR />⎡  -1.04   -0.672   -0.472     2.15⎤<BR />⎢  -0.96     1.19     0.51    0.474⎥<BR />⎣  -1.06    -1.05    0.635    0.321⎦<BR /><BR /><BR />⎡   0.53   -0.217   -0.202   -0.766⎤<BR />⎢  -1.66     1.74    0.723     1.35⎥<BR />⎣ -0.108    0.605     2.04    0.491⎦<BR /><BR /><BR />⎡  -1.43   -0.156    -1.55    0.121⎤<BR />⎢ -0.461    0.794    -1.21    0.501⎥<BR />⎣ -0.364   -0.523     -0.3    0.564⎦<BR /><BR /><BR /></TD><TD>Tensor-4 (5, 2, 3, 4) [24 12 4 1]<BR />⎡-0.0415  -0.0415  -0.0415  -0.0415⎤<BR />⎢-0.0415  -0.0415  -0.0415  -0.0415⎥<BR />⎣-0.0415  -0.0415  -0.0415  -0.0415⎦<BR /><BR /><BR />⎡-0.0406  -0.0406  -0.0406  -0.0406⎤<BR />⎢-0.0406  -0.0406  -0.0406  -0.0406⎥<BR />⎣-0.0406  -0.0406  -0.0406  -0.0406⎦<BR /><BR /><BR />⎡-0.0415  -0.0415  -0.0415  -0.0415⎤<BR />⎢-0.0415  -0.0415  -0.0415  -0.0415⎥<BR />⎣-0.0415  -0.0415  -0.0415  -0.0415⎦<BR /><BR /><BR />⎡-0.0406  -0.0406  -0.0406  -0.0406⎤<BR />⎢-0.0406  -0.0406  -0.0406  -0.0406⎥<BR />⎣-0.0406  -0.0406  -0.0406  -0.0406⎦<BR /><BR /><BR />⎡-0.0415  -0.0415  -0.0415  -0.0415⎤<BR />⎢-0.0415  -0.0415  -0.0415  -0.0415⎥<BR />⎣-0.0415  -0.0415  -0.0415  -0.0415⎦<BR /><BR /><BR />⎡-0.0406  -0.0406  -0.0406  -0.0406⎤<BR />⎢-0.0406  -0.0406  -0.0406  -0.0406⎥<BR />⎣-0.0406  -0.0406  -0.0406  -0.0406⎦<BR /><BR /><BR />⎡-0.0415  -0.0415  -0.0415  -0.0415⎤<BR />⎢-0.0415  -0.0415  -0.0415  -0.0415⎥<BR />⎣-0.0415  -0.0415  -0.0415  -0.0415⎦<BR /><BR /><BR />⎡-0.0406  -0.0406  -0.0406  -0.0406⎤<BR />⎢-0.0406  -0.0406  -0.0406  -0.0406⎥<BR />⎣-0.0406  -0.0406  -0.0406  -0.0406⎦<BR /><BR /><BR />⎡-0.0415  -0.0415  -0.0415  -0.0415⎤<BR />⎢-0.0415  -0.0415  -0.0415  -0.0415⎥<BR />⎣-0.0415  -0.0415  -0.0415  -0.0415⎦<BR /><BR /><BR />⎡-0.0406  -0.0406  -0.0406  -0.0406⎤<BR />⎢-0.0406  -0.0406  -0.0406  -0.0406⎥<BR />⎣-0.0406  -0.0406  -0.0406  -0.0406⎦<BR /><BR /><BR /> </TD></TR>
+<TR><TD>Ptr: 0x824637874176x </TD><TD>Ptr: 0xc0001cfc00 </TD></TR>
+
+
+</TABLE>
+>, shape=none ];
+	Node_0xc0003bf2b0 [ fontname=monospace, label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" PORT="anchor"  COLOR="#00FF00;" BGCOLOR="lightyellow">
+
+<TR><TD>1</TD><TD>scale :: Tensor-4 float64</TD></TR>
+
+<TR><TD>Shape</TD><TD>(5, 2, 3, 4)</TD></TR>
+<TR><TD>Overwrites Input -1</TD><TD>Data On: CPU</TD></TR>
+
+<TR><TD>Value</TD><TD>Tensor-4 (5, 2, 3, 4) [24 12 4 1]<BR />⎡  1    1    1    1⎤<BR />⎢  1    1    1    1⎥<BR />⎣  1    1    1    1⎦<BR /><BR /><BR />⎡  1    1    1    1⎤<BR />⎢  1    1    1    1⎥<BR />⎣  1    1    1    1⎦<BR /><BR /><BR />⎡  1    1    1    1⎤<BR />⎢  1    1    1    1⎥<BR />⎣  1    1    1    1⎦<BR /><BR /><BR />⎡  1    1    1    1⎤<BR />⎢  1    1    1    1⎥<BR />⎣  1    1    1    1⎦<BR /><BR /><BR />⎡  1    1    1    1⎤<BR />⎢  1    1    1    1⎥<BR />⎣  1    1    1    1⎦<BR /><BR /><BR />⎡  1    1    1    1⎤<BR />⎢  1    1    1    1⎥<BR />⎣  1    1    1    1⎦<BR /><BR /><BR />⎡  1    1    1    1⎤<BR />⎢  1    1    1    1⎥<BR />⎣  1    1    1    1⎦<BR /><BR /><BR />⎡  1    1    1    1⎤<BR />⎢  1    1    1    1⎥<BR />⎣  1    1    1    1⎦<BR /><BR /><BR />⎡  1    1    1    1⎤<BR />⎢  1    1    1    1⎥<BR />⎣  1    1    1    1⎦<BR /><BR /><BR />⎡  1    1    1    1⎤<BR />⎢  1    1    1    1⎥<BR />⎣  1    1    1    1⎦<BR /><BR /><BR /></TD></TR>
+
+
+</TABLE>
+>, shape=none ];
+	Node_0xc0003bf380 [ fontname=monospace, label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" PORT="anchor"  COLOR="#00FF00;" BGCOLOR="lightyellow">
+
+<TR><TD>2</TD><TD>bias :: Tensor-4 float64</TD></TR>
+
+<TR><TD>Shape</TD><TD>(5, 2, 3, 4)</TD></TR>
+<TR><TD>Overwrites Input -1</TD><TD>Data On: CPU</TD></TR>
+
+<TR><TD>Value</TD><TD>Tensor-4 (5, 2, 3, 4) [24 12 4 1]<BR />⎡  0    0    0    0⎤<BR />⎢  0    0    0    0⎥<BR />⎣  0    0    0    0⎦<BR /><BR /><BR />⎡  0    0    0    0⎤<BR />⎢  0    0    0    0⎥<BR />⎣  0    0    0    0⎦<BR /><BR /><BR />⎡  0    0    0    0⎤<BR />⎢  0    0    0    0⎥<BR />⎣  0    0    0    0⎦<BR /><BR /><BR />⎡  0    0    0    0⎤<BR />⎢  0    0    0    0⎥<BR />⎣  0    0    0    0⎦<BR /><BR /><BR />⎡  0    0    0    0⎤<BR />⎢  0    0    0    0⎥<BR />⎣  0    0    0    0⎦<BR /><BR /><BR />⎡  0    0    0    0⎤<BR />⎢  0    0    0    0⎥<BR />⎣  0    0    0    0⎦<BR /><BR /><BR />⎡  0    0    0    0⎤<BR />⎢  0    0    0    0⎥<BR />⎣  0    0    0    0⎦<BR /><BR /><BR />⎡  0    0    0    0⎤<BR />⎢  0    0    0    0⎥<BR />⎣  0    0    0    0⎦<BR /><BR /><BR />⎡  0    0    0    0⎤<BR />⎢  0    0    0    0⎥<BR />⎣  0    0    0    0⎦<BR /><BR /><BR />⎡  0    0    0    0⎤<BR />⎢  0    0    0    0⎥<BR />⎣  0    0    0    0⎦<BR /><BR /><BR /></TD></TR>
+
+
+</TABLE>
+>, shape=none ];
+	insideInputs [ style=invis ];
+
+}
+;
+
+}
+;
+	subgraph outsides {
+	outsideConsts [ style=invis ];
+	outsideExprG [ style=invis ];
+	outsideRoot [ style=invis ];
+	outside_gradients [ style=invis ];
+
+}
+;
+
+}

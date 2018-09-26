@@ -18,7 +18,7 @@ func Compile(g *ExprGraph) (prog *program, locMap map[*Node]register, err error)
 	enterLogScope()
 	defer leaveLogScope()
 
-	if len(g.Nodes()) == 0 {
+	if len(g.AllNodes()) == 0 {
 		err = errors.Errorf("Cannot compile an empty graph")
 		return
 	}
@@ -395,9 +395,8 @@ func (cg *codegenerator) addNode(node, replacement *Node, interv *interval, i in
 			var op Op
 			var onDev, nodeOnDev Device
 
-			_, isDevTrans := lastWriteNode.Op().(devTrans)
 			switch {
-			case lastWriteNode.isArg(), lastWriteNode.isStmt && !isDevTrans:
+			case lastWriteNode.isArg(), lastWriteNode.isStmt:
 				continue
 			default:
 				op = lastWriteNode.op
@@ -437,7 +436,7 @@ func (cg *codegenerator) addNode(node, replacement *Node, interv *interval, i in
 			case !op.CallsExtern():
 				compileLogf("ToFlush: Node doesn't call extern. NO FLUSH")
 				// op doesn't call extern... don't bother flushing
-			case op.CallsExtern() && node.op.CallsExtern() && onDev == nodeOnDev && !isDevTrans:
+			case op.CallsExtern() && node.op.CallsExtern() && onDev == nodeOnDev:
 				compileLogf("ToFlush: Both calls extern, both same device. NO FLUSH")
 				// same device, both calls extern
 				// no flush needed

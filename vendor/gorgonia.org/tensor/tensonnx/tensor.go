@@ -106,7 +106,23 @@ func NewTensor(tx *onnx.TensorProto) (tensor.Tensor, error) {
 	case tensor.Int32:
 		switch {
 		case tx.RawData != nil:
-			return nil, errors.Wrap(ErrNotYetImplemented, "RawData found for int32")
+			buf := bytes.NewReader(tx.RawData)
+			element := make([]byte, 4)
+			var err error
+			var backing []int32
+			for {
+				var n int
+				n, err = buf.Read(element)
+				if err != nil || n != 4 {
+					break
+				}
+				uintElement := binary.LittleEndian.Uint32(element)
+				backing = append(backing, int32(uintElement))
+			}
+			if err != io.EOF {
+				return nil, errors.Wrapf(err, "%v", ErrCorruptedData)
+			}
+			opts = append(opts, tensor.WithBacking(backing))
 		case tx.Int32Data != nil:
 			opts = append(opts, tensor.WithBacking(tx.Int32Data))
 		default:

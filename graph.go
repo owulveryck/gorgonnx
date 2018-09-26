@@ -38,7 +38,7 @@ func (cg *computationGraph) getNodeByName(name string) *gorgonia.Node {
 func GetOutputNodes(g *gorgonia.ExprGraph) gorgonia.Nodes {
 	var output gorgonia.Nodes
 	for _, n := range g.AllNodes() {
-		if len(g.To(n.ID())) == 0 {
+		if g.To(n.ID()).Len() == 0 {
 			output = append(output, n)
 		}
 	}
@@ -50,7 +50,7 @@ func GetOutputNodes(g *gorgonia.ExprGraph) gorgonia.Nodes {
 func GetOutputGraphNodes(g *gorgonia.ExprGraph) gorgonia.Nodes {
 	var output gorgonia.Nodes
 	for _, n := range GetOutputNodes(g) {
-		if len(g.From(n.ID())) != 0 {
+		if g.From(n.ID()).Len() != 0 {
 			output = append(output, n)
 		}
 	}
