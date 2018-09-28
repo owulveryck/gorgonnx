@@ -4,29 +4,51 @@ package gorgonia
 func AddBroadcast(a, b *Node) (*Node, error) {
 
 	switch {
-	// Check if any of the tensor needs reshaping
-	case len(a.Shape()) == 3 && len(b.Shape()) == 4:
-		// Add a new dimension to the second operator
-		x, err := Reshape(a, append([]int{1}, a.Shape()...))
+	case len(a.Shape()) < len(b.Shape()):
+		dimsToAdd := len(b.Shape()) - len(a.Shape())
+		dims := make([]int, dimsToAdd)
+		for i := range dims {
+			dims[i] = 1
+		}
+		x, err := Reshape(a, append(dims, a.Shape()...))
 		if err != nil {
 			return nil, err
 		}
 		// Now broadcast
-		//return Broadcast(addOpType, y, b, NewBroadcastPattern([]byte{1}, []byte{0, 0, 0, 0}))
-		return Broadcast(addOpType, x, b, NewBroadcastPattern([]byte{0, 2, 3}, nil))
-	case len(a.Shape()) == 4 && len(b.Shape()) == 3:
-		// Add a new dimension to the second operator
-		newShape := make([]int, len(a.Shape()))
-		newShape[0] = 1
-		newShape[1] = b.Shape()[0]
-		newShape[2] = b.Shape()[1]
-		newShape[3] = b.Shape()[2]
-		y, err := Reshape(b, newShape)
+		var left, right []byte
+		for i := range a.Shape() {
+			if a.Shape()[i] == 1 && x.Shape()[i] != 1 {
+				left = append(left, byte(i))
+			}
+			if a.Shape()[i] != 1 && x.Shape()[i] == 1 {
+				right = append(right, byte(i))
+			}
+
+		}
+		// Now broadcast
+		return Broadcast(addOpType, x, b, NewBroadcastPattern(left, right))
+	case len(a.Shape()) > len(b.Shape()):
+		dimsToAdd := len(a.Shape()) - len(b.Shape())
+		dims := make([]int, dimsToAdd)
+		for i := range dims {
+			dims[i] = 1
+		}
+		x, err := Reshape(b, append(dims, b.Shape()...))
 		if err != nil {
 			return nil, err
 		}
+		var left, right []byte
+		for i := range a.Shape() {
+			if a.Shape()[i] == 1 && x.Shape()[i] != 1 {
+				left = append(left, byte(i))
+			}
+			if a.Shape()[i] != 1 && x.Shape()[i] == 1 {
+				right = append(right, byte(i))
+			}
+
+		}
 		// Now broadcast
-		return Broadcast(addOpType, a, y, NewBroadcastPattern(nil, []byte{0, 2, 3}))
+		return Broadcast(addOpType, a, x, NewBroadcastPattern(left, right))
 	default:
 		return Add(a, b)
 	}
