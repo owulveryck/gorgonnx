@@ -133,29 +133,11 @@ func (cg *computationGraph) addOp(nx *onnx.NodeProto) error {
 	a := cg.db[nx.Input[0]]
 	var n *gorgonia.Node
 	var err error
-	normalAdd := true
-	if len(a.Shape()) == len(b.Shape()) {
-		for i := range a.Shape() {
-			if a.Shape()[i] != b.Shape()[i] {
-				normalAdd = false
-			}
-		}
-	} else {
-		normalAdd = false
+	n, err = gorgonia.AddBroadcast(a, b)
+	if err != nil {
+		return fmt.Errorf("Cannot Add %v and %v: %v", nx.Input[0], nx.Input[1], err)
 	}
-	if normalAdd {
-		n, err = gorgonia.Add(a, b)
-		if err != nil {
-			return fmt.Errorf("Cannot Add %v and %v: %v", nx.Input[0], nx.Input[1], err)
-		}
-		cg.db[nx.Output[0]] = n
-	} else {
-		n, err = gorgonia.AddBroadcast(a, b)
-		if err != nil {
-			return fmt.Errorf("Cannot Add %v and %v: %v", nx.Input[0], nx.Input[1], err)
-		}
-		cg.db[nx.Output[0]] = n
-	}
+	cg.db[nx.Output[0]] = n
 
 	return nil
 }
