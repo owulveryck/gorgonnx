@@ -14,6 +14,7 @@ import (
 )
 
 func TestReshapeOp_negative_dim(t *testing.T) {
+	t.Skip()
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_reshape_negative_dim/"

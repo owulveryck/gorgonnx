@@ -14,6 +14,7 @@ import (
 )
 
 func TestMatmulOp_2d(t *testing.T) {
+	t.Skip()
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_matmul_2d/"
