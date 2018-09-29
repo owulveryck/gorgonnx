@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/owulveryck/gorgonnx.svg?style=svg)](https://circleci.com/gh/owulveryck/gorgonnx)
+[![Travis](https://travis-ci.org/owulveryck/gorgonnx.svg?branch=master)](https://travis-ci.org/owulveryck/gorgonnx)
 [![GoDoc][1]][2]
 
 [1]: https://godoc.org/github.com/owulveryck/gorgonnx?status.svg
