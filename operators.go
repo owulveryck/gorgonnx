@@ -265,7 +265,7 @@ func (cg *computationGraph) maxPoolOp(nx *onnx.NodeProto) error {
 	}
 	n, err := nnops.MaxPool2D(input, kernelShape, pad, stride)
 	if err != nil {
-		return fmt.Errorf("Cannot apply Convolution operator: %v", err)
+		return fmt.Errorf("Cannot apply Maxpool operator: %v", err)
 	}
 	cg.db[nx.Output[0]] = n
 	return nil
