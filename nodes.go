@@ -18,6 +18,8 @@ func (cg *computationGraph) processNode(nx *onnx.NodeProto) error {
 		return cg.maxPoolOp(nx)
 	case "MatMul":
 		return cg.matMulOp(nx)
+	case "Concat":
+		return cg.concatOp(nx)
 	default:
 		return ErrToBeImplemented{
 			nType,

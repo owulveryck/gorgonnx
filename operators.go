@@ -11,6 +11,31 @@ import (
 	"gorgonia.org/tensor"
 )
 
+// https://github.com/onnx/onnx/blob/master/docs/Operators.md#Concat
+func (cg *computationGraph) concatOp(nx *onnx.NodeProto) error {
+	inputs := make([]*gorgonia.Node, len(nx.Input))
+	for i := 0; i < len(nx.Input); i++ {
+		inputs[i] = cg.db[nx.Input[i]]
+	}
+	//kernelShape := kernel.Shape()
+	var axis int
+	for _, attr := range nx.Attribute {
+		switch *attr.Name {
+		case "axis":
+			axis = int(attr.GetI())
+		default:
+			return fmt.Errorf("Unknown attribute: %v for convolution operator", attr.Name)
+		}
+	}
+	// For testing, reshape the kernel...
+	n, err := gorgonia.Concat(axis, inputs...)
+	if err != nil {
+		return fmt.Errorf("Cannot apply Conccat operator: %v", err)
+	}
+	cg.db[nx.Output[0]] = n
+	return nil
+}
+
 // https://github.com/onnx/onnx/blob/master/docs/Operators.md#Conv
 func (cg *computationGraph) convOp(nx *onnx.NodeProto) error {
 	input := cg.db[nx.Input[0]]
