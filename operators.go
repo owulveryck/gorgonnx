@@ -31,8 +31,7 @@ func (cg *computationGraph) constantOp(nx *onnx.NodeProto) error {
 		return fmt.Errorf("Value cannot be null")
 	}
 	var n *gorgonia.Node
-	consNode := gorgonia.NewConstant(t, gorgonia.WithName(nx.Output[0]))
-	n = cg.g.AddNode(consNode)
+	n = cg.g.AddNode(gorgonia.NewConstant(t, gorgonia.WithName(nx.Output[0])))
 	cg.db[nx.Output[0]] = n
 
 	return nil

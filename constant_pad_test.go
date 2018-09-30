@@ -14,6 +14,7 @@ import (
 )
 
 func TestConstantOp_pad(t *testing.T) {
+	t.Skip("Not implemented because ONNX lack some documentation about it")
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_constant_pad/"

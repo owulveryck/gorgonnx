@@ -34,7 +34,6 @@ func TestConstantOp(t *testing.T) {
 		}
 		t.Fatal("Cannot decode ", err)
 	}
-
 	// Open the tensorproto sample file
 	files, err := ioutil.ReadDir(onnxTest)
 	if err != nil {
