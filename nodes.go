@@ -20,6 +20,8 @@ func (cg *computationGraph) processNode(nx *onnx.NodeProto) error {
 		return cg.matMulOp(nx)
 	case "Concat":
 		return cg.concatOp(nx)
+	case "Dropout":
+		return cg.dropoutOp(nx)
 	default:
 		return ErrToBeImplemented{
 			nType,

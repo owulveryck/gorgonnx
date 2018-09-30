@@ -11,6 +11,28 @@ import (
 	"gorgonia.org/tensor"
 )
 
+// https://github.com/onnx/onnx/blob/master/docs/Operators.md#Dropout
+func (cg *computationGraph) dropoutOp(nx *onnx.NodeProto) error {
+	input := cg.db[nx.Input[0]]
+	//kernelShape := kernel.Shape()
+	var ratio float64
+	for _, attr := range nx.Attribute {
+		switch *attr.Name {
+		case "ratio":
+			ratio = float64(attr.GetF())
+		default:
+			return fmt.Errorf("Unknown attribute: %v for convolution operator", attr.Name)
+		}
+	}
+	// For testing, reshape the kernel...
+	n, err := gorgonia.Dropout(input, ratio)
+	if err != nil {
+		return fmt.Errorf("Cannot apply Dropout operator: %v", err)
+	}
+	cg.db[nx.Output[0]] = n
+	return nil
+}
+
 // https://github.com/onnx/onnx/blob/master/docs/Operators.md#Concat
 func (cg *computationGraph) concatOp(nx *onnx.NodeProto) error {
 	inputs := make([]*gorgonia.Node, len(nx.Input))
