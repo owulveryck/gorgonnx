@@ -24,6 +24,8 @@ func (cg *computationGraph) processNode(nx *onnx.NodeProto) error {
 		return cg.concatOp(nx)
 	case "Dropout":
 		return cg.dropoutOp(nx)
+	case "Constant":
+		return cg.constantOp(nx)
 	default:
 		return ErrToBeImplemented{
 			nType,
