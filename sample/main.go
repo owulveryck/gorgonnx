@@ -1,6 +1,8 @@
 package main
 
 import (
+	"flag"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
@@ -12,7 +14,14 @@ import (
 )
 
 func main() {
-	b, err := ioutil.ReadFile("../mnist/model.onnx")
+	modelFile := flag.String("model", "", "Path to the model path")
+	inputFile := flag.String("input", "", "Path to the input file")
+	flag.Parse()
+	if *modelFile == "" || *inputFile == "" {
+		flag.Usage()
+		os.Exit(0)
+	}
+	b, err := ioutil.ReadFile(*modelFile)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -28,7 +37,7 @@ func main() {
 
 	// Open the tensorproto sample file
 
-	b, err = ioutil.ReadFile("../mnist/test_data_set_0/input_0.pb")
+	b, err = ioutil.ReadFile(*inputFile)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -41,14 +50,13 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	gorgonia.Let(g.ByName("Input3")[0], t)
-	logger := log.New(os.Stdout, "", 0)
-	machine := gorgonia.NewTapeMachine(g, gorgonia.WithLogger(logger), gorgonia.WithWatchlist())
+	gorgonia.Let(g.Inputs()[0], t)
+	machine := gorgonia.NewTapeMachine(g)
 	if err = machine.RunAll(); err != nil {
 		log.Fatal(err)
 	}
 	output := gorgonnx.GetOutputGraphNodes(g)
 	for _, n := range output {
-		log.Printf("%v: %v", n.Name(), n.Value())
+		fmt.Printf("%v: %v", n.Name(), n.Value())
 	}
 }
