@@ -13,6 +13,13 @@ import (
 
 // https://github.com/onnx/onnx/blob/master/docs/Operators.md#Dropout
 func (cg *computationGraph) dropoutOp(nx *onnx.NodeProto) error {
+	if len(nx.Output) != 1 {
+		return ErrToBeImplemented{
+			"Dropout",
+			"Output",
+			"More than one",
+		}
+	}
 	input := cg.db[nx.Input[0]]
 	//kernelShape := kernel.Shape()
 	var ratio float64
