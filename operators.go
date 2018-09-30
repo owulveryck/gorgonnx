@@ -200,6 +200,15 @@ func (cg *computationGraph) reluOp(nx *onnx.NodeProto) error {
 }
 
 // https://github.com/onnx/onnx/blob/master/docs/Operators.md#MaxPool
+func (cg *computationGraph) averagePoolOp(nx *onnx.NodeProto) error {
+	return ErrToBeImplemented{
+		"averagePoolOp",
+		"",
+		"",
+	}
+}
+
+// https://github.com/onnx/onnx/blob/master/docs/Operators.md#MaxPool
 func (cg *computationGraph) maxPoolOp(nx *onnx.NodeProto) error {
 
 	var kernelShape tensor.Shape

@@ -13,11 +13,10 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestDropoutOp_random(t *testing.T) {
-	t.Skip("For now, randomness not tested")
+func TestAveragepoolOp_3d_default(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := basedir + "test_data/test_dropout_random/"
+	onnxTest := basedir + "test_data/test_averagepool_3d_default/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

@@ -15,7 +15,7 @@ func (cg *computationGraph) processNode(nx *onnx.NodeProto) error {
 	case "Relu":
 		return cg.reluOp(nx)
 	case "AveragePool":
-		return cg.maxPoolOp(nx)
+		return cg.averagePoolOp(nx)
 	case "MaxPool":
 		return cg.maxPoolOp(nx)
 	case "MatMul":
