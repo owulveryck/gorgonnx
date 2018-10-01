@@ -14,12 +14,20 @@ func (cg *computationGraph) processNode(nx *onnx.NodeProto) error {
 		return cg.reshapeOp(nx)
 	case "Relu":
 		return cg.reluOp(nx)
+	case "AveragePool":
+		return cg.averagePoolOp(nx)
 	case "MaxPool":
 		return cg.maxPoolOp(nx)
 	case "MatMul":
 		return cg.matMulOp(nx)
 	case "Concat":
 		return cg.concatOp(nx)
+	case "Dropout":
+		return cg.dropoutOp(nx)
+	case "Div":
+		return cg.divOp(nx)
+	case "Constant":
+		return cg.constantOp(nx)
 	default:
 		return ErrToBeImplemented{
 			nType,

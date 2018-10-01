@@ -9,7 +9,60 @@ import (
 	"gorgonia.org/gorgonia"
 	nnops "gorgonia.org/gorgonia/ops/nn"
 	"gorgonia.org/tensor"
+	"gorgonia.org/tensor/tensonnx"
 )
+
+// https://github.com/onnx/onnx/blob/master/docs/Operators.md#Constant
+func (cg *computationGraph) constantOp(nx *onnx.NodeProto) error {
+	var t tensor.Tensor
+	for _, attr := range nx.Attribute {
+		switch *attr.Name {
+		case "value":
+			var err error
+			t, err = tensonnx.NewTensor(attr.T)
+			if err != nil {
+				return err
+			}
+		default:
+			return fmt.Errorf("Unknown attribute: %v for convolution operator", attr.Name)
+		}
+	}
+	if t == nil {
+		return fmt.Errorf("Value cannot be null")
+	}
+	cg.db[nx.Output[0]] = cg.g.AddNode(gorgonia.NewConstant(t, gorgonia.WithName(nx.Output[0])))
+
+	return nil
+}
+
+// https://github.com/onnx/onnx/blob/master/docs/Operators.md#Dropout
+func (cg *computationGraph) dropoutOp(nx *onnx.NodeProto) error {
+	if len(nx.Output) != 1 {
+		return ErrToBeImplemented{
+			"Dropout",
+			"Output",
+			"More than one",
+		}
+	}
+	input := cg.db[nx.Input[0]]
+	//kernelShape := kernel.Shape()
+	var ratio float64
+	for _, attr := range nx.Attribute {
+		switch *attr.Name {
+		case "ratio":
+			ratio = float64(attr.GetF())
+		default:
+			return fmt.Errorf("Unknown attribute: %v for convolution operator", attr.Name)
+		}
+	}
+	// For testing, reshape the kernel...
+	n, err := gorgonia.Dropout(input, ratio)
+	if err != nil {
+		return fmt.Errorf("Cannot apply Dropout operator: %v", err)
+	}
+	cg.db[nx.Output[0]] = n
+	return nil
+}
 
 // https://github.com/onnx/onnx/blob/master/docs/Operators.md#Concat
 func (cg *computationGraph) concatOp(nx *onnx.NodeProto) error {
@@ -178,6 +231,15 @@ func (cg *computationGraph) reluOp(nx *onnx.NodeProto) error {
 }
 
 // https://github.com/onnx/onnx/blob/master/docs/Operators.md#MaxPool
+func (cg *computationGraph) averagePoolOp(nx *onnx.NodeProto) error {
+	return ErrToBeImplemented{
+		"averagePoolOp",
+		"",
+		"",
+	}
+}
+
+// https://github.com/onnx/onnx/blob/master/docs/Operators.md#MaxPool
 func (cg *computationGraph) maxPoolOp(nx *onnx.NodeProto) error {
 
 	var kernelShape tensor.Shape
@@ -243,11 +305,22 @@ func (cg *computationGraph) maxPoolOp(nx *onnx.NodeProto) error {
 	}
 	n, err := nnops.MaxPool2D(input, kernelShape, pad, stride)
 	if err != nil {
-		return fmt.Errorf("Cannot apply Convolution operator: %v", err)
+		return fmt.Errorf("Cannot apply Maxpool operator: %v", err)
 	}
 	cg.db[nx.Output[0]] = n
 	return nil
 
+}
+
+// https://github.com/onnx/onnx/blob/master/docs/Operators.md#Div
+func (cg *computationGraph) divOp(nx *onnx.NodeProto) error {
+	n, err := gorgonia.HadamardDiv(cg.db[nx.Input[0]], cg.db[nx.Input[1]])
+	if err != nil {
+		return fmt.Errorf("Cannot Divide: %v", err)
+	}
+	cg.db[nx.Output[0]] = n
+
+	return nil
 }
 
 // https://github.com/onnx/onnx/blob/master/docs/Operators.md#MatMul
