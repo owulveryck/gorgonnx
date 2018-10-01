@@ -69,6 +69,7 @@ func NewGraph(gx *onnx.GraphProto) (*gorgonia.ExprGraph, error) {
 // Decode the graphproto and returns a gorgonia Graph
 func (cg *computationGraph) parse(gx *onnx.GraphProto) (*gorgonia.ExprGraph, error) {
 	g := gorgonia.NewGraph(gorgonia.WithGraphName(gx.GetName()))
+	cg.g = g
 	for _, tensorProto := range gx.Initializer {
 		name := tensorProto.GetName()
 		t, err := tensonnx.NewTensor(tensorProto)
