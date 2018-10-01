@@ -18,8 +18,13 @@ func Compile(g *ExprGraph) (prog *program, locMap map[*Node]register, err error)
 	enterLogScope()
 	defer leaveLogScope()
 
-	if len(g.AllNodes()) == 0 {
+	switch {
+
+	case len(g.AllNodes()) == 0:
 		err = errors.Errorf("Cannot compile an empty graph")
+		return
+	case len(g.Inputs()) == 0:
+		err = errors.Errorf("Cannot compile a graph with no input")
 		return
 	}
 
@@ -42,6 +47,10 @@ func Compile(g *ExprGraph) (prog *program, locMap map[*Node]register, err error)
 	logCompileState(g.name, g, df)
 
 	inputs := g.Inputs()
+	if len(inputs) == 0 {
+		err = errors.New("Cannot create graph without input")
+		return
+	}
 	cg := newCodeGenerator(inputs, sortedNodes, df)
 	prog, locMap = cg.gen()
 	prog.cpulocs = ra.cpucount
