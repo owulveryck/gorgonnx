@@ -312,6 +312,17 @@ func (cg *computationGraph) maxPoolOp(nx *onnx.NodeProto) error {
 
 }
 
+// https://github.com/onnx/onnx/blob/master/docs/Operators.md#Div
+func (cg *computationGraph) divOp(nx *onnx.NodeProto) error {
+	n, err := gorgonia.HadamardDiv(cg.db[nx.Input[0]], cg.db[nx.Input[1]])
+	if err != nil {
+		return fmt.Errorf("Cannot Divide: %v", err)
+	}
+	cg.db[nx.Output[0]] = n
+
+	return nil
+}
+
 // https://github.com/onnx/onnx/blob/master/docs/Operators.md#MatMul
 //
 // BUG(owulveryck): The Mul operator should be broadcastable too
