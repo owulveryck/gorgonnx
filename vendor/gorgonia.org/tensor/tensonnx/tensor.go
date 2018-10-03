@@ -94,6 +94,7 @@ func NewTensor(tx *onnx.TensorProto) (tensor.Tensor, error) {
 				uintElement := binary.LittleEndian.Uint64(element)
 				backing = append(backing, int64(uintElement))
 			}
+
 			if err != io.EOF {
 				return nil, errors.Wrapf(err, "%v", ErrCorruptedData)
 			}

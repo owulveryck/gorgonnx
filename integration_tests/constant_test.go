@@ -13,10 +13,11 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestAveragepoolOp_2d_default(t *testing.T) {
+func TestConstantOp(t *testing.T) {
+	t.Skip("Test is not relevant")
 	assert := assert.New(t)
 
-	onnxTest := basedir + "test_data/test_averagepool_2d_default/"
+	onnxTest := basedir + "test_data/test_constant/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)
