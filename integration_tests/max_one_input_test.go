@@ -13,10 +13,10 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestConcatOp_3d_axis_0(t *testing.T) {
+func TestMaxOp_one_input(t *testing.T) {
 	assert := assert.New(t)
 
-	onnxTest := basedir + "test_data/test_concat_3d_axis_0/"
+	onnxTest := basedir + "test_data/test_max_one_input/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)

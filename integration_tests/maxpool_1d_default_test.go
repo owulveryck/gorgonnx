@@ -13,10 +13,11 @@ import (
 	"gorgonia.org/tensor/tensonnx"
 )
 
-func TestConvOp_with_strides_padding(t *testing.T) {
+func TestMaxpoolOp_1d_default(t *testing.T) {
+	t.Skip("Not implemented")
 	assert := assert.New(t)
 
-	onnxTest := basedir + "test_data/test_conv_with_strides_padding/"
+	onnxTest := basedir + "test_data/test_maxpool_1d_default/"
 	b, err := ioutil.ReadFile(onnxTest + "model.onnx")
 	if err != nil {
 		t.Fatal(err)
