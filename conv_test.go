@@ -110,23 +110,27 @@ func TestConvOp(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	g := computationGraph{
+	cg := computationGraph{
 		//db: make(map[string]*gorgonia.Node, 3),
 		g: gorgonia.NewGraph(),
 	}
-	inputN := gorgonia.NodeFromAny(g.g, inputT, gorgonia.WithName(inputName))
-	kernelN := gorgonia.NodeFromAny(g.g, kernelT, gorgonia.WithName(kernelName))
-	g.addNode(inputName, inputN)
-	g.addNode(kernelName, kernelN)
-	err = g.processNode(np)
+	inputN := gorgonia.NodeFromAny(cg.g, inputT, gorgonia.WithName(inputName))
+	kernelN := gorgonia.NodeFromAny(cg.g, kernelT, gorgonia.WithName(kernelName))
+	cg.storeNode(inputName, inputN)
+	cg.storeNode(kernelName, kernelN)
+	err = cg.processNode(np)
 	if err != nil {
 		t.Fatal(err)
 	}
-	vm := gorgonia.NewTapeMachine(g.g)
+	vm := gorgonia.NewTapeMachine(cg.g)
 	//vm := gorgonia.NewTapeMachine(g.g)
 	err = vm.RunAll()
 	if err != nil {
 		t.Fatal(err)
 	}
-	assert.Equal(t, resultWithpadding.Data(), g.getNodeByName(output).Value().(tensor.Tensor).Data(), "Bad result for the convolution operator")
+	outputNode, err := cg.loadNode(output)
+	if err != nil {
+		t.Fatal(err)
+	}
+	assert.Equal(t, resultWithpadding.Data(), outputNode.Value().(tensor.Tensor).Data(), "Bad result for the convolution operator")
 }

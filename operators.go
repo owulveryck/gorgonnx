@@ -1,7 +1,6 @@
 package gorgonnx
 
 import (
-	"errors"
 	"fmt"
 	"log"
 	"math"
@@ -31,9 +30,7 @@ func (cg *computationGraph) constantOp(nx *onnx.NodeProto) error {
 	if t == nil {
 		return fmt.Errorf("Value cannot be null")
 	}
-	cg.db.Store(nx.Output[0], cg.g.AddNode(gorgonia.NewConstant(t, gorgonia.WithName(nx.Output[0]))))
-
-	return nil
+	return cg.storeNode(nx.Output[0], cg.g.AddNode(gorgonia.NewConstant(t, gorgonia.WithName(nx.Output[0]))))
 }
 
 // https://github.com/onnx/onnx/blob/master/docs/Operators.md#Dropout
@@ -45,9 +42,9 @@ func (cg *computationGraph) dropoutOp(nx *onnx.NodeProto) error {
 			"More than one",
 		}
 	}
-	input, ok := cg.db.Load(nx.Input[0])
-	if !ok {
-		return errors.New("Node not found in the graph")
+	input, err := cg.loadNode(nx.Input[0])
+	if err != nil {
+		return err
 	}
 	//kernelShape := kernel.Shape()
 	var ratio float64
@@ -60,12 +57,11 @@ func (cg *computationGraph) dropoutOp(nx *onnx.NodeProto) error {
 		}
 	}
 	// For testing, reshape the kernel...
-	n, err := gorgonia.Dropout(input.(*gorgonia.Node), ratio)
+	n, err := gorgonia.Dropout(input, ratio)
 	if err != nil {
 		return fmt.Errorf("Cannot apply Dropout operator: %v", err)
 	}
-	cg.db.Store(nx.Output[0], n)
-	return nil
+	return cg.storeNode(nx.Output[0], n)
 }
 
 // https://github.com/onnx/onnx/blob/master/docs/Operators.md#Concat
@@ -73,10 +69,10 @@ func (cg *computationGraph) concatOp(nx *onnx.NodeProto) error {
 
 	inputs := make([]*gorgonia.Node, len(nx.Input))
 	for i := 0; i < len(nx.Input); i++ {
-		input, ok := cg.db.Load(nx.Input[i])
-		inputs[i] = input.(*gorgonia.Node)
-		if !ok {
-			return errors.New("Node not found")
+		input, err := cg.loadNode(nx.Input[i])
+		inputs[i] = input
+		if err != nil {
+			return err
 		}
 	}
 	//kernelShape := kernel.Shape()
@@ -94,22 +90,19 @@ func (cg *computationGraph) concatOp(nx *onnx.NodeProto) error {
 	if err != nil {
 		return fmt.Errorf("Cannot apply Conccat operator: %v", err)
 	}
-	cg.db.Store(nx.Output[0], n)
-	return nil
+	return cg.storeNode(nx.Output[0], n)
 }
 
 // https://github.com/onnx/onnx/blob/master/docs/Operators.md#Conv
 func (cg *computationGraph) convOp(nx *onnx.NodeProto) error {
-	inputDB, ok := cg.db.Load(nx.Input[0])
-	if !ok {
-		return errors.New("Node not found")
+	input, err := cg.loadNode(nx.Input[0])
+	if err != nil {
+		return err
 	}
-	kernelDB, ok := cg.db.Load(nx.Input[1])
-	if !ok {
-		return errors.New("Node not found")
+	kernel, err := cg.loadNode(nx.Input[1])
+	if err != nil {
+		return err
 	}
-	input := inputDB.(*gorgonia.Node)
-	kernel := kernelDB.(*gorgonia.Node)
 	var kernelShape tensor.Shape
 	//kernelShape := kernel.Shape()
 	pad := []int{0, 0}
@@ -193,8 +186,7 @@ func (cg *computationGraph) convOp(nx *onnx.NodeProto) error {
 	if err != nil {
 		return fmt.Errorf("Cannot apply Convolution operator: %v", err)
 	}
-	cg.db.Store(nx.Output[0], n)
-	return nil
+	return cg.storeNode(nx.Output[0], n)
 }
 
 // https://github.com/onnx/onnx/blob/master/docs/Operators.md#Reshape
@@ -203,16 +195,14 @@ func (cg *computationGraph) reshapeOp(nx *onnx.NodeProto) error {
 		return fmt.Errorf("Not enough input parameters for reshape")
 	}
 	var data []int
-	shapeDB, ok := cg.db.Load(nx.Input[1])
-	if !ok {
-		return errors.New("node not found")
+	input, err := cg.loadNode(nx.Input[0])
+	if err != nil {
+		return err
 	}
-	shape := shapeDB.(*gorgonia.Node)
-	inputDB, ok := cg.db.Load(nx.Input[0])
-	if !ok {
-		return errors.New("node not found")
+	shape, err := cg.loadNode(nx.Input[1])
+	if err != nil {
+		return err
 	}
-	input := inputDB.(*gorgonia.Node)
 
 	d, ok := shape.Value().Data().([]int64)
 	if ok {
@@ -225,8 +215,7 @@ func (cg *computationGraph) reshapeOp(nx *onnx.NodeProto) error {
 	if err != nil {
 		return fmt.Errorf("Cannot reshape from %v to %v: %v", nx.Input[0], data, err)
 	}
-	cg.db.Store(nx.Output[0], n)
-	return nil
+	return cg.storeNode(nx.Output[0], n)
 }
 
 // https://github.com/onnx/onnx/blob/master/docs/Operators.md#Add
@@ -235,11 +224,11 @@ func (cg *computationGraph) reshapeOp(nx *onnx.NodeProto) error {
 //
 // BUG(owulveryck): the broadcasting has to be implemented correctly in Gorgonia. see https://github.com/gorgonia/gorgonia/issues/223
 func (cg *computationGraph) addOp(nx *onnx.NodeProto) error {
-	b, err := cg.getNode(nx.Input[1])
+	b, err := cg.loadNode(nx.Input[1])
 	if err != nil {
 		return err
 	}
-	a, err := cg.getNode(nx.Input[0])
+	a, err := cg.loadNode(nx.Input[0])
 	if err != nil {
 		return err
 	}
@@ -248,14 +237,12 @@ func (cg *computationGraph) addOp(nx *onnx.NodeProto) error {
 	if err != nil {
 		return fmt.Errorf("Cannot Add %v and %v: %v", nx.Input[0], nx.Input[1], err)
 	}
-	cg.db.Store(nx.Output[0], n)
-
-	return nil
+	return cg.storeNode(nx.Output[0], n)
 }
 
 // https://github.com/onnx/onnx/blob/master/docs/Operators.md#Relu
 func (cg *computationGraph) reluOp(nx *onnx.NodeProto) error {
-	input, err := cg.getNode(nx.Input[0])
+	input, err := cg.loadNode(nx.Input[0])
 	if err != nil {
 		return err
 	}
@@ -263,8 +250,7 @@ func (cg *computationGraph) reluOp(nx *onnx.NodeProto) error {
 	if err != nil {
 		return err
 	}
-	cg.db.Store(nx.Output[0], n)
-	return nil
+	return cg.storeNode(nx.Output[0], n)
 }
 
 // https://github.com/onnx/onnx/blob/master/docs/Operators.md#MaxPool
@@ -280,7 +266,7 @@ func (cg *computationGraph) averagePoolOp(nx *onnx.NodeProto) error {
 func (cg *computationGraph) maxPoolOp(nx *onnx.NodeProto) error {
 
 	var kernelShape tensor.Shape
-	input, err := cg.getNode(nx.Input[0])
+	input, err := cg.loadNode(nx.Input[0])
 	if err != nil {
 		return err
 	}
@@ -347,18 +333,16 @@ func (cg *computationGraph) maxPoolOp(nx *onnx.NodeProto) error {
 	if err != nil {
 		return fmt.Errorf("Cannot apply Maxpool operator: %v", err)
 	}
-	cg.db.Store(nx.Output[0], n)
-	return nil
-
+	return cg.storeNode(nx.Output[0], n)
 }
 
 // https://github.com/onnx/onnx/blob/master/docs/Operators.md#Div
 func (cg *computationGraph) divOp(nx *onnx.NodeProto) error {
-	input1, err := cg.getNode(nx.Input[0])
+	input1, err := cg.loadNode(nx.Input[0])
 	if err != nil {
 		return err
 	}
-	input2, err := cg.getNode(nx.Input[1])
+	input2, err := cg.loadNode(nx.Input[1])
 	if err != nil {
 		return err
 	}
@@ -366,20 +350,18 @@ func (cg *computationGraph) divOp(nx *onnx.NodeProto) error {
 	if err != nil {
 		return fmt.Errorf("Cannot Divide: %v", err)
 	}
-	cg.db.Store(nx.Output[0], n)
-
-	return nil
+	return cg.storeNode(nx.Output[0], n)
 }
 
 // https://github.com/onnx/onnx/blob/master/docs/Operators.md#MatMul
 //
 // BUG(owulveryck): The Mul operator should be broadcastable too
 func (cg *computationGraph) matMulOp(nx *onnx.NodeProto) error {
-	input1, err := cg.getNode(nx.Input[0])
+	input1, err := cg.loadNode(nx.Input[0])
 	if err != nil {
 		return err
 	}
-	input2, err := cg.getNode(nx.Input[1])
+	input2, err := cg.loadNode(nx.Input[1])
 	if err != nil {
 		return err
 	}
@@ -387,7 +369,5 @@ func (cg *computationGraph) matMulOp(nx *onnx.NodeProto) error {
 	if err != nil {
 		return fmt.Errorf("Cannot Multiply: %v", err)
 	}
-	cg.db.Store(nx.Output[0], n)
-
-	return nil
+	return cg.storeNode(nx.Output[0], n)
 }

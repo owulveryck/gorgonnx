@@ -14,10 +14,20 @@ func toIntSlice(d []int64) []int {
 	return output
 }
 
-func (cg *computationGraph) getNode(nodeName string) (*gorgonia.Node, error) {
+func (cg *computationGraph) storeNode(name string, n *gorgonia.Node) error {
+	_, ok := cg.db.Load(name)
+	if ok {
+		return fmt.Errorf("Warning a node named %v already exists", name)
+	}
+	cg.db.Store(name, n)
+	cg.g.AddNode(n)
+	return nil
+}
+
+func (cg *computationGraph) loadNode(nodeName string) (*gorgonia.Node, error) {
 	n, ok := cg.db.Load(nodeName)
 	if !ok {
-		return nil, fmt.Errorf("Cannot node %v in the graph", nodeName)
+		return nil, fmt.Errorf("Cannot find node %v in the graph", nodeName)
 	}
 	return n.(*gorgonia.Node), nil
 }
