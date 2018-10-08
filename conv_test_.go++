@@ -111,8 +111,8 @@ func TestConvOp(t *testing.T) {
 		t.Fatal(err)
 	}
 	g := computationGraph{
-		db: make(map[string]*gorgonia.Node, 3),
-		g:  gorgonia.NewGraph(),
+		//db: make(map[string]*gorgonia.Node, 3),
+		g: gorgonia.NewGraph(),
 	}
 	inputN := gorgonia.NodeFromAny(g.g, inputT, gorgonia.WithName(inputName))
 	kernelN := gorgonia.NodeFromAny(g.g, kernelT, gorgonia.WithName(kernelName))
