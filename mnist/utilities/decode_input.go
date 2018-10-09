@@ -28,6 +28,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	log.Println(t.Shape())
 	width := t.Shape()[2]
 	height := t.Shape()[3]
 	im := image.NewGray(image.Rectangle{Max: image.Point{X: width, Y: height}})

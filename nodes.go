@@ -28,6 +28,8 @@ func (cg *computationGraph) processNode(nx *onnx.NodeProto) error {
 		return cg.divOp(nx)
 	case "Constant":
 		return cg.constantOp(nx)
+	case "BatchNormalization":
+		return cg.batchNormalizationOp(nx)
 	default:
 		return ErrToBeImplemented{
 			nType,

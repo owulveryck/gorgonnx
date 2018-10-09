@@ -64,6 +64,45 @@ func (cg *computationGraph) dropoutOp(nx *onnx.NodeProto) error {
 	return cg.storeNode(nx.Output[0], n)
 }
 
+// https://github.com/onnx/onnx/blob/master/docs/Operators.md#BatchNormalization
+func (cg *computationGraph) batchNormalizationOp(nx *onnx.NodeProto) error {
+
+	inputs := make([]*gorgonia.Node, len(nx.Input))
+	for i := 0; i < len(nx.Input); i++ {
+		input, err := cg.loadNode(nx.Input[i])
+		inputs[i] = input
+		if err != nil {
+			return err
+		}
+	}
+	var epsilon, momentum float64
+	epsilon = 1e-5
+	momentum = 0.9
+	for _, attr := range nx.Attribute {
+		switch *attr.Name {
+		case "epsilon":
+			epsilon = float64(attr.GetF())
+		case "momentum":
+			momentum = float64(attr.GetF())
+		case "spatial":
+			if attr.GetI() != 1 {
+				return ErrToBeImplemented{
+					"BatchNormalization",
+					"spatial",
+					attr.GetI(),
+				}
+			}
+		default:
+			return fmt.Errorf("Unknown attribute: %v for convolution operator", attr.Name)
+		}
+	}
+	y, _, _, _, err := gorgonia.BatchNorm(inputs[0], inputs[1], inputs[2], momentum, epsilon)
+	if err != nil {
+		return fmt.Errorf("Cannot apply Batchnorm operator: %v", err)
+	}
+	return cg.storeNode(nx.Output[0], y)
+}
+
 // https://github.com/onnx/onnx/blob/master/docs/Operators.md#Concat
 func (cg *computationGraph) concatOp(nx *onnx.NodeProto) error {
 
