@@ -392,6 +392,31 @@ func (cg *computationGraph) divOp(nx *onnx.NodeProto) error {
 	return cg.storeNode(nx.Output[0], n)
 }
 
+// https://github.com/onnx/onnx/blob/master/docs/Operators.md#Unsqueeze
+func (cg *computationGraph) unsqueezeOp(nx *onnx.NodeProto) error {
+	input, err := cg.loadNode(nx.Input[0])
+	if err != nil {
+		return err
+	}
+	var axes []int
+	for _, attr := range nx.Attribute {
+		switch *attr.Name {
+		case "axes":
+			axes = make([]int, len(attr.Ints))
+			for i, v := range attr.Ints {
+				axes[i] = int(v)
+			}
+		default:
+			return fmt.Errorf("Unknown attribute: %v for unsqueeze operator", attr.Name)
+		}
+	}
+	n, err := gorgonia.Reshape(input, axes)
+	if err != nil {
+		return err
+	}
+	return cg.storeNode(nx.Output[0], n)
+}
+
 // https://github.com/onnx/onnx/blob/master/docs/Operators.md#MatMul
 //
 // BUG(owulveryck): The Mul operator should be broadcastable too

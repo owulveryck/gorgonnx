@@ -20,6 +20,8 @@ func (cg *computationGraph) processNode(nx *onnx.NodeProto) error {
 		return cg.maxPoolOp(nx)
 	case "MatMul":
 		return cg.matMulOp(nx)
+	case "Mul":
+		return cg.matMulOp(nx)
 	case "Concat":
 		return cg.concatOp(nx)
 	case "Dropout":
@@ -30,6 +32,8 @@ func (cg *computationGraph) processNode(nx *onnx.NodeProto) error {
 		return cg.constantOp(nx)
 	case "BatchNormalization":
 		return cg.batchNormalizationOp(nx)
+	case "Unsqueeze":
+		return cg.unsqueezeOp(nx)
 	default:
 		return ErrToBeImplemented{
 			nType,
