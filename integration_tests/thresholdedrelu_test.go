@@ -10,7 +10,6 @@ import (
 	onnx "github.com/owulveryck/onnx-go"
 	"github.com/stretchr/testify/assert"
 	"gorgonia.org/gorgonia"
-	"gorgonia.org/tensor/tensonnx"
 )
 
 func TestThresholdedreluOp(t *testing.T) {
@@ -62,7 +61,7 @@ func TestThresholdedreluOp(t *testing.T) {
 					if err != nil {
 						t.Fatal(err)
 					}
-					tens, err := tensonnx.NewTensor(sampleTestData)
+					tens, err := sampleTestData.Tensor()
 					if err != nil {
 						t.Fatal(err)
 					}
@@ -99,7 +98,7 @@ func TestThresholdedreluOp(t *testing.T) {
 	if len(gorgonnx.GetOutputGraphNodes(g)) == 1 {
 		computedOutput := gorgonnx.GetOutputGraphNodes(g)[0]
 		//expectedOutput := outputs[0]
-		expectedOutput, err := tensonnx.NewTensor(outputs[0])
+		expectedOutput, err := outputs[0].Tensor()
 		if err != nil {
 			t.Fatal(err)
 		}
