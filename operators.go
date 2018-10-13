@@ -9,7 +9,6 @@ import (
 	"gorgonia.org/gorgonia"
 	nnops "gorgonia.org/gorgonia/ops/nn"
 	"gorgonia.org/tensor"
-	"gorgonia.org/tensor/tensonnx"
 )
 
 // https://github.com/onnx/onnx/blob/master/docs/Operators.md#Constant
@@ -19,7 +18,7 @@ func (cg *computationGraph) constantOp(nx *onnx.NodeProto) error {
 		switch *attr.Name {
 		case "value":
 			var err error
-			t, err = tensonnx.NewTensor(attr.T)
+			t, err = attr.T.Tensor()
 			if err != nil {
 				return err
 			}
