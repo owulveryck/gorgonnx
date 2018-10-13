@@ -7,7 +7,6 @@ import (
 	"github.com/stretchr/testify/assert"
 	"gorgonia.org/gorgonia"
 	"gorgonia.org/tensor"
-	"gorgonia.org/tensor/tensonnx"
 )
 
 // This example is taken from https://github.com/onnx/onnx/blob/master/docs/Operators.md#Conv
@@ -102,11 +101,11 @@ func TestConvOp(t *testing.T) {
 		},
 		DocString: &docString,
 	}
-	inputT, err := tensonnx.NewTensor(input)
+	inputT, err := input.Tensor()
 	if err != nil {
 		t.Fatal(err)
 	}
-	kernelT, err := tensonnx.NewTensor(kernel)
+	kernelT, err := kernel.Tensor()
 	if err != nil {
 		t.Fatal(err)
 	}

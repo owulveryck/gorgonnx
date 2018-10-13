@@ -7,7 +7,6 @@ import (
 
 	onnx "github.com/owulveryck/onnx-go"
 	"gorgonia.org/gorgonia"
-	"gorgonia.org/tensor/tensonnx"
 )
 
 func Example_mnist() {
@@ -35,7 +34,7 @@ func Example_mnist() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	t, err := tensonnx.NewTensor(sampleTestData)
+	t, err := sampleTestData.Tensor()
 	if err != nil {
 		log.Fatal(err)
 	}

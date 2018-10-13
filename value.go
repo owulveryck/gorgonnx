@@ -6,7 +6,6 @@ import (
 	onnx "github.com/owulveryck/onnx-go"
 	"gorgonia.org/gorgonia"
 	"gorgonia.org/tensor"
-	"gorgonia.org/tensor/tensonnx"
 )
 
 // NewValue returns a Gorgonia compatible value from a onnx.ValueInfoProto structure
@@ -15,7 +14,7 @@ func NewValue(valueProto *onnx.ValueInfoProto) (gorgonia.Value, error) {
 	// Exctract the tensor for clarity
 	t := valueProto.Type.Value.(*onnx.TypeProto_TensorType).TensorType
 	// Get the data type
-	dt, err := tensonnx.Dtype(t.ElemType)
+	dt, err := t.ElemType.Dtype()
 	if err != nil {
 		return nil, err
 	}

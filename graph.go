@@ -6,7 +6,6 @@ import (
 
 	onnx "github.com/owulveryck/onnx-go"
 	"gorgonia.org/gorgonia"
-	"gorgonia.org/tensor/tensonnx"
 )
 
 // graph is the internal representation of a graph.false
@@ -58,7 +57,7 @@ func (cg *computationGraph) parse(gx *onnx.GraphProto) (*gorgonia.ExprGraph, err
 	cg.g = g
 	for _, tensorProto := range gx.Initializer {
 		name := tensorProto.GetName()
-		t, err := tensonnx.NewTensor(tensorProto)
+		t, err := tensorProto.Tensor()
 		if err != nil {
 			return nil, err
 		}
