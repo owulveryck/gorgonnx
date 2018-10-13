@@ -10,7 +10,6 @@ import (
 	"github.com/owulveryck/gorgonnx"
 	onnx "github.com/owulveryck/onnx-go"
 	"gorgonia.org/gorgonia"
-	"gorgonia.org/tensor/tensonnx"
 )
 
 func main() {
@@ -46,7 +45,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	t, err := tensonnx.NewTensor(sampleTestData)
+	t, err := sampleTestData.Tensor()
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -10,11 +10,9 @@ import (
 	onnx "github.com/owulveryck/onnx-go"
 	"github.com/stretchr/testify/assert"
 	"gorgonia.org/gorgonia"
-	"gorgonia.org/tensor/tensonnx"
 )
 
 func TestMaxpoolOp_1d_default(t *testing.T) {
-	t.Skip("Not implemented")
 	assert := assert.New(t)
 
 	onnxTest := basedir + "test_data/test_maxpool_1d_default/"
@@ -63,7 +61,7 @@ func TestMaxpoolOp_1d_default(t *testing.T) {
 					if err != nil {
 						t.Fatal(err)
 					}
-					tens, err := tensonnx.NewTensor(sampleTestData)
+					tens, err := sampleTestData.Tensor()
 					if err != nil {
 						t.Fatal(err)
 					}
@@ -100,7 +98,7 @@ func TestMaxpoolOp_1d_default(t *testing.T) {
 	if len(gorgonnx.GetOutputGraphNodes(g)) == 1 {
 		computedOutput := gorgonnx.GetOutputGraphNodes(g)[0]
 		//expectedOutput := outputs[0]
-		expectedOutput, err := tensonnx.NewTensor(outputs[0])
+		expectedOutput, err := outputs[0].Tensor()
 		if err != nil {
 			t.Fatal(err)
 		}

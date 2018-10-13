@@ -50,12 +50,6 @@
 			"revision": "a796acd54c17e0ceaccdcc9412192ce257b61500",
 			"revisionTime": "2018-08-24T13:08:58Z"
 		},
-		{
-			"checksumSHA1": "BFZIm0NHDF01BUNWuU44ZiPigB4=",
-			"path": "gorgonia.org/tensor/tensonnx",
-			"revision": "a796acd54c17e0ceaccdcc9412192ce257b61500",
-			"revisionTime": "2018-08-24T13:08:58Z"
-		}
 	],
 	"rootPath": "github.com/owulveryck/gorgonnx"
 }

@@ -9,28 +9,20 @@ import (
 	"gorgonia.org/gorgonia"
 	nnops "gorgonia.org/gorgonia/ops/nn"
 	"gorgonia.org/tensor"
-	"gorgonia.org/tensor/tensonnx"
 )
 
 // https://github.com/onnx/onnx/blob/master/docs/Operators.md#Constant
 func (cg *computationGraph) constantOp(nx *onnx.NodeProto) error {
-	var t tensor.Tensor
-	for _, attr := range nx.Attribute {
-		switch *attr.Name {
-		case "value":
-			var err error
-			t, err = tensonnx.NewTensor(attr.T)
-			if err != nil {
-				return err
-			}
-		default:
-			return fmt.Errorf("Unknown attribute: %v for convolution operator", attr.Name)
-		}
+	type attrType struct {
+		Value tensor.Tensor `attributeName:"value" required:"true"`
 	}
-	if t == nil {
-		return fmt.Errorf("Value cannot be null")
+	var attributes attrType
+	err := onnx.UnmarshalAttributes(nx.Attribute, &attributes)
+	if err != nil {
+		return err
 	}
-	return cg.storeNode(nx.Output[0], cg.g.AddNode(gorgonia.NewConstant(t, gorgonia.WithName(nx.Output[0]))))
+
+	return cg.storeNode(nx.Output[0], cg.g.AddNode(gorgonia.NewConstant(attributes.Value, gorgonia.WithName(nx.Output[0]))))
 }
 
 // https://github.com/onnx/onnx/blob/master/docs/Operators.md#Dropout
