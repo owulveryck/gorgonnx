@@ -67,28 +67,29 @@ func (cg *computationGraph) batchNormalizationOp(nx *onnx.NodeProto) error {
 			return err
 		}
 	}
-	var epsilon, momentum float64
-	epsilon = 1e-5
-	momentum = 0.9
-	for _, attr := range nx.Attribute {
-		switch *attr.Name {
-		case "epsilon":
-			epsilon = float64(attr.GetF())
-		case "momentum":
-			momentum = float64(attr.GetF())
-		case "spatial":
-			if attr.GetI() != 1 {
-				return ErrToBeImplemented{
-					"BatchNormalization",
-					"spatial",
-					attr.GetI(),
-				}
-			}
-		default:
-			return fmt.Errorf("Unknown attribute: %v for convolution operator", attr.Name)
+	type attrType struct {
+		Epsilon  float64 `attributeName:"epsilon"`
+		Momentum float64 `attributeName:"momentum"`
+		Spatial  int64   `attributeName:"spatial"`
+	}
+	// Default values
+	attributes := attrType{
+		Epsilon:  1e-05,
+		Momentum: 0.9,
+		Spatial:  1,
+	}
+	err := onnx.UnmarshalAttributes(nx.Attribute, &attributes)
+	if err != nil {
+		return err
+	}
+	if attributes.Spatial != 1 {
+		return ErrToBeImplemented{
+			"BatchNormalization",
+			"spatial",
+			attributes.Spatial,
 		}
 	}
-	y, _, _, _, err := gorgonia.BatchNorm(inputs[0], inputs[1], inputs[2], momentum, epsilon)
+	y, _, _, _, err := gorgonia.BatchNorm(inputs[0], inputs[1], inputs[2], attributes.Momentum, attributes.Epsilon)
 	if err != nil {
 		return fmt.Errorf("Cannot apply Batchnorm operator: %v", err)
 	}
