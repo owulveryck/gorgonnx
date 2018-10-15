@@ -44,16 +44,17 @@ func Test{{ .TestName }}(t *testing.T) {
 		{{ end }}
 	}
 
+	if len(attributes) != 0 {
+		err := op.Init(attributes)
+		t.Logf("Info: operator %#v", op)
+		if err != nil {
+			_, ok := err.(*onnx.ErrNotImplemented)
+			if ok && skip {
+				t.SkipNow()
+			}
 
-	err := op.Init(attributes)
-	t.Logf("Info: operator %#v", op)
-	if err != nil {
-		_, ok := err.(*onnx.ErrNotImplemented)
-		if ok && skip {
-			t.SkipNow()
+			t.Fatal(err)
 		}
-
-		t.Fatal(err)
 	}
 	{{ range .Inputs }}
 	{{ .Name}} := gorgonia.NodeFromAny(g,
