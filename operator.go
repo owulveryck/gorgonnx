@@ -1,12 +1,24 @@
 package gorgonnx
 
 import (
+	"errors"
 	"fmt"
 
 	"github.com/owulveryck/gorgonnx/operators"
 	onnx "github.com/owulveryck/onnx-go"
 	"gorgonia.org/gorgonia"
 )
+
+// AvailableOperators is the list of the onnx operators available linked to their implementation
+var AvailableOperators = map[string]Operator{
+	"conv": &operators.Conv{},
+}
+
+// Operator can be added to the computation graph
+type Operator interface {
+	Init([]*onnx.AttributeProto) error
+	Apply(input ...*gorgonia.Node) ([]*gorgonia.Node, error)
+}
 
 func (cg *computationGraph) processNode(nx *onnx.NodeProto) error {
 	op, ok := AvailableOperators[*nx.OpType]
@@ -27,16 +39,24 @@ func (cg *computationGraph) processNode(nx *onnx.NodeProto) error {
 			return err
 		}
 	}
+
 	outputs := make([]*gorgonia.Node, len(nx.Output))
 	for i := 0; i < len(nx.Output); i++ {
+		outputs[i] = &gorgonia.Node{}
 		err := cg.storeNode(nx.Output[i], outputs[i])
 		if err != nil {
 			return err
 		}
 	}
-	err = op.Apply(inputs, outputs)
+	o, err := op.Apply(inputs...)
 	if err != nil {
 		return err
+	}
+	if len(o) != len(nx.Output) {
+		return errors.New("Bad number of output")
+	}
+	for i := range o {
+		outputs[i] = o[i]
 	}
 	for _, o := range outputs {
 		if o == nil {
@@ -44,15 +64,4 @@ func (cg *computationGraph) processNode(nx *onnx.NodeProto) error {
 		}
 	}
 	return nil
-}
-
-// AvailableOperators is the list of the onnx operators available linked to their implementation
-var AvailableOperators = map[string]Operator{
-	"conv": &operators.Conv{},
-}
-
-// Operator can be added to the computation graph
-type Operator interface {
-	Init([]*onnx.AttributeProto) error
-	Apply(input []*gorgonia.Node, output []*gorgonia.Node) error
 }

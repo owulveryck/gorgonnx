@@ -122,22 +122,14 @@ func (c *Conv) Init(attrs []*onnx.AttributeProto) error {
 }
 
 // Apply ...
-func (c *Conv) Apply(input []*gorgonia.Node, output []*gorgonia.Node) error {
-	var err error
+func (c *Conv) Apply(input ...*gorgonia.Node) ([]*gorgonia.Node, error) {
 	if len(input) != 2 {
-		return &ErrBadArity{
+		return nil, &ErrBadArity{
 			Operator:      "Conv",
 			ExpectedInput: 2,
 			ActualInput:   len(input),
 		}
 	}
-	if len(output) != 1 {
-		return &ErrBadArity{
-			Operator:       "Conv",
-			ExpectedOutput: 1,
-			ActualOutput:   len(output),
-		}
-	}
-	output[0], err = nnops.Conv2d(input[0], input[1], c.KernelShape, c.Pads, c.Strides, c.Dilations)
-	return err
+	n, err := nnops.Conv2d(input[0], input[1], c.KernelShape, c.Pads, c.Strides, c.Dilations)
+	return []*gorgonia.Node{n}, err
 }

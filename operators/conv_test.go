@@ -59,15 +59,13 @@ func TestConv(t *testing.T) {
 		tensor.WithShape(1, 1, 4, 3),
 		tensor.WithBacking([]float32{12, 27, 24, 63, 108, 81, 123, 198, 141, 112, 177, 124}))
 	y := new(gorgonia.Node)
-	err = op.Apply(
-		[]*gorgonia.Node{
-			x,
-			W,
-		},
-		[]*gorgonia.Node{
-			y,
-		},
+	o, err := op.Apply(
+		x, W,
 	)
+	if err != nil {
+		t.Fatal(err)
+	}
+	y = o[0]
 
 	machine := gorgonia.NewTapeMachine(g)
 	if err = machine.RunAll(); err != nil {
