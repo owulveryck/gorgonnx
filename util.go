@@ -6,14 +6,6 @@ import (
 	"gorgonia.org/gorgonia"
 )
 
-func toIntSlice(d []int64) []int {
-	output := make([]int, len(d))
-	for i, v := range d {
-		output[i] = int(v)
-	}
-	return output
-}
-
 func (cg *computationGraph) storeNode(name string, n *gorgonia.Node) error {
 	_, ok := cg.db.Load(name)
 	if ok {
