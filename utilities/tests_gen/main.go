@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"reflect"
 	"regexp"
 	"strings"
 
@@ -101,7 +102,11 @@ func main() {
 			}
 			inputs[i].Name = inputName
 			inputs[i].Shape = fmt.Sprintf("%v", t.Shape())
-			inputs[i].Data = fmt.Sprintf("%#v", t.Data())
+			if reflect.TypeOf(t.Data()).Kind() != reflect.Slice {
+				inputs[i].Data = fmt.Sprintf("[]%v{%#v}", reflect.TypeOf(t.Data()).Kind(), t.Data())
+			} else {
+				inputs[i].Data = fmt.Sprintf("%#v", t.Data())
+			}
 		}
 		outputs := make([]io, len(node.GetOutput()))
 		for i, outputName := range node.GetOutput() {
