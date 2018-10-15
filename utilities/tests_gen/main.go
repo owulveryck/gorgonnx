@@ -26,6 +26,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	fmt.Println(headerTmpl)
 	re := regexp.MustCompile("^test_" + *op + "(_*)(.*)")
 	for _, file := range files {
 		if !file.IsDir() {
@@ -125,7 +126,7 @@ func main() {
 		}
 		testCase := unitTest{
 			Filename:   file.Name(),
-			TestName:   strings.Title(*op),
+			TestName:   fmt.Sprintf("%v_%v", strings.Title(*op), elements[0][2]),
 			Operator:   strings.Title(*op),
 			Attributes: attributes,
 			Inputs:     inputs,
