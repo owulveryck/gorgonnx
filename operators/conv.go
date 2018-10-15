@@ -130,6 +130,15 @@ func (c *Conv) Apply(input ...*gorgonia.Node) ([]*gorgonia.Node, error) {
 			ActualInput:   len(input),
 		}
 	}
+	if len(input[1].Shape()) != 2 {
+		return nil, &onnx.ErrNotImplemented{
+			Operator:       c.name,
+			AttributeName:  "Kernel",
+			AttributeValue: input[1].Shape(),
+			Message:        "Kernel dimension != 2 not supported",
+		}
+
+	}
 	n, err := nnops.Conv2d(input[0], input[1], c.KernelShape, c.Pads, c.Strides, c.Dilations)
 	return []*gorgonia.Node{n}, err
 }
