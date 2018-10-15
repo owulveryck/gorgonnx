@@ -9,125 +9,71 @@ import (
 	"gorgonia.org/tensor"
 )
 
-// This example is taken from https://github.com/onnx/onnx/blob/master/docs/Operators.md#Conv
-func TestConvOp(t *testing.T) {
-	dataType := onnx.TensorProto_DataType(1)
-	inputName := "x"
-	kernelName := "w"
-	input := &onnx.TensorProto{
-		Dims:     []int64{1, 1, 5, 5},
-		DataType: &dataType,
-		Segment:  (*onnx.TensorProto_Segment)(nil),
-		FloatData: []float32{
-			0, 1, 2, 3, 4,
-			5, 6, 7, 8, 9,
-			10, 11, 12, 13, 14,
-			15, 16, 17, 18, 19,
-			20, 21, 22, 23, 24},
-		Name: &inputName,
-	}
-	kernel := &onnx.TensorProto{
-		Dims:     []int64{1, 1, 3, 3},
-		DataType: &dataType,
-		Segment:  (*onnx.TensorProto_Segment)(nil),
-		FloatData: []float32{
-			1, 1, 1,
-			1, 1, 1,
-			1, 1, 1},
-		Name: &kernelName,
-	}
+// TestConv ...
+func TestConv(t *testing.T) {
+	assert := assert.New(t)
 
-	resultWithpadding := tensor.New(tensor.WithShape(1, 1, 5, 5), tensor.WithBacking([]float32{
-		12, 21, 27, 33, 24,
-		33, 54, 63, 72, 51,
-		63, 99, 108, 117, 81,
-		93, 144, 153, 162, 111,
-		72, 111, 117, 123, 84}))
-	/*
-		resultWithoutpadding := tensor.New(tensor.WithShape(1, 1, 3, 3), tensor.WithBacking([]float32{
-			54, 63, 72,
-			99, 108, 117,
-			144, 153, 162}))
-	*/
-	// First test with padding
-	output := "y"
-	outputs := []string{output}
-	inputs := []string{inputName, kernelName}
-	opName := "Conv2D"
-	opType := "Conv"
-	domain := ""
-	docString := ""
-	attrKernelShapeName := "kernel_shape"
-	attrTypeInts := onnx.AttributeProto_AttributeType(7)
-	attrTypeString := onnx.AttributeProto_AttributeType(3)
-	attrStridesName := "strides"
-	//attrGroupName := "group"
-	//attrDilationsName := "dilations"
-	kernelShape := &onnx.AttributeProto{
-		Name: &attrKernelShapeName,
-		Type: &attrTypeInts,
+	g := gorgonia.NewGraph()
+	op := &Conv{}
+
+	attribute0Name := "kernel_shape"
+	attribute0Type := onnx.AttributeProto_AttributeType(7)
+	attribute0 := &onnx.AttributeProto{
+		Name: &attribute0Name,
+		Type: &attribute0Type,
 		Ints: []int64{3, 3},
 	}
-	strides := &onnx.AttributeProto{
-		Name: &attrStridesName,
-		Type: &attrTypeInts,
-		Ints: []int64{1, 1},
+	attribute1Name := "pads"
+	attribute1Type := onnx.AttributeProto_AttributeType(7)
+	attribute1 := &onnx.AttributeProto{
+		Name: &attribute1Name,
+		Type: &attribute1Type,
+		Ints: []int64{1, 1, 1, 1},
 	}
-	/*
-		attrPadsName := "pads"
-		pad := &onnx.AttributeProto{
-			Name: &attrPadsName,
-			Type: &attrTypeInts,
-			Ints: []int64{1, 1, 1, 1},
-		}
-	*/
-	attrPadsName := "auto_pad"
-	pad := &onnx.AttributeProto{
-		Name: &attrPadsName,
-		Type: &attrTypeString,
-		S:    []byte(`SAME_UPPER`),
+	attribute2Name := "strides"
+	attribute2Type := onnx.AttributeProto_AttributeType(7)
+	attribute2 := &onnx.AttributeProto{
+		Name: &attribute2Name,
+		Type: &attribute2Type,
+		Ints: []int64{2, 2},
 	}
-
-	np := &onnx.NodeProto{
-		Input:  inputs,
-		Output: outputs,
-		Name:   &opName,
-		OpType: &opType,
-		Domain: &domain,
-		Attribute: []*onnx.AttributeProto{
-			strides,
-			kernelShape,
-			pad,
+	attributes := []*onnx.AttributeProto{
+		attribute0,
+		attribute1,
+		attribute2,
+	}
+	err := op.Init(attributes)
+	t.Logf("Info: operator %#v", op)
+	if err != nil {
+		t.Fatal(err)
+	}
+	x := gorgonia.NodeFromAny(g,
+		tensor.New(
+			tensor.WithShape(1, 1, 7, 5),
+			tensor.WithBacking([]float32{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34})))
+	W := gorgonia.NodeFromAny(g,
+		tensor.New(
+			tensor.WithShape(1, 1, 3, 3),
+			tensor.WithBacking([]float32{1, 1, 1, 1, 1, 1, 1, 1, 1})))
+	yT := tensor.New(
+		tensor.WithShape(1, 1, 4, 3),
+		tensor.WithBacking([]float32{12, 27, 24, 63, 108, 81, 123, 198, 141, 112, 177, 124}))
+	y := new(gorgonia.Node)
+	err = op.Apply(
+		[]*gorgonia.Node{
+			x,
+			W,
 		},
-		DocString: &docString,
-	}
-	inputT, err := input.Tensor()
-	if err != nil {
-		t.Fatal(err)
-	}
-	kernelT, err := kernel.Tensor()
-	if err != nil {
-		t.Fatal(err)
-	}
-	g := gorgonia.NewGraph()
-	inputN := gorgonia.NodeFromAny(g, inputT, gorgonia.WithName(inputName))
-	kernelN := gorgonia.NodeFromAny(g, kernelT, gorgonia.WithName(kernelName))
-	conv := &Conv{}
-	err = conv.Init(np.Attribute)
-	if err != nil {
-		t.Fatal(err)
-	}
+		[]*gorgonia.Node{
+			y,
+		},
+	)
 
-	if err != nil {
+	machine := gorgonia.NewTapeMachine(g)
+	if err = machine.RunAll(); err != nil {
 		t.Fatal(err)
 	}
-	vm := gorgonia.NewTapeMachine(g)
-	err = vm.RunAll()
-	if err != nil {
-		t.Fatal(err)
-	}
-	if err != nil {
-		t.Fatal(err)
-	}
-	assert.Equal(t, resultWithpadding.Data(), outputNode.Value().(tensor.Tensor).Data(), "Bad result for the convolution operator")
+	assert.Equal(yT.Shape(), y.Shape(), "Tensors should be the same")
+	assert.Equal(yT.Data(), y.Value().Data(), "Tensors should be the same")
+
 }
