@@ -72,6 +72,11 @@ func Test{{ .TestName }}(t *testing.T) {
 		{{ range .Inputs }}{{ .Name}},{{end}}
 	)
 	if err != nil {
+		_, ok := err.(*onnx.ErrNotImplemented)
+		if ok && skip {
+			t.SkipNow()
+		}
+
 		t.Fatal(err)
 	}
 	{{ range $key, $value := .Outputs }}
