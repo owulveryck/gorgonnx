@@ -105,7 +105,7 @@ func (c *Conv) Init(attrs []*onnx.AttributeProto) error {
 
 	}
 
-	if attr.Pads[0] != attr.Pads[1] || attr.Pads[2] != attr.Pads[3] {
+	if len(attr.Pads) == 4 && (attr.Pads[0] != attr.Pads[1] || attr.Pads[2] != attr.Pads[3]) {
 		return &onnx.ErrNotImplemented{
 			Operator:       c.name,
 			AttributeName:  "pads",
