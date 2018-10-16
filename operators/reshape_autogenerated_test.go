@@ -41,12 +41,14 @@ func TestReshape_extended_dims(t *testing.T) {
 	data := gorgonia.NodeFromAny(g,
 		tensor.New(
 			tensor.WithShape(2, 3, 4),
-			tensor.WithBacking([]float32{0.5488135, 0.71518934, 0.60276335, 0.5448832, 0.4236548, 0.6458941, 0.4375872, 0.891773, 0.96366274, 0.3834415, 0.79172504, 0.5288949, 0.56804454, 0.92559665, 0.071036056, 0.0871293, 0.020218397, 0.83261985, 0.77815676, 0.87001216, 0.9786183, 0.7991586, 0.46147937, 0.7805292})))
+			tensor.WithBacking([]float32{0.5488135, 0.71518934, 0.60276335, 0.5448832, 0.4236548, 0.6458941, 0.4375872, 0.891773, 0.96366274, 0.3834415, 0.79172504, 0.5288949, 0.56804454, 0.92559665, 0.071036056, 0.0871293, 0.020218397, 0.83261985, 0.77815676, 0.87001216, 0.9786183, 0.7991586, 0.46147937, 0.7805292})),
+		gorgonia.WithName("data"))
 
 	shape := gorgonia.NodeFromAny(g,
 		tensor.New(
 			tensor.WithShape(4),
-			tensor.WithBacking([]int64{3, 2, 2, 2})))
+			tensor.WithBacking([]int64{3, 2, 2, 2})),
+		gorgonia.WithName("shape"))
 
 	reshapedT := tensor.New(
 		tensor.WithShape(3, 2, 2, 2),
@@ -108,12 +110,14 @@ func TestReshape_negative_dim(t *testing.T) {
 	data := gorgonia.NodeFromAny(g,
 		tensor.New(
 			tensor.WithShape(2, 3, 4),
-			tensor.WithBacking([]float32{0.5488135, 0.71518934, 0.60276335, 0.5448832, 0.4236548, 0.6458941, 0.4375872, 0.891773, 0.96366274, 0.3834415, 0.79172504, 0.5288949, 0.56804454, 0.92559665, 0.071036056, 0.0871293, 0.020218397, 0.83261985, 0.77815676, 0.87001216, 0.9786183, 0.7991586, 0.46147937, 0.7805292})))
+			tensor.WithBacking([]float32{0.5488135, 0.71518934, 0.60276335, 0.5448832, 0.4236548, 0.6458941, 0.4375872, 0.891773, 0.96366274, 0.3834415, 0.79172504, 0.5288949, 0.56804454, 0.92559665, 0.071036056, 0.0871293, 0.020218397, 0.83261985, 0.77815676, 0.87001216, 0.9786183, 0.7991586, 0.46147937, 0.7805292})),
+		gorgonia.WithName("data"))
 
 	shape := gorgonia.NodeFromAny(g,
 		tensor.New(
 			tensor.WithShape(3),
-			tensor.WithBacking([]int64{6, -1, 2})))
+			tensor.WithBacking([]int64{6, -1, 2})),
+		gorgonia.WithName("shape"))
 
 	reshapedT := tensor.New(
 		tensor.WithShape(6, 2, 2),
@@ -175,12 +179,14 @@ func TestReshape_one_dim(t *testing.T) {
 	data := gorgonia.NodeFromAny(g,
 		tensor.New(
 			tensor.WithShape(2, 3, 4),
-			tensor.WithBacking([]float32{0.5488135, 0.71518934, 0.60276335, 0.5448832, 0.4236548, 0.6458941, 0.4375872, 0.891773, 0.96366274, 0.3834415, 0.79172504, 0.5288949, 0.56804454, 0.92559665, 0.071036056, 0.0871293, 0.020218397, 0.83261985, 0.77815676, 0.87001216, 0.9786183, 0.7991586, 0.46147937, 0.7805292})))
+			tensor.WithBacking([]float32{0.5488135, 0.71518934, 0.60276335, 0.5448832, 0.4236548, 0.6458941, 0.4375872, 0.891773, 0.96366274, 0.3834415, 0.79172504, 0.5288949, 0.56804454, 0.92559665, 0.071036056, 0.0871293, 0.020218397, 0.83261985, 0.77815676, 0.87001216, 0.9786183, 0.7991586, 0.46147937, 0.7805292})),
+		gorgonia.WithName("data"))
 
 	shape := gorgonia.NodeFromAny(g,
 		tensor.New(
 			tensor.WithShape(1),
-			tensor.WithBacking([]int64{24})))
+			tensor.WithBacking([]int64{24})),
+		gorgonia.WithName("shape"))
 
 	reshapedT := tensor.New(
 		tensor.WithShape(24),
@@ -242,12 +248,14 @@ func TestReshape_reduced_dims(t *testing.T) {
 	data := gorgonia.NodeFromAny(g,
 		tensor.New(
 			tensor.WithShape(2, 3, 4),
-			tensor.WithBacking([]float32{0.5488135, 0.71518934, 0.60276335, 0.5448832, 0.4236548, 0.6458941, 0.4375872, 0.891773, 0.96366274, 0.3834415, 0.79172504, 0.5288949, 0.56804454, 0.92559665, 0.071036056, 0.0871293, 0.020218397, 0.83261985, 0.77815676, 0.87001216, 0.9786183, 0.7991586, 0.46147937, 0.7805292})))
+			tensor.WithBacking([]float32{0.5488135, 0.71518934, 0.60276335, 0.5448832, 0.4236548, 0.6458941, 0.4375872, 0.891773, 0.96366274, 0.3834415, 0.79172504, 0.5288949, 0.56804454, 0.92559665, 0.071036056, 0.0871293, 0.020218397, 0.83261985, 0.77815676, 0.87001216, 0.9786183, 0.7991586, 0.46147937, 0.7805292})),
+		gorgonia.WithName("data"))
 
 	shape := gorgonia.NodeFromAny(g,
 		tensor.New(
 			tensor.WithShape(2),
-			tensor.WithBacking([]int64{3, 8})))
+			tensor.WithBacking([]int64{3, 8})),
+		gorgonia.WithName("shape"))
 
 	reshapedT := tensor.New(
 		tensor.WithShape(3, 8),
@@ -309,12 +317,14 @@ func TestReshape_reordered_dims(t *testing.T) {
 	data := gorgonia.NodeFromAny(g,
 		tensor.New(
 			tensor.WithShape(2, 3, 4),
-			tensor.WithBacking([]float32{0.5488135, 0.71518934, 0.60276335, 0.5448832, 0.4236548, 0.6458941, 0.4375872, 0.891773, 0.96366274, 0.3834415, 0.79172504, 0.5288949, 0.56804454, 0.92559665, 0.071036056, 0.0871293, 0.020218397, 0.83261985, 0.77815676, 0.87001216, 0.9786183, 0.7991586, 0.46147937, 0.7805292})))
+			tensor.WithBacking([]float32{0.5488135, 0.71518934, 0.60276335, 0.5448832, 0.4236548, 0.6458941, 0.4375872, 0.891773, 0.96366274, 0.3834415, 0.79172504, 0.5288949, 0.56804454, 0.92559665, 0.071036056, 0.0871293, 0.020218397, 0.83261985, 0.77815676, 0.87001216, 0.9786183, 0.7991586, 0.46147937, 0.7805292})),
+		gorgonia.WithName("data"))
 
 	shape := gorgonia.NodeFromAny(g,
 		tensor.New(
 			tensor.WithShape(3),
-			tensor.WithBacking([]int64{4, 2, 3})))
+			tensor.WithBacking([]int64{4, 2, 3})),
+		gorgonia.WithName("shape"))
 
 	reshapedT := tensor.New(
 		tensor.WithShape(4, 2, 3),

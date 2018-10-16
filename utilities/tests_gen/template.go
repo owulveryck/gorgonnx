@@ -60,7 +60,8 @@ func Test{{ .TestName }}(t *testing.T) {
 	{{ .Name}} := gorgonia.NodeFromAny(g,
 		tensor.New(
 			tensor.WithShape{{ .Shape }},
-			tensor.WithBacking({{ .Data }})))
+			tensor.WithBacking({{ .Data }})),
+			gorgonia.WithName("{{ .Name }}"))
 	{{ end }}
 	{{ range .Outputs }}
 	{{ .Name }}T := tensor.New(

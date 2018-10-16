@@ -72,12 +72,14 @@ func TestConv_with_strides_and_asymmetric_padding(t *testing.T) {
 	x := gorgonia.NodeFromAny(g,
 		tensor.New(
 			tensor.WithShape(1, 1, 7, 5),
-			tensor.WithBacking([]float32{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34})))
+			tensor.WithBacking([]float32{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34})),
+		gorgonia.WithName("x"))
 
 	W := gorgonia.NodeFromAny(g,
 		tensor.New(
 			tensor.WithShape(1, 1, 3, 3),
-			tensor.WithBacking([]float32{1, 1, 1, 1, 1, 1, 1, 1, 1})))
+			tensor.WithBacking([]float32{1, 1, 1, 1, 1, 1, 1, 1, 1})),
+		gorgonia.WithName("W"))
 
 	yT := tensor.New(
 		tensor.WithShape(1, 1, 4, 2),
@@ -170,12 +172,14 @@ func TestConv_with_strides_no_padding(t *testing.T) {
 	x := gorgonia.NodeFromAny(g,
 		tensor.New(
 			tensor.WithShape(1, 1, 7, 5),
-			tensor.WithBacking([]float32{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34})))
+			tensor.WithBacking([]float32{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34})),
+		gorgonia.WithName("x"))
 
 	W := gorgonia.NodeFromAny(g,
 		tensor.New(
 			tensor.WithShape(1, 1, 3, 3),
-			tensor.WithBacking([]float32{1, 1, 1, 1, 1, 1, 1, 1, 1})))
+			tensor.WithBacking([]float32{1, 1, 1, 1, 1, 1, 1, 1, 1})),
+		gorgonia.WithName("W"))
 
 	yT := tensor.New(
 		tensor.WithShape(1, 1, 3, 2),
@@ -268,12 +272,14 @@ func TestConv_with_strides_padding(t *testing.T) {
 	x := gorgonia.NodeFromAny(g,
 		tensor.New(
 			tensor.WithShape(1, 1, 7, 5),
-			tensor.WithBacking([]float32{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34})))
+			tensor.WithBacking([]float32{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34})),
+		gorgonia.WithName("x"))
 
 	W := gorgonia.NodeFromAny(g,
 		tensor.New(
 			tensor.WithShape(1, 1, 3, 3),
-			tensor.WithBacking([]float32{1, 1, 1, 1, 1, 1, 1, 1, 1})))
+			tensor.WithBacking([]float32{1, 1, 1, 1, 1, 1, 1, 1, 1})),
+		gorgonia.WithName("W"))
 
 	yT := tensor.New(
 		tensor.WithShape(1, 1, 4, 3),
@@ -335,12 +341,14 @@ func TestConv_transpose(t *testing.T) {
 	X := gorgonia.NodeFromAny(g,
 		tensor.New(
 			tensor.WithShape(1, 1, 3, 3),
-			tensor.WithBacking([]float32{0, 1, 2, 3, 4, 5, 6, 7, 8})))
+			tensor.WithBacking([]float32{0, 1, 2, 3, 4, 5, 6, 7, 8})),
+		gorgonia.WithName("X"))
 
 	W := gorgonia.NodeFromAny(g,
 		tensor.New(
 			tensor.WithShape(1, 2, 3, 3),
-			tensor.WithBacking([]float32{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1})))
+			tensor.WithBacking([]float32{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1})),
+		gorgonia.WithName("W"))
 
 	YT := tensor.New(
 		tensor.WithShape(1, 2, 5, 5),
@@ -402,12 +410,14 @@ func TestConv_transpose_1d(t *testing.T) {
 	X := gorgonia.NodeFromAny(g,
 		tensor.New(
 			tensor.WithShape(1, 1, 3),
-			tensor.WithBacking([]float32{0, 1, 2})))
+			tensor.WithBacking([]float32{0, 1, 2})),
+		gorgonia.WithName("X"))
 
 	W := gorgonia.NodeFromAny(g,
 		tensor.New(
 			tensor.WithShape(1, 2, 3),
-			tensor.WithBacking([]float32{1, 1, 1, 1, 1, 1})))
+			tensor.WithBacking([]float32{1, 1, 1, 1, 1, 1})),
+		gorgonia.WithName("W"))
 
 	YT := tensor.New(
 		tensor.WithShape(1, 2, 5),
@@ -469,12 +479,14 @@ func TestConv_transpose_3d(t *testing.T) {
 	X := gorgonia.NodeFromAny(g,
 		tensor.New(
 			tensor.WithShape(1, 1, 3, 4, 5),
-			tensor.WithBacking([]float32{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59})))
+			tensor.WithBacking([]float32{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59})),
+		gorgonia.WithName("X"))
 
 	W := gorgonia.NodeFromAny(g,
 		tensor.New(
 			tensor.WithShape(1, 2, 3, 3, 3),
-			tensor.WithBacking([]float32{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1})))
+			tensor.WithBacking([]float32{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1})),
+		gorgonia.WithName("W"))
 
 	YT := tensor.New(
 		tensor.WithShape(1, 2, 5, 6, 7),
@@ -577,12 +589,14 @@ func TestConv_transpose_kernel_shape(t *testing.T) {
 	X := gorgonia.NodeFromAny(g,
 		tensor.New(
 			tensor.WithShape(1, 1, 3, 3),
-			tensor.WithBacking([]float32{0, 1, 2, 3, 4, 5, 6, 7, 8})))
+			tensor.WithBacking([]float32{0, 1, 2, 3, 4, 5, 6, 7, 8})),
+		gorgonia.WithName("X"))
 
 	W := gorgonia.NodeFromAny(g,
 		tensor.New(
 			tensor.WithShape(1, 2, 3, 3),
-			tensor.WithBacking([]float32{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1})))
+			tensor.WithBacking([]float32{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1})),
+		gorgonia.WithName("W"))
 
 	YT := tensor.New(
 		tensor.WithShape(1, 2, 10, 8),
@@ -665,12 +679,14 @@ func TestConv_transpose_output_shape(t *testing.T) {
 	X := gorgonia.NodeFromAny(g,
 		tensor.New(
 			tensor.WithShape(1, 1, 3, 3),
-			tensor.WithBacking([]float32{0, 1, 2, 3, 4, 5, 6, 7, 8})))
+			tensor.WithBacking([]float32{0, 1, 2, 3, 4, 5, 6, 7, 8})),
+		gorgonia.WithName("X"))
 
 	W := gorgonia.NodeFromAny(g,
 		tensor.New(
 			tensor.WithShape(1, 2, 3, 3),
-			tensor.WithBacking([]float32{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1})))
+			tensor.WithBacking([]float32{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1})),
+		gorgonia.WithName("W"))
 
 	YT := tensor.New(
 		tensor.WithShape(1, 2, 10, 8),
@@ -753,12 +769,14 @@ func TestConv_transpose_pad(t *testing.T) {
 	X := gorgonia.NodeFromAny(g,
 		tensor.New(
 			tensor.WithShape(1, 1, 3, 3),
-			tensor.WithBacking([]float32{0, 1, 2, 3, 4, 5, 6, 7, 8})))
+			tensor.WithBacking([]float32{0, 1, 2, 3, 4, 5, 6, 7, 8})),
+		gorgonia.WithName("X"))
 
 	W := gorgonia.NodeFromAny(g,
 		tensor.New(
 			tensor.WithShape(1, 2, 3, 3),
-			tensor.WithBacking([]float32{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1})))
+			tensor.WithBacking([]float32{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1})),
+		gorgonia.WithName("W"))
 
 	YT := tensor.New(
 		tensor.WithShape(1, 2, 10, 8),
@@ -841,12 +859,14 @@ func TestConv_transpose_pads(t *testing.T) {
 	X := gorgonia.NodeFromAny(g,
 		tensor.New(
 			tensor.WithShape(1, 1, 3, 3),
-			tensor.WithBacking([]float32{0, 1, 2, 3, 4, 5, 6, 7, 8})))
+			tensor.WithBacking([]float32{0, 1, 2, 3, 4, 5, 6, 7, 8})),
+		gorgonia.WithName("X"))
 
 	W := gorgonia.NodeFromAny(g,
 		tensor.New(
 			tensor.WithShape(1, 2, 3, 3),
-			tensor.WithBacking([]float32{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1})))
+			tensor.WithBacking([]float32{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1})),
+		gorgonia.WithName("W"))
 
 	YT := tensor.New(
 		tensor.WithShape(1, 2, 7, 3),
@@ -949,12 +969,14 @@ func TestConv_transpose_with_kernel(t *testing.T) {
 	x := gorgonia.NodeFromAny(g,
 		tensor.New(
 			tensor.WithShape(1, 1, 3, 3),
-			tensor.WithBacking([]float32{0, 1, 2, 3, 4, 5, 6, 7, 8})))
+			tensor.WithBacking([]float32{0, 1, 2, 3, 4, 5, 6, 7, 8})),
+		gorgonia.WithName("x"))
 
 	w := gorgonia.NodeFromAny(g,
 		tensor.New(
 			tensor.WithShape(1, 2, 3, 3),
-			tensor.WithBacking([]float32{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1})))
+			tensor.WithBacking([]float32{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1})),
+		gorgonia.WithName("w"))
 
 	yT := tensor.New(
 		tensor.WithShape(1, 2, 10, 8),
