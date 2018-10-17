@@ -11,6 +11,8 @@ import (
 
 // Conv operator
 // https://github.com/onnx/onnx/blob/master/docs/Operators.md#Conv
+//
+// For more information about convolution, please visit https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md
 type Conv struct {
 	name        string
 	AutoPad     string
