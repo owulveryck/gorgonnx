@@ -74,6 +74,10 @@ func TestMaxpool_1d_default(t *testing.T) {
 		if ok && skip {
 			t.SkipNow()
 		}
+		_, ok = err.(*gorgonia.ErrNotImplemented)
+		if ok && skip {
+			t.SkipNow()
+		}
 
 		t.Fatal(err)
 	}
@@ -87,7 +91,7 @@ func TestMaxpool_1d_default(t *testing.T) {
 	}
 	
 	assert.Equal(yT.Shape(), y.Shape(), "Tensors should be the same")
-	assert.Equal(yT.Data(), y.Value().Data(), "Tensors should be the same")
+	assert.InDeltaSlice(yT.Data(), y.Value().Data(), 1e-5,"Tensors should be the same")
 	
 }
 
@@ -153,6 +157,10 @@ func TestMaxpool_2d_default(t *testing.T) {
 		if ok && skip {
 			t.SkipNow()
 		}
+		_, ok = err.(*gorgonia.ErrNotImplemented)
+		if ok && skip {
+			t.SkipNow()
+		}
 
 		t.Fatal(err)
 	}
@@ -166,7 +174,7 @@ func TestMaxpool_2d_default(t *testing.T) {
 	}
 	
 	assert.Equal(yT.Shape(), y.Shape(), "Tensors should be the same")
-	assert.Equal(yT.Data(), y.Value().Data(), "Tensors should be the same")
+	assert.InDeltaSlice(yT.Data(), y.Value().Data(), 1e-5,"Tensors should be the same")
 	
 }
 
@@ -242,6 +250,10 @@ func TestMaxpool_2d_pads(t *testing.T) {
 		if ok && skip {
 			t.SkipNow()
 		}
+		_, ok = err.(*gorgonia.ErrNotImplemented)
+		if ok && skip {
+			t.SkipNow()
+		}
 
 		t.Fatal(err)
 	}
@@ -255,7 +267,7 @@ func TestMaxpool_2d_pads(t *testing.T) {
 	}
 	
 	assert.Equal(yT.Shape(), y.Shape(), "Tensors should be the same")
-	assert.Equal(yT.Data(), y.Value().Data(), "Tensors should be the same")
+	assert.InDeltaSlice(yT.Data(), y.Value().Data(), 1e-5,"Tensors should be the same")
 	
 }
 
@@ -331,6 +343,10 @@ func TestMaxpool_2d_precomputed_pads(t *testing.T) {
 		if ok && skip {
 			t.SkipNow()
 		}
+		_, ok = err.(*gorgonia.ErrNotImplemented)
+		if ok && skip {
+			t.SkipNow()
+		}
 
 		t.Fatal(err)
 	}
@@ -344,7 +360,7 @@ func TestMaxpool_2d_precomputed_pads(t *testing.T) {
 	}
 	
 	assert.Equal(yT.Shape(), y.Shape(), "Tensors should be the same")
-	assert.Equal(yT.Data(), y.Value().Data(), "Tensors should be the same")
+	assert.InDeltaSlice(yT.Data(), y.Value().Data(), 1e-5,"Tensors should be the same")
 	
 }
 
@@ -430,6 +446,10 @@ func TestMaxpool_2d_precomputed_same_upper(t *testing.T) {
 		if ok && skip {
 			t.SkipNow()
 		}
+		_, ok = err.(*gorgonia.ErrNotImplemented)
+		if ok && skip {
+			t.SkipNow()
+		}
 
 		t.Fatal(err)
 	}
@@ -443,7 +463,7 @@ func TestMaxpool_2d_precomputed_same_upper(t *testing.T) {
 	}
 	
 	assert.Equal(yT.Shape(), y.Shape(), "Tensors should be the same")
-	assert.Equal(yT.Data(), y.Value().Data(), "Tensors should be the same")
+	assert.InDeltaSlice(yT.Data(), y.Value().Data(), 1e-5,"Tensors should be the same")
 	
 }
 
@@ -519,6 +539,10 @@ func TestMaxpool_2d_precomputed_strides(t *testing.T) {
 		if ok && skip {
 			t.SkipNow()
 		}
+		_, ok = err.(*gorgonia.ErrNotImplemented)
+		if ok && skip {
+			t.SkipNow()
+		}
 
 		t.Fatal(err)
 	}
@@ -532,7 +556,7 @@ func TestMaxpool_2d_precomputed_strides(t *testing.T) {
 	}
 	
 	assert.Equal(yT.Shape(), y.Shape(), "Tensors should be the same")
-	assert.Equal(yT.Data(), y.Value().Data(), "Tensors should be the same")
+	assert.InDeltaSlice(yT.Data(), y.Value().Data(), 1e-5,"Tensors should be the same")
 	
 }
 
@@ -608,6 +632,10 @@ func TestMaxpool_2d_same_lower(t *testing.T) {
 		if ok && skip {
 			t.SkipNow()
 		}
+		_, ok = err.(*gorgonia.ErrNotImplemented)
+		if ok && skip {
+			t.SkipNow()
+		}
 
 		t.Fatal(err)
 	}
@@ -621,7 +649,7 @@ func TestMaxpool_2d_same_lower(t *testing.T) {
 	}
 	
 	assert.Equal(yT.Shape(), y.Shape(), "Tensors should be the same")
-	assert.Equal(yT.Data(), y.Value().Data(), "Tensors should be the same")
+	assert.InDeltaSlice(yT.Data(), y.Value().Data(), 1e-5,"Tensors should be the same")
 	
 }
 
@@ -697,6 +725,10 @@ func TestMaxpool_2d_same_upper(t *testing.T) {
 		if ok && skip {
 			t.SkipNow()
 		}
+		_, ok = err.(*gorgonia.ErrNotImplemented)
+		if ok && skip {
+			t.SkipNow()
+		}
 
 		t.Fatal(err)
 	}
@@ -710,7 +742,7 @@ func TestMaxpool_2d_same_upper(t *testing.T) {
 	}
 	
 	assert.Equal(yT.Shape(), y.Shape(), "Tensors should be the same")
-	assert.Equal(yT.Data(), y.Value().Data(), "Tensors should be the same")
+	assert.InDeltaSlice(yT.Data(), y.Value().Data(), 1e-5,"Tensors should be the same")
 	
 }
 
@@ -786,6 +818,10 @@ func TestMaxpool_2d_strides(t *testing.T) {
 		if ok && skip {
 			t.SkipNow()
 		}
+		_, ok = err.(*gorgonia.ErrNotImplemented)
+		if ok && skip {
+			t.SkipNow()
+		}
 
 		t.Fatal(err)
 	}
@@ -799,7 +835,7 @@ func TestMaxpool_2d_strides(t *testing.T) {
 	}
 	
 	assert.Equal(yT.Shape(), y.Shape(), "Tensors should be the same")
-	assert.Equal(yT.Data(), y.Value().Data(), "Tensors should be the same")
+	assert.InDeltaSlice(yT.Data(), y.Value().Data(), 1e-5,"Tensors should be the same")
 	
 }
 
@@ -865,6 +901,10 @@ func TestMaxpool_3d_default(t *testing.T) {
 		if ok && skip {
 			t.SkipNow()
 		}
+		_, ok = err.(*gorgonia.ErrNotImplemented)
+		if ok && skip {
+			t.SkipNow()
+		}
 
 		t.Fatal(err)
 	}
@@ -878,7 +918,7 @@ func TestMaxpool_3d_default(t *testing.T) {
 	}
 	
 	assert.Equal(yT.Shape(), y.Shape(), "Tensors should be the same")
-	assert.Equal(yT.Data(), y.Value().Data(), "Tensors should be the same")
+	assert.InDeltaSlice(yT.Data(), y.Value().Data(), 1e-5,"Tensors should be the same")
 	
 }
 
@@ -959,6 +999,10 @@ func TestMaxpool_with_argmax_2d_precomputed_pads(t *testing.T) {
 		if ok && skip {
 			t.SkipNow()
 		}
+		_, ok = err.(*gorgonia.ErrNotImplemented)
+		if ok && skip {
+			t.SkipNow()
+		}
 
 		t.Fatal(err)
 	}
@@ -974,10 +1018,10 @@ func TestMaxpool_with_argmax_2d_precomputed_pads(t *testing.T) {
 	}
 	
 	assert.Equal(yT.Shape(), y.Shape(), "Tensors should be the same")
-	assert.Equal(yT.Data(), y.Value().Data(), "Tensors should be the same")
+	assert.InDeltaSlice(yT.Data(), y.Value().Data(), 1e-5,"Tensors should be the same")
 	
 	assert.Equal(zT.Shape(), z.Shape(), "Tensors should be the same")
-	assert.Equal(zT.Data(), z.Value().Data(), "Tensors should be the same")
+	assert.InDeltaSlice(zT.Data(), z.Value().Data(), 1e-5,"Tensors should be the same")
 	
 }
 
@@ -1068,6 +1112,10 @@ func TestMaxpool_with_argmax_2d_precomputed_strides(t *testing.T) {
 		if ok && skip {
 			t.SkipNow()
 		}
+		_, ok = err.(*gorgonia.ErrNotImplemented)
+		if ok && skip {
+			t.SkipNow()
+		}
 
 		t.Fatal(err)
 	}
@@ -1083,9 +1131,9 @@ func TestMaxpool_with_argmax_2d_precomputed_strides(t *testing.T) {
 	}
 	
 	assert.Equal(yT.Shape(), y.Shape(), "Tensors should be the same")
-	assert.Equal(yT.Data(), y.Value().Data(), "Tensors should be the same")
+	assert.InDeltaSlice(yT.Data(), y.Value().Data(), 1e-5,"Tensors should be the same")
 	
 	assert.Equal(zT.Shape(), z.Shape(), "Tensors should be the same")
-	assert.Equal(zT.Data(), z.Value().Data(), "Tensors should be the same")
+	assert.InDeltaSlice(zT.Data(), z.Value().Data(), 1e-5,"Tensors should be the same")
 	
 }

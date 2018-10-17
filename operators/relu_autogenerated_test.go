@@ -64,6 +64,10 @@ func TestRelu_(t *testing.T) {
 		if ok && skip {
 			t.SkipNow()
 		}
+		_, ok = err.(*gorgonia.ErrNotImplemented)
+		if ok && skip {
+			t.SkipNow()
+		}
 
 		t.Fatal(err)
 	}
@@ -77,6 +81,6 @@ func TestRelu_(t *testing.T) {
 	}
 	
 	assert.Equal(yT.Shape(), y.Shape(), "Tensors should be the same")
-	assert.Equal(yT.Data(), y.Value().Data(), "Tensors should be the same")
+	assert.InDeltaSlice(yT.Data(), y.Value().Data(), 1e-5,"Tensors should be the same")
 	
 }

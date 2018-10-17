@@ -80,6 +80,10 @@ func TestConcat_1d_axis_0(t *testing.T) {
 		if ok && skip {
 			t.SkipNow()
 		}
+		_, ok = err.(*gorgonia.ErrNotImplemented)
+		if ok && skip {
+			t.SkipNow()
+		}
 
 		t.Fatal(err)
 	}
@@ -93,7 +97,7 @@ func TestConcat_1d_axis_0(t *testing.T) {
 	}
 	
 	assert.Equal(outputT.Shape(), output.Shape(), "Tensors should be the same")
-	assert.Equal(outputT.Data(), output.Value().Data(), "Tensors should be the same")
+	assert.InDeltaSlice(outputT.Data(), output.Value().Data(), 1e-5,"Tensors should be the same")
 	
 }
 
@@ -165,6 +169,10 @@ func TestConcat_2d_axis_0(t *testing.T) {
 		if ok && skip {
 			t.SkipNow()
 		}
+		_, ok = err.(*gorgonia.ErrNotImplemented)
+		if ok && skip {
+			t.SkipNow()
+		}
 
 		t.Fatal(err)
 	}
@@ -178,7 +186,7 @@ func TestConcat_2d_axis_0(t *testing.T) {
 	}
 	
 	assert.Equal(outputT.Shape(), output.Shape(), "Tensors should be the same")
-	assert.Equal(outputT.Data(), output.Value().Data(), "Tensors should be the same")
+	assert.InDeltaSlice(outputT.Data(), output.Value().Data(), 1e-5,"Tensors should be the same")
 	
 }
 
@@ -250,6 +258,10 @@ func TestConcat_2d_axis_1(t *testing.T) {
 		if ok && skip {
 			t.SkipNow()
 		}
+		_, ok = err.(*gorgonia.ErrNotImplemented)
+		if ok && skip {
+			t.SkipNow()
+		}
 
 		t.Fatal(err)
 	}
@@ -263,7 +275,7 @@ func TestConcat_2d_axis_1(t *testing.T) {
 	}
 	
 	assert.Equal(outputT.Shape(), output.Shape(), "Tensors should be the same")
-	assert.Equal(outputT.Data(), output.Value().Data(), "Tensors should be the same")
+	assert.InDeltaSlice(outputT.Data(), output.Value().Data(), 1e-5,"Tensors should be the same")
 	
 }
 
@@ -335,6 +347,10 @@ func TestConcat_3d_axis_0(t *testing.T) {
 		if ok && skip {
 			t.SkipNow()
 		}
+		_, ok = err.(*gorgonia.ErrNotImplemented)
+		if ok && skip {
+			t.SkipNow()
+		}
 
 		t.Fatal(err)
 	}
@@ -348,7 +364,7 @@ func TestConcat_3d_axis_0(t *testing.T) {
 	}
 	
 	assert.Equal(outputT.Shape(), output.Shape(), "Tensors should be the same")
-	assert.Equal(outputT.Data(), output.Value().Data(), "Tensors should be the same")
+	assert.InDeltaSlice(outputT.Data(), output.Value().Data(), 1e-5,"Tensors should be the same")
 	
 }
 
@@ -420,6 +436,10 @@ func TestConcat_3d_axis_1(t *testing.T) {
 		if ok && skip {
 			t.SkipNow()
 		}
+		_, ok = err.(*gorgonia.ErrNotImplemented)
+		if ok && skip {
+			t.SkipNow()
+		}
 
 		t.Fatal(err)
 	}
@@ -433,7 +453,7 @@ func TestConcat_3d_axis_1(t *testing.T) {
 	}
 	
 	assert.Equal(outputT.Shape(), output.Shape(), "Tensors should be the same")
-	assert.Equal(outputT.Data(), output.Value().Data(), "Tensors should be the same")
+	assert.InDeltaSlice(outputT.Data(), output.Value().Data(), 1e-5,"Tensors should be the same")
 	
 }
 
@@ -505,6 +525,10 @@ func TestConcat_3d_axis_2(t *testing.T) {
 		if ok && skip {
 			t.SkipNow()
 		}
+		_, ok = err.(*gorgonia.ErrNotImplemented)
+		if ok && skip {
+			t.SkipNow()
+		}
 
 		t.Fatal(err)
 	}
@@ -518,6 +542,6 @@ func TestConcat_3d_axis_2(t *testing.T) {
 	}
 	
 	assert.Equal(outputT.Shape(), output.Shape(), "Tensors should be the same")
-	assert.Equal(outputT.Data(), output.Value().Data(), "Tensors should be the same")
+	assert.InDeltaSlice(outputT.Data(), output.Value().Data(), 1e-5,"Tensors should be the same")
 	
 }

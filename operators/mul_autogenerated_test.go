@@ -70,6 +70,10 @@ func TestMul_(t *testing.T) {
 		if ok && skip {
 			t.SkipNow()
 		}
+		_, ok = err.(*gorgonia.ErrNotImplemented)
+		if ok && skip {
+			t.SkipNow()
+		}
 
 		t.Fatal(err)
 	}
@@ -83,7 +87,7 @@ func TestMul_(t *testing.T) {
 	}
 	
 	assert.Equal(zT.Shape(), z.Shape(), "Tensors should be the same")
-	assert.Equal(zT.Data(), z.Value().Data(), "Tensors should be the same")
+	assert.InDeltaSlice(zT.Data(), z.Value().Data(), 1e-5,"Tensors should be the same")
 	
 }
 
@@ -145,6 +149,10 @@ func TestMul_bcast(t *testing.T) {
 		if ok && skip {
 			t.SkipNow()
 		}
+		_, ok = err.(*gorgonia.ErrNotImplemented)
+		if ok && skip {
+			t.SkipNow()
+		}
 
 		t.Fatal(err)
 	}
@@ -158,7 +166,7 @@ func TestMul_bcast(t *testing.T) {
 	}
 	
 	assert.Equal(zT.Shape(), z.Shape(), "Tensors should be the same")
-	assert.Equal(zT.Data(), z.Value().Data(), "Tensors should be the same")
+	assert.InDeltaSlice(zT.Data(), z.Value().Data(), 1e-5,"Tensors should be the same")
 	
 }
 
@@ -220,6 +228,10 @@ func TestMul_example(t *testing.T) {
 		if ok && skip {
 			t.SkipNow()
 		}
+		_, ok = err.(*gorgonia.ErrNotImplemented)
+		if ok && skip {
+			t.SkipNow()
+		}
 
 		t.Fatal(err)
 	}
@@ -233,6 +245,6 @@ func TestMul_example(t *testing.T) {
 	}
 	
 	assert.Equal(zT.Shape(), z.Shape(), "Tensors should be the same")
-	assert.Equal(zT.Data(), z.Value().Data(), "Tensors should be the same")
+	assert.InDeltaSlice(zT.Data(), z.Value().Data(), 1e-5,"Tensors should be the same")
 	
 }
