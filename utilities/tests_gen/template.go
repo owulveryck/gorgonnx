@@ -77,6 +77,10 @@ func Test{{ .TestName }}(t *testing.T) {
 		if ok && skip {
 			t.SkipNow()
 		}
+		_, ok = err.(*gorgonia.ErrNotImplemented)
+		if ok && skip {
+			t.SkipNow()
+		}
 
 		t.Fatal(err)
 	}
