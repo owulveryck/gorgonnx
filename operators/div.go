@@ -20,15 +20,17 @@ func (o *Div) Init(attrs []*onnx.AttributeProto) error {
 // Apply ...
 // Warning this operator should be broadcastable
 func (o *Div) Apply(input ...*gorgonia.Node) ([]*gorgonia.Node, error) {
-	return nil, &onnx.ErrNotImplemented{
-		Operator: o.name,
-		Message:  "TODO: implement the broadcast",
-	}
 	if len(input) != 2 {
 		return nil, &ErrBadArity{
 			Operator:      o.name,
 			ExpectedInput: 2,
 			ActualInput:   len(input),
+		}
+	}
+	if len(input[0].Shape()) != len(input[1].Shape()) {
+		return nil, &onnx.ErrNotImplemented{
+			Operator: o.name,
+			Message:  "TODO: implement the broadcast",
 		}
 	}
 	n, err := gorgonia.HadamardDiv(input[0], input[1])
