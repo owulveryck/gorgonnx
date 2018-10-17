@@ -14,26 +14,24 @@ type Div struct {
 // Init ...
 func (o *Div) Init(attrs []*onnx.AttributeProto) error {
 	o.name = "Div"
-	return &onnx.ErrNotImplemented{
-		Operator: o.name,
-		Message:  "Not implemented yet",
-	}
+	return nil
 }
 
 // Apply ...
+// Warning this operator should be broadcastable
 func (o *Div) Apply(input ...*gorgonia.Node) ([]*gorgonia.Node, error) {
-	/*
-		if len(input) != 2 {
-			return nil, &ErrBadArity{
-				Operator:      o.name,
-				ExpectedInput: 2,
-				ActualInput:   len(input),
-			}
-		}
-	*/
 	return nil, &onnx.ErrNotImplemented{
 		Operator: o.name,
-		Message:  "Not implemented yet",
+		Message:  "TODO: implement the broadcast",
 	}
+	if len(input) != 2 {
+		return nil, &ErrBadArity{
+			Operator:      o.name,
+			ExpectedInput: 2,
+			ActualInput:   len(input),
+		}
+	}
+	n, err := gorgonia.HadamardDiv(input[0], input[1])
+	return []*gorgonia.Node{n}, err
 
 }
