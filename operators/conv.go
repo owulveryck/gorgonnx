@@ -29,7 +29,7 @@ func (c *Conv) Init(attrs []*onnx.AttributeProto) error {
 		AutoPad     string  `attributeName:"auto_pad"`
 		Dilations   []int64 `attributeName:"dilations"`
 		Group       int64   `attributeName:"group"`
-		Pads        []int64 `attributeName:"pads" required:"true"`
+		Pads        []int64 `attributeName:"pads"`
 		Strides     []int64 `attributeName:"strides"`
 	}
 	// Set the default values
@@ -84,9 +84,11 @@ func (c *Conv) Init(attrs []*onnx.AttributeProto) error {
 		}
 	}
 	c.Pads = make([]int, 2)
-	for i := 0; i < 2; i++ {
-		//c.Pads[i] = int(attr.Pads[2*i] + attr.Pads[2*i+1])
-		c.Pads[i] = int(attr.Pads[2*i])
+	if len(attr.Pads) == 4 {
+		for i := 0; i < 2; i++ {
+			//c.Pads[i] = int(attr.Pads[2*i] + attr.Pads[2*i+1])
+			c.Pads[i] = int(attr.Pads[2*i])
+		}
 	}
 	return nil
 }
