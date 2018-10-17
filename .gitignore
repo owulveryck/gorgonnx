@@ -3,6 +3,7 @@ utilities/utilities
 sample/sample
 mnist/utilities/utilities
 utilities/tests_gen/tests_gen
+release/*
 
 sample/err.dot
 sample/output
