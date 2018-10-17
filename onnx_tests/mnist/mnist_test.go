@@ -11,7 +11,7 @@ import (
 )
 
 func Example_mnist() {
-	b, err := ioutil.ReadFile("./mnist/model.onnx")
+	b, err := ioutil.ReadFile("./model.onnx")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -26,7 +26,7 @@ func Example_mnist() {
 	}
 
 	// Open the tensorproto sample file
-	b, err = ioutil.ReadFile("./mnist/test_data_set_1/input_0.pb")
+	b, err = ioutil.ReadFile("./test_data_set_1/input_0.pb")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -46,6 +46,6 @@ func Example_mnist() {
 	}
 	fmt.Printf("%v", gorgonnx.GetOutputGraphNodes(g)[0].Value().Data())
 
-	// ++Output: [5041.8887 -3568.878 -187.82423 -1685.797 -1183.3232 -614.42926 892.6643 -373.65845 -290.2623 -111.176216]
+	// Output: [5041.8887 -3568.878 -187.82423 -1685.797 -1183.3232 -614.42926 892.6643 -373.65845 -290.2623 -111.176216]
 
 }
