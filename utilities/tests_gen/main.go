@@ -9,8 +9,8 @@ import (
 	"reflect"
 	"regexp"
 	"strings"
+	"text/template"
 
-	"github.com/alecthomas/template"
 	onnx "github.com/owulveryck/onnx-go"
 )
 
