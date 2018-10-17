@@ -6,7 +6,7 @@ test:
 
 BIN_DIR := $(GOPATH)/bin
 
-BINARY := mytool
+BINARY := gorgonnx-exec
 VERSION ?= vlatest
 PLATFORMS := windows linux darwin
 os = $(word 1, $@)
