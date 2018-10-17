@@ -1,10 +1,11 @@
-package gorgonnx
+package gorgonnx_test
 
 import (
 	"fmt"
 	"io/ioutil"
 	"log"
 
+	"github.com/owulveryck/gorgonnx"
 	onnx "github.com/owulveryck/onnx-go"
 	"gorgonia.org/gorgonia"
 )
@@ -19,7 +20,7 @@ func Example_mnist() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	g, err := NewGraph(model.GetGraph())
+	g, err := gorgonnx.NewGraph(model.GetGraph())
 	if err != nil {
 		log.Fatal("Cannot decode ", err)
 	}
@@ -43,7 +44,7 @@ func Example_mnist() {
 	if err = machine.RunAll(); err != nil {
 		log.Fatal(err)
 	}
-	fmt.Printf("%v", GetOutputGraphNodes(g)[0].Value().Data())
+	fmt.Printf("%v", gorgonnx.GetOutputGraphNodes(g)[0].Value().Data())
 
 	// ++Output: [5041.8887 -3568.878 -187.82423 -1685.797 -1183.3232 -614.42926 892.6643 -373.65845 -290.2623 -111.176216]
 
