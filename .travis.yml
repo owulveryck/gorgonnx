@@ -3,6 +3,7 @@ go:
     - 1.11
     - tip
 script:
+    - go get 
     - make
 before_deploy:
     - make VERSION=${TRAVIS_TAG} release -j2
