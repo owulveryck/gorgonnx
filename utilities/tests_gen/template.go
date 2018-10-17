@@ -90,7 +90,7 @@ func Test{{ .TestName }}(t *testing.T) {
 	}
 	{{ range .Outputs }}
 	assert.Equal({{ .Name }}T.Shape(), {{ .Name }}.Shape(), "Tensors should be the same")
-	assert.Equal({{ .Name }}T.Data(), {{ .Name }}.Value().Data(), "Tensors should be the same")
+	assert.InDeltaSlice({{ .Name }}T.Data(), {{ .Name }}.Value().Data(), 1e-5,"Tensors should be the same")
 	{{end}}
 }
 `
