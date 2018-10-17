@@ -1,11 +1,17 @@
 language: go
-
 go:
     - 1.11
     - tip
-before_install:
-    - go get github.com/mattn/goveralls
-    - go get golang.org/x/tools/cmd/cover
-
 script:
-    - go test 
+    - make
+before_deploy:
+    - make VERSION=${TRAVIS_TAG} release -j2
+deploy:
+    provider: releases
+    api_key:
+        secure:
+    file: release/*
+    file_glob: true
+    skip_cleanup: true
+    on:
+        tags: true
