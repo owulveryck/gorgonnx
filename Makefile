@@ -1,4 +1,4 @@
-PKGS := $(shell go list ./... | grep -v /vendor)
+PKGS := $(shell go list ./... | grep -v /vendor | grep -v onnx_tests)
 
 .PHONY: test
 test: 
