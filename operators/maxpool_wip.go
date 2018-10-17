@@ -1,6 +1,8 @@
 package operators
 
 import (
+	"math"
+
 	onnx "github.com/owulveryck/onnx-go"
 	"gorgonia.org/gorgonia"
 	nnops "gorgonia.org/gorgonia/ops/nn"
@@ -8,10 +10,11 @@ import (
 )
 
 // Maxpool operator
-// https://github.com/onnx/onnx/blob/master/docs/Operators.md#Maxpool
+// https://github.com/onnx/onnx/blob/master/docs/Operators.md#MaxPool
 type Maxpool struct {
 	name         string
 	Pads         []int
+	AutoPad      string
 	StorageOrder int
 	KernelShape  tensor.Shape
 	Strides      []int
@@ -55,42 +58,22 @@ func (o *Maxpool) Init(attrs []*onnx.AttributeProto) error {
 	case "NOTSET":
 	case "VALID":
 		o.Pads = []int{0, 0}
-
 	case "SAME_UPPER":
 		return &onnx.ErrNotImplemented{
 			Operator:       o.name,
 			AttributeName:  "auto_pad",
 			AttributeValue: attr.AutoPad,
-			Message:        "Not implemented",
+			Message:        "Padding is buggy",
 		}
-
-		/*
-			//BUG(owulveryck): We need the input shape for automatic padding
-				outputHeight := int(
-					math.Ceil(
-						float64(attr.KernelShape[2]) / float64(attr.Strides[0])))
-				outputWidth := int(
-					math.Ceil(
-						float64(attr.KernelShape[3]) / float64(attr.Strides[1])))
-				c.Pads[0] = int(
-					math.Max(
-						float64((outputHeight-1)*attr.Strides[0]+kernelShape[0]-input.Shape()[2]),
-						float64(0)),
-				) / 2
-				c.Pads[1] = int(
-					math.Max(
-						float64((outputWidth-1)*attr.Strides[1]+kernelShape[1]-input.Shape()[3]),
-						float64(0)),
-				) / 2
-		*/
+		o.AutoPad = attr.AutoPad
 	case "SAME_LOWER":
 		return &onnx.ErrNotImplemented{
 			Operator:       o.name,
 			AttributeName:  "auto_pad",
 			AttributeValue: attr.AutoPad,
-			Message:        "Not implemented",
+			Message:        "Padding is buggy",
 		}
-
+		o.AutoPad = attr.AutoPad
 	default:
 		return &onnx.ErrNotImplemented{
 			Operator:       o.name,
@@ -109,10 +92,20 @@ func (o *Maxpool) Init(attrs []*onnx.AttributeProto) error {
 			Message:        "Asymetric padding",
 		}
 	}
-	o.Pads = make([]int, len(attr.Pads)/2)
-	for i := 0; i < len(attr.Pads)/2; i++ {
-		//pad[i] = int(attr.Ints[2*i] + attr.Ints[2*i+1])
-		o.Pads[i] = int(attr.Pads[2*i])
+	o.Pads = make([]int, 2)
+	if len(attr.Pads) == 4 {
+		for i := 0; i < 2; i++ {
+			o.Pads[i] = int(attr.Pads[2*i])
+		}
+	}
+	if o.Pads[0] != 0 || o.Pads[1] != 0 {
+		return &onnx.ErrNotImplemented{
+			Operator:       o.name,
+			AttributeName:  "pads",
+			AttributeValue: attr.Pads,
+			Message:        "Padding is buggy",
+		}
+
 	}
 
 	return nil
@@ -127,12 +120,27 @@ func (o *Maxpool) Apply(input ...*gorgonia.Node) ([]*gorgonia.Node, error) {
 			ActualInput:   len(input),
 		}
 	}
-	if len(input[0].Shape()) != 2 {
+	if len(o.KernelShape) != 2 {
 		return nil, &onnx.ErrNotImplemented{
 			Operator: o.name,
 			Message:  "Not implemented for dimension != 2",
 		}
 
+	}
+	switch o.AutoPad {
+	case "SAME_UPPER":
+		outputHeight := int(math.Ceil(float64(input[0].Shape()[2]) / float64(o.Strides[0])))
+		outputWidth := int(math.Ceil(float64(input[0].Shape()[3]) / float64(o.Strides[1])))
+		o.Pads[0] = int(math.Max(float64((outputHeight-1)*o.Strides[0]+o.KernelShape[0]-input[0].Shape()[2]), float64(0))) / 2
+		o.Pads[1] = int(math.Max(float64((outputWidth-1)*o.Strides[1]+o.KernelShape[1]-input[0].Shape()[3]), float64(0))) / 2
+	case "SAME_LOWER":
+		return nil, &onnx.ErrNotImplemented{
+			Operator:       o.name,
+			AttributeName:  "auto_pad",
+			AttributeValue: o.AutoPad,
+			Message:        "not supported",
+		}
+	default:
 	}
 	n, err := nnops.MaxPool2D(input[0], o.KernelShape, o.Pads, o.Strides)
 	return []*gorgonia.Node{n}, err
