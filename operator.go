@@ -30,6 +30,7 @@ type Operator interface {
 }
 
 func (cg *computationGraph) processNode(nx *onnx.NodeProto) error {
+	fmt.Println("Processing", nx)
 	op, ok := AvailableOperators[*nx.OpType]
 	if !ok {
 		return ErrNotImplemented{
@@ -43,20 +44,12 @@ func (cg *computationGraph) processNode(nx *onnx.NodeProto) error {
 	inputs := make([]*gorgonia.Node, len(nx.Input))
 	for i := 0; i < len(nx.Input); i++ {
 		input, err := cg.loadNode(nx.Input[i])
-		inputs[i] = input
 		if err != nil {
 			return err
 		}
+		inputs[i] = input
 	}
 
-	outputs := make([]*gorgonia.Node, len(nx.Output))
-	for i := 0; i < len(nx.Output); i++ {
-		outputs[i] = &gorgonia.Node{}
-		err := cg.storeNode(nx.Output[i], outputs[i])
-		if err != nil {
-			return err
-		}
-	}
 	o, err := op.Apply(inputs...)
 	if err != nil {
 		return err
@@ -64,12 +57,10 @@ func (cg *computationGraph) processNode(nx *onnx.NodeProto) error {
 	if len(o) != len(nx.Output) {
 		return errors.New("Bad number of output")
 	}
-	for i := range o {
-		outputs[i] = o[i]
-	}
-	for _, o := range outputs {
-		if o == nil {
-			return fmt.Errorf("gorgonnx: Wrong number of outputs for operator %v (expected %v)", *nx.OpType, len(outputs))
+	for i := 0; i < len(nx.Output); i++ {
+		err := cg.storeNode(nx.Output[i], o[i])
+		if err != nil {
+			return err
 		}
 	}
 	return nil
