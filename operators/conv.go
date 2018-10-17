@@ -1,6 +1,8 @@
 package operators
 
 import (
+	"math"
+
 	onnx "github.com/owulveryck/onnx-go"
 	"gorgonia.org/gorgonia"
 	nnops "gorgonia.org/gorgonia/ops/nn"
@@ -11,6 +13,7 @@ import (
 // https://github.com/onnx/onnx/blob/master/docs/Operators.md#Conv
 type Conv struct {
 	name        string
+	AutoPad     string
 	Pads        []int
 	Dilations   []int
 	Group       int
@@ -22,11 +25,11 @@ type Conv struct {
 func (c *Conv) Init(attrs []*onnx.AttributeProto) error {
 	c.name = "conv"
 	type attributes struct {
+		KernelShape []int64 `attributeName:"kernel_shape" required:"true"`
 		AutoPad     string  `attributeName:"auto_pad"`
 		Dilations   []int64 `attributeName:"dilations"`
 		Group       int64   `attributeName:"group"`
-		KernelShape []int64 `attributeName:"kernel_shape"`
-		Pads        []int64 `attributeName:"pads"`
+		Pads        []int64 `attributeName:"pads" required:"true"`
 		Strides     []int64 `attributeName:"strides"`
 	}
 	// Set the default values
@@ -59,42 +62,10 @@ func (c *Conv) Init(attrs []*onnx.AttributeProto) error {
 	case "NOTSET":
 	case "VALID":
 		c.Pads = []int{0, 0}
-
 	case "SAME_UPPER":
-		return &onnx.ErrNotImplemented{
-			Operator:       c.name,
-			AttributeName:  "auto_pad",
-			AttributeValue: attr.AutoPad,
-			Message:        "Not implemented",
-		}
-
-		/*
-			//BUG(owulveryck): We need the input shape for automatic padding
-				outputHeight := int(
-					math.Ceil(
-						float64(attr.KernelShape[2]) / float64(attr.Strides[0])))
-				outputWidth := int(
-					math.Ceil(
-						float64(attr.KernelShape[3]) / float64(attr.Strides[1])))
-				c.Pads[0] = int(
-					math.Max(
-						float64((outputHeight-1)*attr.Strides[0]+kernelShape[0]-input.Shape()[2]),
-						float64(0)),
-				) / 2
-				c.Pads[1] = int(
-					math.Max(
-						float64((outputWidth-1)*attr.Strides[1]+kernelShape[1]-input.Shape()[3]),
-						float64(0)),
-				) / 2
-		*/
+		c.AutoPad = attr.AutoPad
 	case "SAME_LOWER":
-		return &onnx.ErrNotImplemented{
-			Operator:       c.name,
-			AttributeName:  "auto_pad",
-			AttributeValue: attr.AutoPad,
-			Message:        "Not implemented",
-		}
-
+		c.AutoPad = attr.AutoPad
 	default:
 		return &onnx.ErrNotImplemented{
 			Operator:       c.name,
@@ -102,7 +73,6 @@ func (c *Conv) Init(attrs []*onnx.AttributeProto) error {
 			AttributeValue: attr.AutoPad,
 			Message:        "Invalide value",
 		}
-
 	}
 
 	if len(attr.Pads) == 4 && (attr.Pads[0] != attr.Pads[1] || attr.Pads[2] != attr.Pads[3]) {
@@ -113,9 +83,9 @@ func (c *Conv) Init(attrs []*onnx.AttributeProto) error {
 			Message:        "Asymetric padding",
 		}
 	}
-	c.Pads = make([]int, len(attr.Pads)/2)
-	for i := 0; i < len(attr.Pads)/2; i++ {
-		//pad[i] = int(attr.Ints[2*i] + attr.Ints[2*i+1])
+	c.Pads = make([]int, 2)
+	for i := 0; i < 2; i++ {
+		//c.Pads[i] = int(attr.Pads[2*i] + attr.Pads[2*i+1])
 		c.Pads[i] = int(attr.Pads[2*i])
 	}
 	return nil
@@ -130,14 +100,29 @@ func (c *Conv) Apply(input ...*gorgonia.Node) ([]*gorgonia.Node, error) {
 			ActualInput:   len(input),
 		}
 	}
-	if len(input[1].Shape()) != 2 {
+	if len(input[1].Shape()) != 4 {
 		return nil, &onnx.ErrNotImplemented{
 			Operator:       c.name,
 			AttributeName:  "Kernel",
 			AttributeValue: input[1].Shape(),
-			Message:        "Kernel dimension != 2 not supported",
+			Message:        "Kernel shape invalid",
 		}
 
+	}
+	switch c.AutoPad {
+	case "SAME_UPPER":
+		outputHeight := int(math.Ceil(float64(input[0].Shape()[2]) / float64(c.Strides[0])))
+		outputWidth := int(math.Ceil(float64(input[0].Shape()[3]) / float64(c.Strides[1])))
+		c.Pads[0] = int(math.Max(float64((outputHeight-1)*c.Strides[0]+c.KernelShape[0]-input[0].Shape()[2]), float64(0))) / 2
+		c.Pads[1] = int(math.Max(float64((outputWidth-1)*c.Strides[1]+c.KernelShape[1]-input[0].Shape()[3]), float64(0))) / 2
+	case "SAME_LOWER":
+		return nil, &onnx.ErrNotImplemented{
+			Operator:       c.name,
+			AttributeName:  "auto_pad",
+			AttributeValue: c.AutoPad,
+			Message:        "not supported",
+		}
+	default:
 	}
 	n, err := nnops.Conv2d(input[0], input[1], c.KernelShape, c.Pads, c.Strides, c.Dilations)
 	return []*gorgonia.Node{n}, err
