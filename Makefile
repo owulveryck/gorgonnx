@@ -12,7 +12,7 @@ PLATFORMS := windows linux darwin
 os = $(word 1, $@)
 
 .PHONY: $(PLATFORMS)
-$(PLATFORMS):
+$(PLATFORMS): test
 	mkdir -p release
 	GOOS=$(os) GOARCH=amd64 go build -o release/$(BINARY)-$(VERSION)-$(os)-amd64 cmd/*.go
 
