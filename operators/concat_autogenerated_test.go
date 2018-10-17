@@ -47,7 +47,7 @@ func TestConcat_1d_axis_0(t *testing.T) {
 		if err != nil {
 			_, ok := err.(*onnx.ErrNotImplemented)
 			if ok && skip {
-				t.SkipNow()
+				t.Skip(err)
 			}
 
 			t.Fatal(err)
@@ -78,11 +78,11 @@ func TestConcat_1d_axis_0(t *testing.T) {
 	if err != nil {
 		_, ok := err.(*onnx.ErrNotImplemented)
 		if ok && skip {
-			t.SkipNow()
+			t.Skip(err)
 		}
 		_, ok = err.(*gorgonia.ErrNotImplemented)
 		if ok && skip {
-			t.SkipNow()
+			t.Skip(err)
 		}
 
 		t.Fatal(err)
@@ -136,7 +136,7 @@ func TestConcat_2d_axis_0(t *testing.T) {
 		if err != nil {
 			_, ok := err.(*onnx.ErrNotImplemented)
 			if ok && skip {
-				t.SkipNow()
+				t.Skip(err)
 			}
 
 			t.Fatal(err)
@@ -167,11 +167,11 @@ func TestConcat_2d_axis_0(t *testing.T) {
 	if err != nil {
 		_, ok := err.(*onnx.ErrNotImplemented)
 		if ok && skip {
-			t.SkipNow()
+			t.Skip(err)
 		}
 		_, ok = err.(*gorgonia.ErrNotImplemented)
 		if ok && skip {
-			t.SkipNow()
+			t.Skip(err)
 		}
 
 		t.Fatal(err)
@@ -225,7 +225,7 @@ func TestConcat_2d_axis_1(t *testing.T) {
 		if err != nil {
 			_, ok := err.(*onnx.ErrNotImplemented)
 			if ok && skip {
-				t.SkipNow()
+				t.Skip(err)
 			}
 
 			t.Fatal(err)
@@ -256,11 +256,11 @@ func TestConcat_2d_axis_1(t *testing.T) {
 	if err != nil {
 		_, ok := err.(*onnx.ErrNotImplemented)
 		if ok && skip {
-			t.SkipNow()
+			t.Skip(err)
 		}
 		_, ok = err.(*gorgonia.ErrNotImplemented)
 		if ok && skip {
-			t.SkipNow()
+			t.Skip(err)
 		}
 
 		t.Fatal(err)
@@ -314,7 +314,7 @@ func TestConcat_3d_axis_0(t *testing.T) {
 		if err != nil {
 			_, ok := err.(*onnx.ErrNotImplemented)
 			if ok && skip {
-				t.SkipNow()
+				t.Skip(err)
 			}
 
 			t.Fatal(err)
@@ -345,11 +345,11 @@ func TestConcat_3d_axis_0(t *testing.T) {
 	if err != nil {
 		_, ok := err.(*onnx.ErrNotImplemented)
 		if ok && skip {
-			t.SkipNow()
+			t.Skip(err)
 		}
 		_, ok = err.(*gorgonia.ErrNotImplemented)
 		if ok && skip {
-			t.SkipNow()
+			t.Skip(err)
 		}
 
 		t.Fatal(err)
@@ -403,7 +403,7 @@ func TestConcat_3d_axis_1(t *testing.T) {
 		if err != nil {
 			_, ok := err.(*onnx.ErrNotImplemented)
 			if ok && skip {
-				t.SkipNow()
+				t.Skip(err)
 			}
 
 			t.Fatal(err)
@@ -434,11 +434,11 @@ func TestConcat_3d_axis_1(t *testing.T) {
 	if err != nil {
 		_, ok := err.(*onnx.ErrNotImplemented)
 		if ok && skip {
-			t.SkipNow()
+			t.Skip(err)
 		}
 		_, ok = err.(*gorgonia.ErrNotImplemented)
 		if ok && skip {
-			t.SkipNow()
+			t.Skip(err)
 		}
 
 		t.Fatal(err)
@@ -492,7 +492,7 @@ func TestConcat_3d_axis_2(t *testing.T) {
 		if err != nil {
 			_, ok := err.(*onnx.ErrNotImplemented)
 			if ok && skip {
-				t.SkipNow()
+				t.Skip(err)
 			}
 
 			t.Fatal(err)
@@ -523,11 +523,11 @@ func TestConcat_3d_axis_2(t *testing.T) {
 	if err != nil {
 		_, ok := err.(*onnx.ErrNotImplemented)
 		if ok && skip {
-			t.SkipNow()
+			t.Skip(err)
 		}
 		_, ok = err.(*gorgonia.ErrNotImplemented)
 		if ok && skip {
-			t.SkipNow()
+			t.Skip(err)
 		}
 
 		t.Fatal(err)

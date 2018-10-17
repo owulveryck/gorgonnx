@@ -37,7 +37,7 @@ func TestMul_(t *testing.T) {
 		if err != nil {
 			_, ok := err.(*onnx.ErrNotImplemented)
 			if ok && skip {
-				t.SkipNow()
+				t.Skip(err)
 			}
 
 			t.Fatal(err)
@@ -68,11 +68,11 @@ func TestMul_(t *testing.T) {
 	if err != nil {
 		_, ok := err.(*onnx.ErrNotImplemented)
 		if ok && skip {
-			t.SkipNow()
+			t.Skip(err)
 		}
 		_, ok = err.(*gorgonia.ErrNotImplemented)
 		if ok && skip {
-			t.SkipNow()
+			t.Skip(err)
 		}
 
 		t.Fatal(err)
@@ -116,7 +116,7 @@ func TestMul_bcast(t *testing.T) {
 		if err != nil {
 			_, ok := err.(*onnx.ErrNotImplemented)
 			if ok && skip {
-				t.SkipNow()
+				t.Skip(err)
 			}
 
 			t.Fatal(err)
@@ -147,11 +147,11 @@ func TestMul_bcast(t *testing.T) {
 	if err != nil {
 		_, ok := err.(*onnx.ErrNotImplemented)
 		if ok && skip {
-			t.SkipNow()
+			t.Skip(err)
 		}
 		_, ok = err.(*gorgonia.ErrNotImplemented)
 		if ok && skip {
-			t.SkipNow()
+			t.Skip(err)
 		}
 
 		t.Fatal(err)
@@ -195,7 +195,7 @@ func TestMul_example(t *testing.T) {
 		if err != nil {
 			_, ok := err.(*onnx.ErrNotImplemented)
 			if ok && skip {
-				t.SkipNow()
+				t.Skip(err)
 			}
 
 			t.Fatal(err)
@@ -226,11 +226,11 @@ func TestMul_example(t *testing.T) {
 	if err != nil {
 		_, ok := err.(*onnx.ErrNotImplemented)
 		if ok && skip {
-			t.SkipNow()
+			t.Skip(err)
 		}
 		_, ok = err.(*gorgonia.ErrNotImplemented)
 		if ok && skip {
-			t.SkipNow()
+			t.Skip(err)
 		}
 
 		t.Fatal(err)

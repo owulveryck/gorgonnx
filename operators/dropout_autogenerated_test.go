@@ -37,7 +37,7 @@ func TestDropout_default(t *testing.T) {
 		if err != nil {
 			_, ok := err.(*onnx.ErrNotImplemented)
 			if ok && skip {
-				t.SkipNow()
+				t.Skip(err)
 			}
 
 			t.Fatal(err)
@@ -62,11 +62,11 @@ func TestDropout_default(t *testing.T) {
 	if err != nil {
 		_, ok := err.(*onnx.ErrNotImplemented)
 		if ok && skip {
-			t.SkipNow()
+			t.Skip(err)
 		}
 		_, ok = err.(*gorgonia.ErrNotImplemented)
 		if ok && skip {
-			t.SkipNow()
+			t.Skip(err)
 		}
 
 		t.Fatal(err)
@@ -120,7 +120,7 @@ func TestDropout_random(t *testing.T) {
 		if err != nil {
 			_, ok := err.(*onnx.ErrNotImplemented)
 			if ok && skip {
-				t.SkipNow()
+				t.Skip(err)
 			}
 
 			t.Fatal(err)
@@ -145,11 +145,11 @@ func TestDropout_random(t *testing.T) {
 	if err != nil {
 		_, ok := err.(*onnx.ErrNotImplemented)
 		if ok && skip {
-			t.SkipNow()
+			t.Skip(err)
 		}
 		_, ok = err.(*gorgonia.ErrNotImplemented)
 		if ok && skip {
-			t.SkipNow()
+			t.Skip(err)
 		}
 
 		t.Fatal(err)

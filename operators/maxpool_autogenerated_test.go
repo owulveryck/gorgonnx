@@ -47,7 +47,7 @@ func TestMaxpool_1d_default(t *testing.T) {
 		if err != nil {
 			_, ok := err.(*onnx.ErrNotImplemented)
 			if ok && skip {
-				t.SkipNow()
+				t.Skip(err)
 			}
 
 			t.Fatal(err)
@@ -72,11 +72,11 @@ func TestMaxpool_1d_default(t *testing.T) {
 	if err != nil {
 		_, ok := err.(*onnx.ErrNotImplemented)
 		if ok && skip {
-			t.SkipNow()
+			t.Skip(err)
 		}
 		_, ok = err.(*gorgonia.ErrNotImplemented)
 		if ok && skip {
-			t.SkipNow()
+			t.Skip(err)
 		}
 
 		t.Fatal(err)
@@ -130,7 +130,7 @@ func TestMaxpool_2d_default(t *testing.T) {
 		if err != nil {
 			_, ok := err.(*onnx.ErrNotImplemented)
 			if ok && skip {
-				t.SkipNow()
+				t.Skip(err)
 			}
 
 			t.Fatal(err)
@@ -155,11 +155,11 @@ func TestMaxpool_2d_default(t *testing.T) {
 	if err != nil {
 		_, ok := err.(*onnx.ErrNotImplemented)
 		if ok && skip {
-			t.SkipNow()
+			t.Skip(err)
 		}
 		_, ok = err.(*gorgonia.ErrNotImplemented)
 		if ok && skip {
-			t.SkipNow()
+			t.Skip(err)
 		}
 
 		t.Fatal(err)
@@ -223,7 +223,7 @@ func TestMaxpool_2d_pads(t *testing.T) {
 		if err != nil {
 			_, ok := err.(*onnx.ErrNotImplemented)
 			if ok && skip {
-				t.SkipNow()
+				t.Skip(err)
 			}
 
 			t.Fatal(err)
@@ -248,11 +248,11 @@ func TestMaxpool_2d_pads(t *testing.T) {
 	if err != nil {
 		_, ok := err.(*onnx.ErrNotImplemented)
 		if ok && skip {
-			t.SkipNow()
+			t.Skip(err)
 		}
 		_, ok = err.(*gorgonia.ErrNotImplemented)
 		if ok && skip {
-			t.SkipNow()
+			t.Skip(err)
 		}
 
 		t.Fatal(err)
@@ -316,7 +316,7 @@ func TestMaxpool_2d_precomputed_pads(t *testing.T) {
 		if err != nil {
 			_, ok := err.(*onnx.ErrNotImplemented)
 			if ok && skip {
-				t.SkipNow()
+				t.Skip(err)
 			}
 
 			t.Fatal(err)
@@ -341,11 +341,11 @@ func TestMaxpool_2d_precomputed_pads(t *testing.T) {
 	if err != nil {
 		_, ok := err.(*onnx.ErrNotImplemented)
 		if ok && skip {
-			t.SkipNow()
+			t.Skip(err)
 		}
 		_, ok = err.(*gorgonia.ErrNotImplemented)
 		if ok && skip {
-			t.SkipNow()
+			t.Skip(err)
 		}
 
 		t.Fatal(err)
@@ -419,7 +419,7 @@ func TestMaxpool_2d_precomputed_same_upper(t *testing.T) {
 		if err != nil {
 			_, ok := err.(*onnx.ErrNotImplemented)
 			if ok && skip {
-				t.SkipNow()
+				t.Skip(err)
 			}
 
 			t.Fatal(err)
@@ -444,11 +444,11 @@ func TestMaxpool_2d_precomputed_same_upper(t *testing.T) {
 	if err != nil {
 		_, ok := err.(*onnx.ErrNotImplemented)
 		if ok && skip {
-			t.SkipNow()
+			t.Skip(err)
 		}
 		_, ok = err.(*gorgonia.ErrNotImplemented)
 		if ok && skip {
-			t.SkipNow()
+			t.Skip(err)
 		}
 
 		t.Fatal(err)
@@ -512,7 +512,7 @@ func TestMaxpool_2d_precomputed_strides(t *testing.T) {
 		if err != nil {
 			_, ok := err.(*onnx.ErrNotImplemented)
 			if ok && skip {
-				t.SkipNow()
+				t.Skip(err)
 			}
 
 			t.Fatal(err)
@@ -537,11 +537,11 @@ func TestMaxpool_2d_precomputed_strides(t *testing.T) {
 	if err != nil {
 		_, ok := err.(*onnx.ErrNotImplemented)
 		if ok && skip {
-			t.SkipNow()
+			t.Skip(err)
 		}
 		_, ok = err.(*gorgonia.ErrNotImplemented)
 		if ok && skip {
-			t.SkipNow()
+			t.Skip(err)
 		}
 
 		t.Fatal(err)
@@ -605,7 +605,7 @@ func TestMaxpool_2d_same_lower(t *testing.T) {
 		if err != nil {
 			_, ok := err.(*onnx.ErrNotImplemented)
 			if ok && skip {
-				t.SkipNow()
+				t.Skip(err)
 			}
 
 			t.Fatal(err)
@@ -630,11 +630,11 @@ func TestMaxpool_2d_same_lower(t *testing.T) {
 	if err != nil {
 		_, ok := err.(*onnx.ErrNotImplemented)
 		if ok && skip {
-			t.SkipNow()
+			t.Skip(err)
 		}
 		_, ok = err.(*gorgonia.ErrNotImplemented)
 		if ok && skip {
-			t.SkipNow()
+			t.Skip(err)
 		}
 
 		t.Fatal(err)
@@ -698,7 +698,7 @@ func TestMaxpool_2d_same_upper(t *testing.T) {
 		if err != nil {
 			_, ok := err.(*onnx.ErrNotImplemented)
 			if ok && skip {
-				t.SkipNow()
+				t.Skip(err)
 			}
 
 			t.Fatal(err)
@@ -723,11 +723,11 @@ func TestMaxpool_2d_same_upper(t *testing.T) {
 	if err != nil {
 		_, ok := err.(*onnx.ErrNotImplemented)
 		if ok && skip {
-			t.SkipNow()
+			t.Skip(err)
 		}
 		_, ok = err.(*gorgonia.ErrNotImplemented)
 		if ok && skip {
-			t.SkipNow()
+			t.Skip(err)
 		}
 
 		t.Fatal(err)
@@ -791,7 +791,7 @@ func TestMaxpool_2d_strides(t *testing.T) {
 		if err != nil {
 			_, ok := err.(*onnx.ErrNotImplemented)
 			if ok && skip {
-				t.SkipNow()
+				t.Skip(err)
 			}
 
 			t.Fatal(err)
@@ -816,11 +816,11 @@ func TestMaxpool_2d_strides(t *testing.T) {
 	if err != nil {
 		_, ok := err.(*onnx.ErrNotImplemented)
 		if ok && skip {
-			t.SkipNow()
+			t.Skip(err)
 		}
 		_, ok = err.(*gorgonia.ErrNotImplemented)
 		if ok && skip {
-			t.SkipNow()
+			t.Skip(err)
 		}
 
 		t.Fatal(err)
@@ -874,7 +874,7 @@ func TestMaxpool_3d_default(t *testing.T) {
 		if err != nil {
 			_, ok := err.(*onnx.ErrNotImplemented)
 			if ok && skip {
-				t.SkipNow()
+				t.Skip(err)
 			}
 
 			t.Fatal(err)
@@ -899,11 +899,11 @@ func TestMaxpool_3d_default(t *testing.T) {
 	if err != nil {
 		_, ok := err.(*onnx.ErrNotImplemented)
 		if ok && skip {
-			t.SkipNow()
+			t.Skip(err)
 		}
 		_, ok = err.(*gorgonia.ErrNotImplemented)
 		if ok && skip {
-			t.SkipNow()
+			t.Skip(err)
 		}
 
 		t.Fatal(err)
@@ -967,7 +967,7 @@ func TestMaxpool_with_argmax_2d_precomputed_pads(t *testing.T) {
 		if err != nil {
 			_, ok := err.(*onnx.ErrNotImplemented)
 			if ok && skip {
-				t.SkipNow()
+				t.Skip(err)
 			}
 
 			t.Fatal(err)
@@ -997,11 +997,11 @@ func TestMaxpool_with_argmax_2d_precomputed_pads(t *testing.T) {
 	if err != nil {
 		_, ok := err.(*onnx.ErrNotImplemented)
 		if ok && skip {
-			t.SkipNow()
+			t.Skip(err)
 		}
 		_, ok = err.(*gorgonia.ErrNotImplemented)
 		if ok && skip {
-			t.SkipNow()
+			t.Skip(err)
 		}
 
 		t.Fatal(err)
@@ -1080,7 +1080,7 @@ func TestMaxpool_with_argmax_2d_precomputed_strides(t *testing.T) {
 		if err != nil {
 			_, ok := err.(*onnx.ErrNotImplemented)
 			if ok && skip {
-				t.SkipNow()
+				t.Skip(err)
 			}
 
 			t.Fatal(err)
@@ -1110,11 +1110,11 @@ func TestMaxpool_with_argmax_2d_precomputed_strides(t *testing.T) {
 	if err != nil {
 		_, ok := err.(*onnx.ErrNotImplemented)
 		if ok && skip {
-			t.SkipNow()
+			t.Skip(err)
 		}
 		_, ok = err.(*gorgonia.ErrNotImplemented)
 		if ok && skip {
-			t.SkipNow()
+			t.Skip(err)
 		}
 
 		t.Fatal(err)
