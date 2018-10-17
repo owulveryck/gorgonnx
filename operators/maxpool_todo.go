@@ -14,17 +14,26 @@ type Maxpool struct {
 // Init ...
 func (o *Maxpool) Init(attrs []*onnx.AttributeProto) error {
 	o.name = "Maxpool"
-	return nil
+	return &onnx.ErrNotImplemented{
+		Operator: o.name,
+		Message:  "Not implemented yet",
+	}
 }
 
 // Apply ...
 func (o *Maxpool) Apply(input ...*gorgonia.Node) ([]*gorgonia.Node, error) {
-	if len(input) != 2 {
-		return nil, &ErrBadArity{
-			Operator:      o.name,
-			ExpectedInput: 2,
-			ActualInput:   len(input),
+	/*
+		if len(input) != 2 {
+			return nil, &ErrBadArity{
+				Operator:      o.name,
+				ExpectedInput: 2,
+				ActualInput:   len(input),
+			}
 		}
+	*/
+	return nil, &onnx.ErrNotImplemented{
+		Operator: o.name,
+		Message:  "Not implemented yet",
 	}
-	return nil, nil
+
 }

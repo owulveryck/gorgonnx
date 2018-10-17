@@ -57,17 +57,17 @@ func main() {
 			switch attr.GetType() {
 			case onnx.AttributeProto_UNDEFINED:
 			case onnx.AttributeProto_FLOAT:
-				attributes[i].Value = fmt.Sprintf("%v", attr.GetF())
+				attributes[i].Value = fmt.Sprintf("float32(%v)", attr.GetF())
 				attributes[i].AssignableType = "F"
 				attributes[i].IsPointer = true
 			case onnx.AttributeProto_INT:
-				attributes[i].Value = fmt.Sprintf("%v", attr.GetI())
+				attributes[i].Value = fmt.Sprintf("int64(%v)", attr.GetI())
 				attributes[i].AssignableType = "I"
 				attributes[i].IsPointer = true
 			case onnx.AttributeProto_STRING:
-				attributes[i].Value = fmt.Sprintf("%v", attr.GetS())
+				attributes[i].Value = fmt.Sprintf("%#v", attr.GetS())
 				attributes[i].AssignableType = "S"
-				attributes[i].IsPointer = true
+				attributes[i].IsPointer = false
 			case onnx.AttributeProto_TENSOR:
 			case onnx.AttributeProto_GRAPH:
 			case onnx.AttributeProto_FLOATS:
