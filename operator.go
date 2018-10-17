@@ -2,7 +2,6 @@ package gorgonnx
 
 import (
 	"errors"
-	"fmt"
 
 	"github.com/owulveryck/gorgonnx/operators"
 	onnx "github.com/owulveryck/onnx-go"
@@ -13,11 +12,11 @@ import (
 var AvailableOperators = map[string]Operator{
 	"Conv":     &operators.Conv{},
 	"Mul":      &operators.Mul{},
-	"Matmul":   &operators.Matmul{},
+	"MatMul":   &operators.Matmul{},
 	"Div":      &operators.Div{},
 	"Add":      &operators.Add{},
 	"Relu":     &operators.Relu{},
-	"Maxpool":  &operators.Maxpool{},
+	"MaxPool":  &operators.Maxpool{},
 	"Concat":   &operators.Concat{},
 	"Constant": &operators.Constant{},
 	"Reshape":  &operators.Reshape{},
@@ -30,7 +29,6 @@ type Operator interface {
 }
 
 func (cg *computationGraph) processNode(nx *onnx.NodeProto) error {
-	fmt.Println("Processing", nx)
 	op, ok := AvailableOperators[*nx.OpType]
 	if !ok {
 		return ErrNotImplemented{
