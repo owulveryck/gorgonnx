@@ -3,8 +3,10 @@ go:
     - 1.11
     - tip
 script:
+    - go get github.com/mattn/goveralls
     - go get -t ./...
     - make
+    - $GOPATH/bin/goveralls -service=travis-ci
 before_deploy:
     - make VERSION=${TRAVIS_TAG} release -j2
 deploy:
