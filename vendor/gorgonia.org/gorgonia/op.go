@@ -177,7 +177,8 @@ func ApplyOp(op Op, children ...*Node) (retVal *Node, err error) {
 	}
 
 	if g == nil {
-		return nil, errors.New("No Graph Supplied")
+		//return nil, errors.New("No Graph Supplied")
+		return nil, fmt.Errorf("No Graph Supplied for Op %v", op)
 	}
 
 	if !Nodes(children).AllSameGraph() {

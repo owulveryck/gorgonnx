@@ -2,6 +2,9 @@ onnxTest
 utilities/utilities
 sample/sample
 mnist/utilities/utilities
+utilities/tests_gen/tests_gen
+release/*
+cmd/cmd
 
 sample/err.dot
 sample/output
