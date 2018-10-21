@@ -4,6 +4,7 @@ import (
 	onnx "github.com/owulveryck/onnx-go"
 	"gorgonia.org/gorgonia"
 	nnops "gorgonia.org/gorgonia/ops/nn"
+	"gorgonia.org/tensor"
 )
 
 // Batchnorm operator
@@ -48,16 +49,59 @@ func (o *Batchnorm) Apply(input ...*gorgonia.Node) ([]*gorgonia.Node, error) {
 			ActualInput:   len(input),
 		}
 	}
+	if len(input[0].Shape()) != 4 {
+		return nil, &onnx.ErrNotImplemented{
+			Operator: o.name,
+		}
+
+	}
+	// Reshape the scale and bias
+	var err error
+	var scaleN, biasN *gorgonia.Node
+	dimN := input[0].Shape()[0]
+	dimC := input[0].Shape()[1]
+	dimH := input[0].Shape()[2]
+	dimW := input[0].Shape()[3]
+	dtype := input[0].Dtype()
+	switch dtype {
+	case tensor.Float32:
+		backingScale := make([]float32, dimN*dimC*dimH*dimW)
+		for i := 0; i < len(backingScale); i++ {
+			backingScale[i] = 1
+		}
+		copy(backingScale[dimN:], input[1].Value().Data().([]float32))
+		scaleT := tensor.New(tensor.WithBacking(backingScale), tensor.WithShape(input[0].Shape()...))
+		scaleN = gorgonia.NewTensor(input[0].Graph(), dtype, 4, gorgonia.WithShape(input[0].Shape()...), gorgonia.WithValue(scaleT))
+
+		backingBias := make([]float32, dimN*dimC*dimH*dimW)
+		copy(backingBias[dimN:], input[2].Value().Data().([]float32))
+		biasT := tensor.New(tensor.WithBacking(backingBias), tensor.WithShape(input[0].Shape()...))
+		biasN = gorgonia.NewTensor(input[0].Graph(), dtype, 4, gorgonia.WithShape(input[0].Shape()...), gorgonia.WithValue(biasT))
+	case tensor.Float64:
+		backingScale := make([]float64, dimN*dimC*dimH*dimW)
+		for i := 0; i < len(backingScale); i++ {
+			backingScale[i] = 1
+		}
+		copy(backingScale[dimN:], input[1].Value().Data().([]float64))
+		backingBias := make([]float64, dimN*dimC*dimH*dimW)
+		copy(backingBias[dimN:], input[2].Value().Data().([]float64))
+		scaleT := tensor.New(tensor.WithBacking(backingScale), tensor.WithShape(input[0].Shape()...))
+		biasT := tensor.New(tensor.WithBacking(backingBias), tensor.WithShape(input[0].Shape()...))
+		scaleN = gorgonia.NewTensor(input[0].Graph(), dtype, 4, gorgonia.WithShape(input[0].Shape()...), gorgonia.WithValue(scaleT))
+		biasN = gorgonia.NewTensor(input[0].Graph(), dtype, 4, gorgonia.WithShape(input[0].Shape()...), gorgonia.WithValue(biasT))
+	default:
+		return nil, &onnx.ErrNotImplemented{
+			Operator: o.name,
+			Message:  "Unsupported type",
+		}
+
+	}
 
 	var outputY, outputMean, outputVar, outputSavedMean, outputSavedVar *gorgonia.Node
-	//var op *gorgonia.BatchNormOp
-	var err error
-	//outputY, outputMean, outputVar, op, err = nnops.BatchNorm(input[0], input[1], input[2], o.Momentum, o.Epsilon)
-	outputY, outputMean, outputVar, _, err = nnops.BatchNorm(input[0], nil, nil, o.Momentum, o.Epsilon)
+	outputY, outputMean, outputVar, _, err = nnops.BatchNorm(input[0], scaleN, biasN, o.Momentum, o.Epsilon)
 	if err != nil {
 		return nil, err
 	}
-	//outputY, err = gorgonia.ApplyOp(op)
 	return []*gorgonia.Node{
 		outputY,
 		outputMean,
