@@ -3,6 +3,7 @@ package operators
 import (
 	onnx "github.com/owulveryck/onnx-go"
 	"gorgonia.org/gorgonia"
+	nnops "gorgonia.org/gorgonia/ops/nn"
 )
 
 // Batchnorm operator
@@ -43,20 +44,26 @@ func (o *Batchnorm) Apply(input ...*gorgonia.Node) ([]*gorgonia.Node, error) {
 	if len(input) != 5 {
 		return nil, &ErrBadArity{
 			Operator:      o.name,
-			ExpectedInput: 2,
+			ExpectedInput: 5,
 			ActualInput:   len(input),
 		}
 	}
-	var outputY, outputMean, outoutVar, outputSavedMean, outputSavedVar *gorgonia.Node
+
+	var outputY, outputMean, outputVar, outputSavedMean, outputSavedVar *gorgonia.Node
+	//var op *gorgonia.BatchNormOp
+	var err error
+	//outputY, outputMean, outputVar, op, err = nnops.BatchNorm(input[0], input[1], input[2], o.Momentum, o.Epsilon)
+	outputY, outputMean, outputVar, _, err = nnops.BatchNorm(input[0], nil, nil, o.Momentum, o.Epsilon)
+	if err != nil {
+		return nil, err
+	}
+	//outputY, err = gorgonia.ApplyOp(op)
 	return []*gorgonia.Node{
-			outputY,
-			outputMean,
-			outoutVar,
-			outputSavedMean,
-			outputSavedVar,
-		}, &onnx.ErrNotImplemented{
-			Operator: o.name,
-			Message:  "Not implemented yet",
-		}
+		outputY,
+		outputMean,
+		outputVar,
+		outputSavedMean,
+		outputSavedVar,
+	}, err
 
 }
