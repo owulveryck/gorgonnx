@@ -250,6 +250,7 @@ func Conv1d(in, filter *Node, kernel, pad, stride, dilation int) (*Node, error) 
 	return Conv2d(in, filter, tensor.Shape{1, kernel}, []int{0, pad}, []int{1, stride}, []int{1, dilation})
 }
 
+// MaxPool2D operator on a 4 dim tensor.
 func MaxPool2D(x *Node, kernel tensor.Shape, pad, stride []int) (*Node, error) {
 	xShape := x.Shape()
 	h, w := xShape[2], xShape[3]
@@ -278,6 +279,7 @@ func MaxPool2D(x *Node, kernel tensor.Shape, pad, stride []int) (*Node, error) {
 	return ApplyOp(op, x)
 }
 
+// BatchNorm ...
 func BatchNorm(x, scale, bias *Node, momentum, epsilon float64) (retVal, γ, β *Node, op *BatchNormOp, err error) {
 	dt, err := dtypeOf(x.Type())
 	if err != nil {
@@ -291,8 +293,8 @@ func BatchNorm(x, scale, bias *Node, momentum, epsilon float64) (retVal, γ, β 
 	variance := tensor.New(tensor.Of(dt), tensor.WithShape(channels))
 	ma := tensor.New(tensor.Of(dt), tensor.WithShape(1))
 
-	mean_ := tensor.New(tensor.Of(dt), tensor.WithShape(channels))
-	variance_ := tensor.New(tensor.Of(dt), tensor.WithShape(channels))
+	meanBck := tensor.New(tensor.Of(dt), tensor.WithShape(channels))
+	varianceBck := tensor.New(tensor.Of(dt), tensor.WithShape(channels))
 	tmp := tensor.New(tensor.Of(dt), tensor.WithShape(x.Shape().Clone()...))
 	xNorm := tensor.New(tensor.Of(dt), tensor.WithShape(x.Shape().Clone()...))
 	batchSumMultiplier := tensor.New(tensor.Of(dt), tensor.WithShape(batches))
@@ -322,8 +324,8 @@ func BatchNorm(x, scale, bias *Node, momentum, epsilon float64) (retVal, γ, β 
 		variance: variance,
 		ma:       ma,
 
-		mean_:                mean_,
-		variance_:            variance_,
+		mean_:                meanBck,
+		variance_:            varianceBck,
 		tmp_:                 tmp,
 		xNorm:                xNorm,
 		batchSumMultiplier:   batchSumMultiplier,
@@ -345,10 +347,96 @@ func BatchNorm(x, scale, bias *Node, momentum, epsilon float64) (retVal, γ, β 
 	if retVal, err = ApplyOp(op, x); err != nil {
 		return nil, nil, nil, nil, err
 	}
-	if retVal, err = HadamardProd(scale, retVal); err != nil {
+	if retVal, err = HadamardProdBroadcast(scale, retVal); err != nil {
 		return nil, nil, nil, nil, err
 	}
-	retVal, err = Add(retVal, bias)
+	retVal, err = AddBroadcast(retVal, bias)
+
+	return retVal, scale, bias, op, err
+}
+
+// BatchNormONNX Test for onnx implementation
+// The main difference is that the scale and bias are vector that are boradcasted to the full input tensor
+func BatchNormONNX(x, scale, bias *Node, momentum, epsilon float64) (retVal, γ, β *Node, op *BatchNormOp, err error) {
+	dt, err := dtypeOf(x.Type())
+	if err != nil {
+		return nil, nil, nil, nil, err
+	}
+	batches := x.Shape()[0]
+	channels := x.Shape()[1]
+	spatialDim := x.Shape().TotalSize() / (channels * batches)
+
+	mean := tensor.New(tensor.Of(dt), tensor.WithShape(channels))
+	variance := tensor.New(tensor.Of(dt), tensor.WithShape(channels))
+	ma := tensor.New(tensor.Of(dt), tensor.WithShape(1))
+
+	meanBck := tensor.New(tensor.Of(dt), tensor.WithShape(channels))
+	varianceBck := tensor.New(tensor.Of(dt), tensor.WithShape(channels))
+	tmp := tensor.New(tensor.Of(dt), tensor.WithShape(x.Shape().Clone()...))
+	xNorm := tensor.New(tensor.Of(dt), tensor.WithShape(x.Shape().Clone()...))
+	batchSumMultiplier := tensor.New(tensor.Of(dt), tensor.WithShape(batches))
+
+	var uno interface{}
+	switch dt {
+	case Float64:
+		uno = float64(1)
+	case Float32:
+		uno = float32(1)
+	}
+	spatialSumMultiplier := tensor.New(tensor.Of(dt), tensor.WithShape(spatialDim))
+	if err = spatialSumMultiplier.Memset(uno); err != nil {
+		return nil, nil, nil, nil, err
+	}
+
+	numByChans := tensor.New(tensor.Of(dt), tensor.WithShape(channels*batches))
+	if err = batchSumMultiplier.Memset(uno); err != nil {
+		return nil, nil, nil, nil, err
+	}
+
+	op = &BatchNormOp{
+		momentum: momentum,
+		epsilon:  epsilon,
+
+		mean:     mean,
+		variance: variance,
+		ma:       ma,
+
+		mean_:                meanBck,
+		variance_:            varianceBck,
+		tmp_:                 tmp,
+		xNorm:                xNorm,
+		batchSumMultiplier:   batchSumMultiplier,
+		numByChans:           numByChans,
+		spatialSumMultiplier: spatialSumMultiplier,
+
+		training: true,
+	}
+	g := x.Graph()
+	dims := x.Shape().Dims()
+
+	if scale == nil {
+		scale = NewTensor(g, dt, dims, WithShape(x.Shape().Clone()...), WithName(x.Name()+"_γ"), WithInit(GlorotN(1.0)))
+	}
+	if bias == nil {
+		bias = NewTensor(g, dt, dims, WithShape(x.Shape().Clone()...), WithName(x.Name()+"_β"), WithInit(GlorotN(1.0)))
+	}
+
+	if retVal, err = ApplyOp(op, x); err != nil {
+		return nil, nil, nil, nil, err
+	}
+	scaleReshaped, err := Reshape(scale, []int{1, scale.Shape()[0], 1, 1})
+	if err != nil {
+		return nil, nil, nil, nil, err
+	}
+	retVal, err = Broadcast(mulOpType, scaleReshaped, x, NewBroadcastPattern([]byte{0, 2, 3}, nil))
+	if err != nil {
+		return nil, nil, nil, nil, err
+	}
+	biasReshaped, err := Reshape(bias, []int{1, scale.Shape()[0], 1, 1})
+	if err != nil {
+		return nil, nil, nil, nil, err
+	}
+	retVal, err = Broadcast(addOpType, retVal, biasReshaped, NewBroadcastPattern(nil, []byte{0, 2, 3}))
 
 	return retVal, scale, bias, op, err
 }

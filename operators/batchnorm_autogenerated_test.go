@@ -199,6 +199,8 @@ func TestBatchnorm_example(t *testing.T) {
 	}
 
 	assert.Equal(yT.Shape(), y.Shape(), "Tensors should be the same")
+	t.Log(yT)
+	t.Log(y.Value())
 	assert.InDeltaSlice(yT.Data(), y.Value().Data(), 1e-5, "Tensors should be the same")
 
 }
