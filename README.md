@@ -15,6 +15,10 @@ The purpose of this package is to provide some utilities to read and transpile a
 
 It relies on the [ONNX Go](https://github.com/owulveryck/onnx-go) package
 
-# MNIST
+# Blog
 
-The model used for testing is taken from the [ONNX model zoo](https://github.com/onnx/models/tree/master/mnist)
+I wrote two article about the genesis of the project:
+
+* [My journey with ONNX and Go - The beginning](https://blog.owulveryck.info/2018/08/14/my-journey-with-onnx-and-go---the-beginning.html)
+* [My journey with ONNX and Go - Running the graph](https://blog.owulveryck.info/2018/09/19/my-journey-with-onnx-and-go---running-the-graph.html)
+
