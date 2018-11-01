@@ -40,6 +40,10 @@ func (o *Batchnorm) Init(attrs []*onnx.AttributeProto) error {
 
 // Apply ...
 func (o *Batchnorm) Apply(input ...*gorgonia.Node) ([]*gorgonia.Node, error) {
+	return nil, &onnx.ErrNotImplemented{
+		Operator: o.name,
+		Message:  "Temporarly disabled",
+	}
 	if len(input) != 5 {
 		return nil, &ErrBadArity{
 			Operator:      o.name,
