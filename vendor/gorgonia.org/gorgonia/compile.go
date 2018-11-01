@@ -18,13 +18,8 @@ func Compile(g *ExprGraph) (prog *program, locMap map[*Node]register, err error)
 	enterLogScope()
 	defer leaveLogScope()
 
-	switch {
-
-	case len(g.AllNodes()) == 0:
+	if g.Nodes().Len() == 0 {
 		err = errors.Errorf("Cannot compile an empty graph")
-		return
-	case len(g.Inputs()) == 0:
-		err = errors.Errorf("Cannot compile a graph with no input")
 		return
 	}
 
@@ -47,10 +42,6 @@ func Compile(g *ExprGraph) (prog *program, locMap map[*Node]register, err error)
 	logCompileState(g.name, g, df)
 
 	inputs := g.Inputs()
-	if len(inputs) == 0 {
-		err = errors.New("Cannot create graph without input")
-		return
-	}
 	cg := newCodeGenerator(inputs, sortedNodes, df)
 	prog, locMap = cg.gen()
 	prog.cpulocs = ra.cpucount
@@ -404,8 +395,9 @@ func (cg *codegenerator) addNode(node, replacement *Node, interv *interval, i in
 			var op Op
 			var onDev, nodeOnDev Device
 
+			_, isDevTrans := lastWriteNode.Op().(devTrans)
 			switch {
-			case lastWriteNode.isArg(), lastWriteNode.isStmt:
+			case lastWriteNode.isArg(), lastWriteNode.isStmt && !isDevTrans:
 				continue
 			default:
 				op = lastWriteNode.op
@@ -445,7 +437,7 @@ func (cg *codegenerator) addNode(node, replacement *Node, interv *interval, i in
 			case !op.CallsExtern():
 				compileLogf("ToFlush: Node doesn't call extern. NO FLUSH")
 				// op doesn't call extern... don't bother flushing
-			case op.CallsExtern() && node.op.CallsExtern() && onDev == nodeOnDev:
+			case op.CallsExtern() && node.op.CallsExtern() && onDev == nodeOnDev && !isDevTrans:
 				compileLogf("ToFlush: Both calls extern, both same device. NO FLUSH")
 				// same device, both calls extern
 				// no flush needed

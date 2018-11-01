@@ -5,7 +5,6 @@ import (
 
 	"github.com/pkg/errors"
 	"gonum.org/v1/gonum/graph"
-	"gonum.org/v1/gonum/graph/iterator"
 	"gonum.org/v1/gonum/graph/topo"
 )
 
@@ -45,7 +44,7 @@ func Sort(g *ExprGraph) (sorted Nodes, err error) {
 		return nil, errors.Wrap(err, sortFail)
 	}
 
-	sorted = graphNodeToNode(iterator.NewOrderedNodes(sortedNodes))
+	sorted = graphNodeToNode(sortedNodes)
 	return
 }
 
@@ -55,7 +54,7 @@ func UnstableSort(g *ExprGraph) (sorted Nodes, err error) {
 		return nil, errors.Wrap(err, sortFail)
 	}
 
-	sorted = graphNodeToNode(iterator.NewOrderedNodes(sortedNodes))
+	sorted = graphNodeToNode(sortedNodes)
 	return
 }
 

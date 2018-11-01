@@ -6,6 +6,7 @@ import (
 
 	"github.com/awalterschulze/gographviz"
 	"gonum.org/v1/gonum/graph"
+	"gonum.org/v1/gonum/graph/iterator"
 )
 
 // ExprGraph is a data structure for a directed acyclic graph (of expressions). This structure is the main entry point
@@ -25,11 +26,10 @@ type ExprGraph struct {
 	counter   uint
 }
 
-// Graphconopt sets options
-type Graphconopt func(g *ExprGraph)
+type graphconopt func(g *ExprGraph)
 
 // WithGraphName is a ExprGraph construction option that provides a name.
-func WithGraphName(name string) Graphconopt {
+func WithGraphName(name string) graphconopt {
 	f := func(g *ExprGraph) {
 		g.name = name
 	}
@@ -37,7 +37,7 @@ func WithGraphName(name string) Graphconopt {
 }
 
 // NewGraph creates a new graph. Duh
-func NewGraph(opts ...Graphconopt) *ExprGraph {
+func NewGraph(opts ...graphconopt) *ExprGraph {
 	g := &ExprGraph{
 		byHash: make(map[uint32]*Node),
 		evac:   make(map[uint32]Nodes),
@@ -526,7 +526,7 @@ func (g *ExprGraph) Nodes() graph.Nodes {
 	ns := g.AllNodes()
 
 	nodes := nodeToGraphNode(ns)
-	return nodes
+	return iterator.NewOrderedNodes(nodes)
 }
 
 // AllNodes is like Nodes, but returns Nodes instead of []graph.Node.
@@ -536,7 +536,7 @@ func (g *ExprGraph) AllNodes() Nodes { return g.all }
 // From returns all nodes in g that can be reached directly from n.
 func (g *ExprGraph) From(nodeid int64) graph.Nodes {
 	if n := g.node(nodeid); n != nil {
-		return nodeToGraphNode(n.children)
+		return iterator.NewOrderedNodes(nodeToGraphNode(n.children))
 	}
 	return nil
 }
@@ -593,7 +593,7 @@ func (g *ExprGraph) To(nid int64) graph.Nodes {
 	ns := g.to[n]
 	ns = ns.Set()
 	g.to[n] = ns
-	return nodeToGraphNode(ns)
+	return iterator.NewOrderedNodes(nodeToGraphNode(ns))
 }
 
 // subgraph is basically a subset of nodes. This is useful for compiling sub sections of the graph

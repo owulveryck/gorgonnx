@@ -9,7 +9,6 @@ import (
 	"github.com/chewxy/math32"
 	"github.com/pkg/errors"
 	"gonum.org/v1/gonum/graph"
-	"gonum.org/v1/gonum/graph/iterator"
 	"gorgonia.org/tensor"
 )
 
@@ -27,21 +26,20 @@ func NodesToValueGrads(in Nodes) (out []ValueGrad) {
 	return out
 }
 
-func graphNodeToNode(in graph.Nodes) (out Nodes) {
-	out = make(Nodes, in.Len())
-	for i := 0; in.Next(); i++ {
-		out[i] = in.Node().(*Node)
+func graphNodeToNode(in []graph.Node) (out Nodes) {
+	out = make(Nodes, len(in))
+	for i, n := range in {
+		out[i] = n.(*Node) // will panic if not. which is a good thng
 	}
-
 	return
 }
 
-func nodeToGraphNode(in []*Node) graph.Nodes {
-	nodes := make([]graph.Node, len(in))
+func nodeToGraphNode(in []*Node) (out []graph.Node) {
+	out = make([]graph.Node, len(in))
 	for i, n := range in {
-		nodes[i] = n
+		out[i] = n
 	}
-	return iterator.NewOrderedNodes(nodes)
+	return
 }
 
 func tensorInfo(t tensor.Tensor) (dt tensor.Dtype, dim int) {
@@ -131,10 +129,10 @@ func hasInf(v Value, dev Device) bool {
 	switch vt := v.(type) {
 	case *F64:
 		return false
-		return math.IsInf(float64(*vt), 0)
+		//return math.IsInf(float64(*vt), 0)
 	case *F32:
 		return false
-		return math32.IsInf(float32(*vt), 0)
+		//return math32.IsInf(float32(*vt), 0)
 	case tensor.Tensor:
 		if e, ok := vt.Engine().(tensor.InfChecker); ok {
 			ok, _ := e.HasInf(vt) // BUG: errors not checked
@@ -174,10 +172,10 @@ func hasNaN(v Value, dev Device) bool {
 	switch vt := v.(type) {
 	case *F64:
 		return false
-		return math.IsNaN(float64(*vt))
+		//return math.IsNaN(float64(*vt))
 	case *F32:
 		return false
-		return math32.IsNaN(float32(*vt))
+		//return math32.IsNaN(float32(*vt))
 	case tensor.Tensor:
 		if e, ok := vt.Engine().(tensor.NaNChecker); ok {
 			ok, _ := e.HasNaN(vt) // BUG: errors not checked
