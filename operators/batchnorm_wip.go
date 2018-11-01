@@ -57,10 +57,23 @@ func (o *Batchnorm) Apply(input ...*gorgonia.Node) ([]*gorgonia.Node, error) {
 	var err error
 
 	var outputY, outputMean, outputVar, outputSavedMean, outputSavedVar *gorgonia.Node
-	outputY, outputMean, outputVar, _, err = gorgonia.BatchNormONNX(input[0], input[1], input[2], o.Momentum, o.Epsilon)
-	if err != nil {
-		return nil, err
-	}
+	outputY, outputMean, outputVar, _, err = gorgonia.BatchNorm(input[0], input[1], input[2], o.Momentum, o.Epsilon)
+	/*
+		outputY, _, _, _, err = gorgonia.BatchNormONNX(input[0], nil, nil, o.Momentum, o.Epsilon)
+		if err != nil {
+			return nil, err
+		}
+		log.Println(input[1].Value())
+		log.Println(input[2].Value())
+		outputMean, err = gorgonia.BatchNormMulScale(outputY, input[1])
+		if err != nil {
+			return nil, err
+		}
+		outputVar, err = gorgonia.BatchNormAddBias(outputMean, input[2])
+		if err != nil {
+			return nil, err
+		}
+	*/
 	return []*gorgonia.Node{
 		outputY,
 		outputMean,

@@ -30,6 +30,6 @@ func (a *Add) Apply(input ...*gorgonia.Node) ([]*gorgonia.Node, error) {
 			ActualInput:   len(input),
 		}
 	}
-	n, err := gorgonia.AddBroadcast(input[0], input[1])
+	n, err := gorgonia.Add(input[0], input[1], 0)
 	return []*gorgonia.Node{n}, err
 }

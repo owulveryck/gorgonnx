@@ -32,7 +32,7 @@ func (o *Mul) Apply(input ...*gorgonia.Node) ([]*gorgonia.Node, error) {
 			Message:  "TODO: implement the broadcast",
 		}
 	}
-	n, err := gorgonia.HadamardProd(input[0], input[1])
+	n, err := gorgonia.HadamardProd(input[0], input[1], 0)
 	return []*gorgonia.Node{n}, err
 
 }

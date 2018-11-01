@@ -197,10 +197,12 @@ func TestBatchnorm_example(t *testing.T) {
 	if err = machine.RunAll(); err != nil {
 		t.Fatal(err)
 	}
+	t.Log("yT", yT)
+	t.Log("output", o[0].Value())
+	t.Log("output Scale", o[1].Value())
+	t.Log("output Bias", o[2].Value())
 
 	assert.Equal(yT.Shape(), y.Shape(), "Tensors should be the same")
-	t.Log(yT)
-	t.Log(y.Value())
 	assert.InDeltaSlice(yT.Data(), y.Value().Data(), 1e-5, "Tensors should be the same")
 
 }
