@@ -17,7 +17,7 @@ func (o *Mul) Init(attrs []*onnx.AttributeProto) error {
 	return nil
 }
 
-// Apply the Hadamard Product to the input nodes. Broadcasting is computed and applied is needed
+// Apply the Hadamard Product to the input nodes. Broadcasting is computed and applied if needed
 func (o *Mul) Apply(input ...*gorgonia.Node) ([]*gorgonia.Node, error) {
 	if len(input) != 2 {
 		return nil, &ErrBadArity{
