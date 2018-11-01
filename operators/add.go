@@ -9,8 +9,6 @@ import (
 // https://github.com/onnx/onnx/blob/master/docs/Operators.md#Add
 // Warning this operation is broadcastable
 // See https://github.com/onnx/onnx/blob/master/docs/Broadcasting.md
-//
-// BUG(owulveryck): the broadcasting has to be implemented correctly in Gorgonia. see https://github.com/gorgonia/gorgonia/issues/223
 type Add struct {
 	name string
 }
@@ -21,7 +19,7 @@ func (a *Add) Init(attrs []*onnx.AttributeProto) error {
 	return nil
 }
 
-// Apply ...
+// Apply the operator; broadcasting is evaluated and applied if needed
 func (a *Add) Apply(input ...*gorgonia.Node) ([]*gorgonia.Node, error) {
 	if len(input) != 2 {
 		return nil, &ErrBadArity{
