@@ -30,6 +30,49 @@ func (a *Add) Apply(input ...*gorgonia.Node) ([]*gorgonia.Node, error) {
 			ActualInput:   len(input),
 		}
 	}
-	n, err := gorgonia.Add(input[0], input[1], 0)
+	var bcastPattern gorgonia.BroadcastPattern
+	x := input[0]
+	y := input[1]
+	switch {
+	case len(x.Shape()) == 1 && len(y.Shape()) != 1:
+		// Need left broadcasting
+		// Make an educated guess: find the axis that has the same dimension
+		// as x.Shape()[0] and broadcast on all axes of y but this one.
+		var leftPattern []byte
+		dims := make([]int, len(x.Shape()))
+		for i := 0; i < len(y.Shape()); i++ {
+			if y.Shape()[i] != x.Shape()[0] {
+				dims[i] = 1
+				leftPattern = append(leftPattern, byte(i))
+			} else {
+				dims[i] = x.Shape()[0]
+			}
+		}
+		var err error
+		x, err = gorgonia.Reshape(input[0], dims)
+		if err != nil {
+			return nil, err
+		}
+		bcastPattern = gorgonia.NewBroadcastPattern(leftPattern, nil)
+	case len(y.Shape()) == 1 && len(x.Shape()) != 1:
+		// Need right broadcasting
+		var rightPattern []byte
+		dims := make([]int, len(x.Shape()))
+		for i := 0; i < len(x.Shape()); i++ {
+			if x.Shape()[i] != y.Shape()[0] {
+				dims[i] = 1
+				rightPattern = append(rightPattern, byte(i))
+			} else {
+				dims[i] = y.Shape()[0]
+			}
+		}
+		var err error
+		y, err = gorgonia.Reshape(input[1], dims)
+		if err != nil {
+			return nil, err
+		}
+		bcastPattern = gorgonia.NewBroadcastPattern(nil, rightPattern)
+	}
+	n, err := gorgonia.Add(x, y, bcastPattern)
 	return []*gorgonia.Node{n}, err
 }
