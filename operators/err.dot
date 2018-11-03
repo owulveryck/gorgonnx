@@ -1,0 +1,262 @@
+digraph fullGraph {
+	nodesep=1;
+	rankdir=TB;
+	ranksep="1.5 equally";
+	Node_0xc000210f70:Node_0xc000210f70:anchor->Node_0xc000210b60:Node_0xc000210b60:anchor[ labelfloat=false, taillabel=" 0 " ];
+	Node_0xc000211040:Node_0xc000211040:anchor->Node_0xc000210c30:Node_0xc000210c30:anchor[ labelfloat=false, taillabel=" 0 " ];
+	Node_0xc000211110:Node_0xc000211110:anchor->Node_0xc000210d00:Node_0xc000210d00:anchor[ labelfloat=false, taillabel=" 0 " ];
+	Node_0xc0002111e0:Node_0xc0002111e0:anchor->Node_0xc000210f70:Node_0xc000210f70:anchor[ labelfloat=false, taillabel=" 0 " ];
+	Node_0xc0002112b0:Node_0xc0002112b0:anchor->Node_0xc000210f70:Node_0xc000210f70:anchor[ labelfloat=false, taillabel=" 0 " ];
+	Node_0xc000211380:Node_0xc000211380:anchor->Node_0xc000210f70:Node_0xc000210f70:anchor[ labelfloat=false, taillabel=" 0 " ];
+	Node_0xc000211450:Node_0xc000211450:anchor->Node_0xc000211040:Node_0xc000211040:anchor[ labelfloat=false, taillabel=" 0 " ];
+	Node_0xc000211450:Node_0xc000211450:anchor->Node_0xc0002111e0:Node_0xc0002111e0:anchor[ labelfloat=false, taillabel=" 1 " ];
+	Node_0xc000211450:Node_0xc000211450:anchor->Node_0xc0002112b0:Node_0xc0002112b0:anchor[ labelfloat=false, taillabel=" 2 " ];
+	Node_0xc000211450:Node_0xc000211450:anchor->Node_0xc000211380:Node_0xc000211380:anchor[ labelfloat=false, taillabel=" 3 " ];
+	Node_0xc000211520:Node_0xc000211520:anchor->Node_0xc000211450:Node_0xc000211450:anchor[ labelfloat=false, taillabel=" 0 " ];
+	Node_0xc000211520:Node_0xc000211520:anchor->Node_0xc000210f70:Node_0xc000210f70:anchor[ labelfloat=false, taillabel=" 1 " ];
+	Node_0xc0002115f0:Node_0xc0002115f0:anchor->Node_0xc000211520:Node_0xc000211520:anchor[ labelfloat=false, taillabel=" 0 " ];
+	Node_0xc0002116c0:Node_0xc0002116c0:anchor->Node_0xc000211520:Node_0xc000211520:anchor[ labelfloat=false, taillabel=" 0 " ];
+	Node_0xc000211790:Node_0xc000211790:anchor->Node_0xc000211520:Node_0xc000211520:anchor[ labelfloat=false, taillabel=" 0 " ];
+	Node_0xc000211860:Node_0xc000211860:anchor->Node_0xc000211110:Node_0xc000211110:anchor[ labelfloat=false, taillabel=" 0 " ];
+	Node_0xc000211860:Node_0xc000211860:anchor->Node_0xc0002115f0:Node_0xc0002115f0:anchor[ labelfloat=false, taillabel=" 1 " ];
+	Node_0xc000211860:Node_0xc000211860:anchor->Node_0xc0002116c0:Node_0xc0002116c0:anchor[ labelfloat=false, taillabel=" 2 " ];
+	Node_0xc000211860:Node_0xc000211860:anchor->Node_0xc000211790:Node_0xc000211790:anchor[ labelfloat=false, taillabel=" 3 " ];
+	Node_0xc000211930:Node_0xc000211930:anchor->Node_0xc000211520:Node_0xc000211520:anchor[ labelfloat=false, taillabel=" 0 " ];
+	Node_0xc000211930:Node_0xc000211930:anchor->Node_0xc000211860:Node_0xc000211860:anchor[ labelfloat=false, taillabel=" 1 " ];
+	outsideRoot->insideInputs[ constraint=false, style=invis, weight=999 ];
+	outsideExprG->insideExprG[ constraint=false, style=invis, weight=999 ];
+	outsideRoot->outsideExprG[ constraint=false, style=invis, weight=999 ];
+	insideInputs->insideExprG[ constraint=false, style=invis, weight=999 ];
+	subgraph cluster_expressionGraph {
+	label=expressionGraph;
+	Node_0xc000210f70 [ fontname=monospace, label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" PORT="anchor" >
+
+<TR><TD>5</TD><TD>batchnorm-0.0-0.0(%0) :: Tensor-4 float32</TD></TR>
+<TR><TD>Op</TD><TD>batchnorm-0.0-0.0 :: Tensor-4 a → Tensor-4 a</TD></TR>
+<TR><TD>Shape</TD><TD>(1, 2, 1, 3)</TD></TR>
+<TR><TD>Overwrites Input -1</TD><TD>Data On: CPU</TD></TR>
+
+<TR><TD>Value</TD><TD>%!s(NIL)</TD></TR>
+
+
+</TABLE>
+>, shape=none ];
+	Node_0xc000211040 [ fontname=monospace, label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" PORT="anchor" >
+
+<TR><TD>6</TD><TD>Reshape(1, 2, 1, 1)(%1) :: Tensor-4 float32</TD></TR>
+<TR><TD>Op</TD><TD>Reshape(1, 2, 1, 1) :: Vector a → Tensor-4 a</TD></TR>
+<TR><TD>Shape</TD><TD>(1, 2, 1, 1)</TD></TR>
+<TR><TD>Overwrites Input 0</TD><TD>Data On: CPU</TD></TR>
+
+<TR><TD>Value</TD><TD>%!s(NIL)</TD></TR>
+
+
+</TABLE>
+>, shape=none ];
+	Node_0xc000211110 [ fontname=monospace, label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" PORT="anchor" >
+
+<TR><TD>7</TD><TD>Reshape(1, 2, 1, 1)(%2) :: Tensor-4 float32</TD></TR>
+<TR><TD>Op</TD><TD>Reshape(1, 2, 1, 1) :: Vector a → Tensor-4 a</TD></TR>
+<TR><TD>Shape</TD><TD>(1, 2, 1, 1)</TD></TR>
+<TR><TD>Overwrites Input 0</TD><TD>Data On: CPU</TD></TR>
+
+<TR><TD>Value</TD><TD>%!s(NIL)</TD></TR>
+
+
+</TABLE>
+>, shape=none ];
+	Node_0xc0002111e0 [ fontname=monospace, label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" PORT="anchor" >
+
+<TR><TD>8</TD><TD>SizeOf=1(%5) :: float32</TD></TR>
+<TR><TD>Op</TD><TD>SizeOf=1 :: Tensor-4 a → a</TD></TR>
+<TR><TD>Shape</TD><TD>()</TD></TR>
+<TR><TD>Overwrites Input -1</TD><TD>Data On: CPU</TD></TR>
+
+<TR><TD>Value</TD><TD>%!s(NIL)</TD></TR>
+
+
+</TABLE>
+>, shape=none ];
+	Node_0xc0002112b0 [ fontname=monospace, label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" PORT="anchor" >
+
+<TR><TD>9</TD><TD>SizeOf=1(%5) :: float32</TD></TR>
+<TR><TD>Op</TD><TD>SizeOf=1 :: Tensor-4 a → a</TD></TR>
+<TR><TD>Shape</TD><TD>()</TD></TR>
+<TR><TD>Overwrites Input -1</TD><TD>Data On: CPU</TD></TR>
+
+<TR><TD>Value</TD><TD>%!s(NIL)</TD></TR>
+
+
+</TABLE>
+>, shape=none ];
+	Node_0xc000211380 [ fontname=monospace, label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" PORT="anchor" >
+
+<TR><TD>a</TD><TD>SizeOf=3(%5) :: float32</TD></TR>
+<TR><TD>Op</TD><TD>SizeOf=3 :: Tensor-4 a → a</TD></TR>
+<TR><TD>Shape</TD><TD>()</TD></TR>
+<TR><TD>Overwrites Input -1</TD><TD>Data On: CPU</TD></TR>
+
+<TR><TD>Value</TD><TD>%!s(NIL)</TD></TR>
+
+
+</TABLE>
+>, shape=none ];
+	Node_0xc000211450 [ fontname=monospace, label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" PORT="anchor" >
+
+<TR><TD>b</TD><TD>Repeat[0 2 3](%6, %8, %9, %a) :: Tensor-4 float32</TD></TR>
+<TR><TD>Op</TD><TD>Repeat[0 2 3] :: Tensor-4 a → a → a → a → Tensor-4 a</TD></TR>
+<TR><TD>Shape</TD><TD>(1, 2, 1, 3)</TD></TR>
+<TR><TD>Overwrites Input -1</TD><TD>Data On: CPU</TD></TR>
+
+<TR><TD>Value</TD><TD>%!s(NIL)</TD></TR>
+
+
+</TABLE>
+>, shape=none ];
+	Node_0xc000211520 [ fontname=monospace, label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" PORT="anchor" >
+
+<TR><TD>c</TD><TD>⊙ false(%b, %5) :: Tensor-4 float32</TD></TR>
+<TR><TD>Op</TD><TD>⊙ false :: Tensor-4 a → Tensor-4 a → Tensor-4 a</TD></TR>
+<TR><TD>Shape</TD><TD>(1, 2, 1, 3)</TD></TR>
+<TR><TD>Overwrites Input 0</TD><TD>Data On: CPU</TD></TR>
+
+<TR><TD>Value</TD><TD>%!s(NIL)</TD></TR>
+
+
+</TABLE>
+>, shape=none ];
+	Node_0xc0002115f0 [ fontname=monospace, label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" PORT="anchor" >
+
+<TR><TD>d</TD><TD>SizeOf=1(%c) :: float32</TD></TR>
+<TR><TD>Op</TD><TD>SizeOf=1 :: Tensor-4 a → a</TD></TR>
+<TR><TD>Shape</TD><TD>()</TD></TR>
+<TR><TD>Overwrites Input -1</TD><TD>Data On: CPU</TD></TR>
+
+<TR><TD>Value</TD><TD>%!s(NIL)</TD></TR>
+
+
+</TABLE>
+>, shape=none ];
+	Node_0xc0002116c0 [ fontname=monospace, label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" PORT="anchor" >
+
+<TR><TD>e</TD><TD>SizeOf=1(%c) :: float32</TD></TR>
+<TR><TD>Op</TD><TD>SizeOf=1 :: Tensor-4 a → a</TD></TR>
+<TR><TD>Shape</TD><TD>()</TD></TR>
+<TR><TD>Overwrites Input -1</TD><TD>Data On: CPU</TD></TR>
+
+<TR><TD>Value</TD><TD>%!s(NIL)</TD></TR>
+
+
+</TABLE>
+>, shape=none ];
+	Node_0xc000211790 [ fontname=monospace, label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" PORT="anchor" >
+
+<TR><TD>f</TD><TD>SizeOf=3(%c) :: float32</TD></TR>
+<TR><TD>Op</TD><TD>SizeOf=3 :: Tensor-4 a → a</TD></TR>
+<TR><TD>Shape</TD><TD>()</TD></TR>
+<TR><TD>Overwrites Input -1</TD><TD>Data On: CPU</TD></TR>
+
+<TR><TD>Value</TD><TD>%!s(NIL)</TD></TR>
+
+
+</TABLE>
+>, shape=none ];
+	Node_0xc000211860 [ fontname=monospace, label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" PORT="anchor" >
+
+<TR><TD>10</TD><TD>Repeat[0 2 3](%7, %d, %e, %f) :: Tensor-4 float32</TD></TR>
+<TR><TD>Op</TD><TD>Repeat[0 2 3] :: Tensor-4 a → a → a → a → Tensor-4 a</TD></TR>
+<TR><TD>Shape</TD><TD>(1, 2, 1, 3)</TD></TR>
+<TR><TD>Overwrites Input -1</TD><TD>Data On: CPU</TD></TR>
+
+<TR><TD>Value</TD><TD>%!s(NIL)</TD></TR>
+
+
+</TABLE>
+>, shape=none ];
+	Node_0xc000211930 [ fontname=monospace, label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" PORT="anchor"  COLOR="#FF0000;" >
+
+<TR><TD>11</TD><TD>+ false(%c, %10) :: Tensor-4 float32</TD></TR>
+<TR><TD>Op</TD><TD>+ false :: Tensor-4 a → Tensor-4 a → Tensor-4 a</TD></TR>
+<TR><TD>Shape</TD><TD>(1, 2, 1, 3)</TD></TR>
+<TR><TD>Overwrites Input 0</TD><TD>Data On: CPU</TD></TR>
+
+<TR><TD>Value</TD><TD>%!s(NIL)</TD></TR>
+
+
+</TABLE>
+>, shape=none ];
+	insideExprG [ style=invis ];
+
+}
+;
+	subgraph inputConsts {
+	rank=max;
+	subgraph cluster_inputs {
+	label=inputs;
+	Node_0xc000210b60 [ fontname=monospace, label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" PORT="anchor"  COLOR="#00FF00;" BGCOLOR="lightyellow">
+
+<TR><TD>0</TD><TD>x :: Tensor-4 float32</TD></TR>
+
+<TR><TD>Shape</TD><TD>(1, 2, 1, 3)</TD></TR>
+<TR><TD>Overwrites Input -1</TD><TD>Data On: CPU</TD></TR>
+
+<TR><TD>Value</TD><TD>Tensor-4 (1, 2, 1, 3) [6 3 3 1]<BR />⎡ -1    0    1⎤<BR />⎡  2    3    4⎤<BR /></TD></TR>
+
+
+</TABLE>
+>, shape=none ];
+	Node_0xc000210c30 [ fontname=monospace, label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" PORT="anchor"  COLOR="#00FF00;" BGCOLOR="lightyellow">
+
+<TR><TD>1</TD><TD>s :: Vector float32</TD></TR>
+
+<TR><TD>Shape</TD><TD>(2)</TD></TR>
+<TR><TD>Overwrites Input -1</TD><TD>Data On: CPU</TD></TR>
+
+<TR><TD>Value</TD><TD>Vector (2) [1]<BR />[  1  1.5]</TD></TR>
+
+
+</TABLE>
+>, shape=none ];
+	Node_0xc000210d00 [ fontname=monospace, label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" PORT="anchor"  COLOR="#00FF00;" BGCOLOR="lightyellow">
+
+<TR><TD>2</TD><TD>bias :: Vector float32</TD></TR>
+
+<TR><TD>Shape</TD><TD>(2)</TD></TR>
+<TR><TD>Overwrites Input -1</TD><TD>Data On: CPU</TD></TR>
+
+<TR><TD>Value</TD><TD>Vector (2) [1]<BR />[  0    1]</TD></TR>
+
+
+</TABLE>
+>, shape=none ];
+	insideInputs [ style=invis ];
+
+}
+;
+
+}
+;
+	subgraph outsides {
+	outsideExprG [ style=invis ];
+	outsideRoot [ style=invis ];
+
+}
+;
+
+}

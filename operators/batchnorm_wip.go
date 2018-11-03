@@ -84,7 +84,7 @@ func (o *Batchnorm) Apply(input ...*gorgonia.Node) ([]*gorgonia.Node, error) {
 	if err != nil {
 		return nil, err
 	}
-	bias, err := gorgonia.Reshape(input[2], []int{1, input[1].Shape()[0], 1, 1})
+	bias, err := gorgonia.Reshape(input[2], []int{1, input[2].Shape()[0], 1, 1})
 	if err != nil {
 		return nil, err
 	}

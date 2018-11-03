@@ -193,7 +193,7 @@ func TestBatchnorm_example(t *testing.T) {
 
 	y = o[0]
 
-	machine := gorgonia.NewTapeMachine(g)
+	machine := gorgonia.NewLispMachine(g, gorgonia.ExecuteFwdOnly())
 	if err = machine.RunAll(); err != nil {
 		t.Fatal(err)
 	}

@@ -50,6 +50,7 @@ func main() {
 		log.Fatal(err)
 	}
 	gorgonia.Let(g.Inputs()[0], t)
+	//machine := gorgonia.NewLispMachine(g, gorgonia.ExecuteFwdOnly())
 	machine := gorgonia.NewTapeMachine(g)
 	if err = machine.RunAll(); err != nil {
 		log.Fatal(err)

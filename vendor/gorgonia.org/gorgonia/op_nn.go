@@ -3,6 +3,7 @@ package gorgonia
 import (
 	"fmt"
 	"hash"
+	"log"
 	"time"
 
 	"github.com/chewxy/hm"
@@ -1433,6 +1434,9 @@ func (op *BatchNormOp) f32s(input, output *tensor.Dense) (err error) {
 		whichblas.Sscal(len(variance), momentum, variance, 1)
 		whichblas.Saxpy(len(varianceScratch), correctionFactor, varianceScratch, 1, variance, 1)
 	}
+	log.Println("DEBUG:", spatialDim)
+	log.Println("DEBUG:", variance)
+	log.Println("DEBUG:", varianceScratch)
 
 	// normalize variance
 	vecf32.Trans(varianceScratch, eps)
