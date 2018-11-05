@@ -39,9 +39,26 @@ func (o *Unsqueeze) Apply(input ...*gorgonia.Node) ([]*gorgonia.Node, error) {
 			}
 		}
 	*/
-	return nil, &onnx.ErrNotImplemented{
-		Operator: o.name,
-		Message:  "Not implemented yet",
+	dims := make([]int, len(o.Axes)+input[0].Dims())
+	for k := range dims {
+		dims[k] = -1
 	}
-
+	for _, v := range o.Axes {
+		dims[v] = 1
+	}
+	var index int
+	for k, v := range dims {
+		if v == -1 {
+			index = k
+			break
+		}
+	}
+	for i := 0; i < input[0].Dims(); i++ {
+		dims[i+index] = input[0].Shape()[i]
+	}
+	output, err := gorgonia.Reshape(input[0], dims)
+	return []*gorgonia.Node{
+			output,
+		},
+		err
 }
