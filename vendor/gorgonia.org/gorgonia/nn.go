@@ -250,6 +250,7 @@ func Conv1d(in, filter *Node, kernel, pad, stride, dilation int) (*Node, error) 
 	return Conv2d(in, filter, tensor.Shape{1, kernel}, []int{0, pad}, []int{1, stride}, []int{1, dilation})
 }
 
+// MaxPool2D ...
 func MaxPool2D(x *Node, kernel tensor.Shape, pad, stride []int) (*Node, error) {
 	xShape := x.Shape()
 	h, w := xShape[2], xShape[3]
@@ -278,6 +279,7 @@ func MaxPool2D(x *Node, kernel tensor.Shape, pad, stride []int) (*Node, error) {
 	return ApplyOp(op, x)
 }
 
+// BatchNorm is a commodity function that initialize a BatchNormOp, runs it and applies the scale and biais on the result.
 func BatchNorm(x, scale, bias *Node, momentum, epsilon float64) (retVal, γ, β *Node, op *BatchNormOp, err error) {
 	dt, err := dtypeOf(x.Type())
 	if err != nil {
@@ -291,8 +293,8 @@ func BatchNorm(x, scale, bias *Node, momentum, epsilon float64) (retVal, γ, β 
 	variance := tensor.New(tensor.Of(dt), tensor.WithShape(channels))
 	ma := tensor.New(tensor.Of(dt), tensor.WithShape(1))
 
-	mean_ := tensor.New(tensor.Of(dt), tensor.WithShape(channels))
-	variance_ := tensor.New(tensor.Of(dt), tensor.WithShape(channels))
+	meanScratch := tensor.New(tensor.Of(dt), tensor.WithShape(channels))
+	varianceScratch := tensor.New(tensor.Of(dt), tensor.WithShape(channels))
 	tmp := tensor.New(tensor.Of(dt), tensor.WithShape(x.Shape().Clone()...))
 	xNorm := tensor.New(tensor.Of(dt), tensor.WithShape(x.Shape().Clone()...))
 	batchSumMultiplier := tensor.New(tensor.Of(dt), tensor.WithShape(batches))
@@ -315,16 +317,16 @@ func BatchNorm(x, scale, bias *Node, momentum, epsilon float64) (retVal, γ, β 
 	}
 
 	op = &BatchNormOp{
-		momentum: momentum,
-		epsilon:  epsilon,
+		Momentum: momentum,
+		Epsilon:  epsilon,
 
-		mean:     mean,
-		variance: variance,
-		ma:       ma,
+		Mean:     mean,
+		Variance: variance,
+		MA:       ma,
 
-		mean_:                mean_,
-		variance_:            variance_,
-		tmp_:                 tmp,
+		meanScratch:          meanScratch,
+		varianceScratch:      varianceScratch,
+		tmpScratch:           tmp,
 		xNorm:                xNorm,
 		batchSumMultiplier:   batchSumMultiplier,
 		numByChans:           numByChans,
