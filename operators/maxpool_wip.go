@@ -59,20 +59,8 @@ func (o *Maxpool) Init(attrs []*onnx.AttributeProto) error {
 	case "VALID":
 		o.Pads = []int{0, 0}
 	case "SAME_UPPER":
-		return &onnx.ErrNotImplemented{
-			Operator:       o.name,
-			AttributeName:  "auto_pad",
-			AttributeValue: attr.AutoPad,
-			Message:        "Padding is buggy",
-		}
 		o.AutoPad = attr.AutoPad
 	case "SAME_LOWER":
-		return &onnx.ErrNotImplemented{
-			Operator:       o.name,
-			AttributeName:  "auto_pad",
-			AttributeValue: attr.AutoPad,
-			Message:        "Padding is buggy",
-		}
 		o.AutoPad = attr.AutoPad
 	default:
 		return &onnx.ErrNotImplemented{
@@ -95,18 +83,21 @@ func (o *Maxpool) Init(attrs []*onnx.AttributeProto) error {
 	o.Pads = make([]int, 2)
 	if len(attr.Pads) == 4 {
 		for i := 0; i < 2; i++ {
-			o.Pads[i] = int(attr.Pads[2*i])
+			o.Pads[i] = int(attr.Pads[2*i]) + int(attr.Pads[2*i+1])
+			//o.Pads[i] = int(attr.Pads[2*i])
 		}
 	}
-	if o.Pads[0] != 0 || o.Pads[1] != 0 {
-		return &onnx.ErrNotImplemented{
-			Operator:       o.name,
-			AttributeName:  "pads",
-			AttributeValue: attr.Pads,
-			Message:        "Padding is buggy",
-		}
+	/*
+		if o.Pads[0] != 0 || o.Pads[1] != 0 {
+			return &onnx.ErrNotImplemented{
+				Operator:       o.name,
+				AttributeName:  "pads",
+				AttributeValue: attr.Pads,
+				Message:        "Padding is buggy",
+			}
 
-	}
+		}
+	*/
 
 	return nil
 }
