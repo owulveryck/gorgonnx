@@ -10,16 +10,17 @@ import (
 
 // AvailableOperators is the list of the onnx operators available linked to their implementation
 var AvailableOperators = map[string]Operator{
-	"Conv":     &operators.Conv{},
-	"Mul":      &operators.Mul{},
-	"MatMul":   &operators.Matmul{},
-	"Div":      &operators.Div{},
-	"Add":      &operators.Add{},
-	"Relu":     &operators.Relu{},
-	"MaxPool":  &operators.Maxpool{},
-	"Concat":   &operators.Concat{},
-	"Constant": &operators.Constant{},
-	"Reshape":  &operators.Reshape{},
+	"Conv":               &operators.Conv{},
+	"Mul":                &operators.Mul{},
+	"MatMul":             &operators.Matmul{},
+	"Div":                &operators.Div{},
+	"Add":                &operators.Add{},
+	"Relu":               &operators.Relu{},
+	"MaxPool":            &operators.Maxpool{},
+	"Concat":             &operators.Concat{},
+	"Constant":           &operators.Constant{},
+	"Reshape":            &operators.Reshape{},
+	"BatchNormalization": &operators.Batchnorm{},
 }
 
 // Operator can be added to the computation graph
