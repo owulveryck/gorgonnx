@@ -1,8 +1,6 @@
 package gorgonnx
 
 import (
-	"errors"
-
 	"github.com/owulveryck/gorgonnx/operators"
 	onnx "github.com/owulveryck/onnx-go"
 	"gorgonia.org/gorgonia"
@@ -21,6 +19,7 @@ var AvailableOperators = map[string]Operator{
 	"Constant":           &operators.Constant{},
 	"Reshape":            &operators.Reshape{},
 	"BatchNormalization": &operators.Batchnorm{},
+	"Unsqueeze":          &operators.Unsqueeze{},
 }
 
 // Operator can be added to the computation graph
@@ -53,9 +52,11 @@ func (cg *computationGraph) processNode(nx *onnx.NodeProto) error {
 	if err != nil {
 		return err
 	}
-	if len(o) != len(nx.Output) {
-		return errors.New("Bad number of output")
-	}
+	/*
+		if len(o) != len(nx.Output) {
+			return fmt.Errorf("Bad number of output for op %v, expected %v, got %v", op, len(nx.Output), len(o))
+		}
+	*/
 	for i := 0; i < len(nx.Output); i++ {
 		err := cg.storeNode(nx.Output[i], o[i])
 		if err != nil {
