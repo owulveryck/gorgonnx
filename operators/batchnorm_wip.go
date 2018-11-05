@@ -1,8 +1,6 @@
 package operators
 
 import (
-	"errors"
-
 	onnx "github.com/owulveryck/onnx-go"
 	"gorgonia.org/gorgonia"
 	"gorgonia.org/tensor"
@@ -56,28 +54,45 @@ func (o *Batchnorm) Apply(input ...*gorgonia.Node) ([]*gorgonia.Node, error) {
 		}
 	}
 	x := input[0]
-	mean, ok := input[3].Value().(*tensor.Dense)
-	if !ok {
-		return nil, errors.New("mean's Value must be a *tensor.Dense")
-	}
-	variance, ok := input[4].Value().(*tensor.Dense)
-	if !ok {
-		return nil, errors.New("variance's Value must be a *tensor.Dense")
-	}
-	op := &gorgonia.BatchNormOp{
-		Momentum: o.Momentum,
-		Epsilon:  o.Epsilon,
-		Mean:     mean,
-		Variance: variance,
-		MA:       tensor.New(tensor.Of(x.Dtype()), tensor.WithShape(x.Shape()[1])),
-	}
-	err := op.Init(x, false)
+	mean, err := gorgonia.Reshape(input[3], []int{1, input[3].Shape()[0], 1, 1})
 	if err != nil {
 		return nil, err
 	}
-
+	variance := input[4]
 	var outputY *gorgonia.Node
-	if outputY, err = gorgonia.ApplyOp(op, x); err != nil {
+	xb1, err := gorgonia.Sub(x, mean, gorgonia.NewBroadcastPattern(nil, []byte{0, 2, 3}))
+	if err != nil {
+		return nil, err
+	}
+	epsilon := gorgonia.NewTensor(x.Graph(),
+		x.Dtype(),
+		1,
+		gorgonia.WithName("epsilon"),
+		gorgonia.WithShape(1),
+		gorgonia.WithValue(
+			tensor.New(
+				tensor.WithShape(1),
+				tensor.WithBacking([]float32{float32(o.Epsilon)}),
+			),
+		),
+	)
+	if err != nil {
+		return nil, err
+	}
+	xb2, err := gorgonia.Add(variance, epsilon, gorgonia.NewBroadcastPattern(nil, []byte{0}))
+	if err != nil {
+		return nil, err
+	}
+	xb2sqrt, err := gorgonia.Sqrt(xb2)
+	if err != nil {
+		return nil, err
+	}
+	xb2sqrt, err = gorgonia.Reshape(xb2sqrt, []int{1, xb2sqrt.Shape()[0], 1, 1})
+	if err != nil {
+		return nil, err
+	}
+	xbar, err := gorgonia.HadamardDiv(xb1, xb2sqrt, gorgonia.NewBroadcastPattern(nil, []byte{0, 2, 3}))
+	if err != nil {
 		return nil, err
 	}
 	scale, err := gorgonia.Reshape(input[1], []int{1, input[1].Shape()[0], 1, 1})
@@ -88,13 +103,54 @@ func (o *Batchnorm) Apply(input ...*gorgonia.Node) ([]*gorgonia.Node, error) {
 	if err != nil {
 		return nil, err
 	}
-	if outputY, err = gorgonia.HadamardProd(scale, outputY, gorgonia.NewBroadcastPattern([]byte{0, 2, 3}, nil)); err != nil {
+	if outputY, err = gorgonia.HadamardProd(scale, xbar, gorgonia.NewBroadcastPattern([]byte{0, 2, 3}, nil)); err != nil {
 		return nil, err
 	}
 	if outputY, err = gorgonia.Add(outputY, bias, gorgonia.NewBroadcastPattern(nil, []byte{0, 2, 3})); err != nil {
 		return nil, err
 	}
+	/*
+		x := input[0]
+		mean, ok := input[3].Value().(*tensor.Dense)
+		if !ok {
+			return nil, errors.New("mean's Value must be a *tensor.Dense")
+		}
+		variance, ok := input[4].Value().(*tensor.Dense)
+		if !ok {
+			return nil, errors.New("variance's Value must be a *tensor.Dense")
+		}
+		op := &gorgonia.BatchNormOp{
+			Momentum: o.Momentum,
+			Epsilon:  o.Epsilon,
+			Mean:     mean,
+			Variance: variance,
+			MA:       tensor.New(tensor.Of(x.Dtype()), tensor.WithShape(x.Shape()[1])),
+		}
+		err := op.Init(x, false)
+		if err != nil {
+			return nil, err
+		}
 
+		var outputY *gorgonia.Node
+		if outputY, err = gorgonia.ApplyOp(op, x); err != nil {
+			return nil, err
+		}
+		scale, err := gorgonia.Reshape(input[1], []int{1, input[1].Shape()[0], 1, 1})
+		if err != nil {
+			return nil, err
+		}
+		bias, err := gorgonia.Reshape(input[2], []int{1, input[2].Shape()[0], 1, 1})
+		if err != nil {
+			return nil, err
+		}
+		if outputY, err = gorgonia.HadamardProd(scale, outputY, gorgonia.NewBroadcastPattern([]byte{0, 2, 3}, nil)); err != nil {
+			return nil, err
+		}
+		if outputY, err = gorgonia.Add(outputY, bias, gorgonia.NewBroadcastPattern(nil, []byte{0, 2, 3})); err != nil {
+			return nil, err
+		}
+
+	*/
 	return []*gorgonia.Node{
 		outputY,
 		input[3],
