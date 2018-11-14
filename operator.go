@@ -1,6 +1,7 @@
 package gorgonnx
 
 import (
+	"github.com/davecgh/go-spew/spew"
 	"github.com/owulveryck/gorgonnx/operators"
 	onnx "github.com/owulveryck/onnx-go"
 	"gorgonia.org/gorgonia"
@@ -29,6 +30,7 @@ type Operator interface {
 }
 
 func (cg *computationGraph) processNode(nx *onnx.NodeProto) error {
+	spew.Dump(nx)
 	op, ok := AvailableOperators[*nx.OpType]
 	if !ok {
 		return ErrNotImplemented{

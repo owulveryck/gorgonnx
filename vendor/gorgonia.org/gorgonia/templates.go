@@ -13,13 +13,6 @@ const exprNodeTemplText = `<
 {{if printOp . }}<TR><TD>Op</TD><TD>{{ opStr . | html | dotEscape }} :: {{ opType . | html | dotEscape }}</TD></TR>{{end}}
 {{if hasShape .}}<TR><TD>Shape</TD><TD>{{ getShape .}}</TD></TR>{{end}}
 <TR><TD>Overwrites Input {{overwritesInput . }}</TD><TD>Data On: {{.Device}}</TD></TR>
-{{if hasGrad .}}<TR><TD>Value</TD><TD>Grad</TD></TR>
-<TR><TD>{{printf "%+3.3s" .Value | dotEscape}}</TD><TD>{{getGrad . | dotEscape }} </TD></TR>
-<TR><TD>Ptr: {{getValPtr . | dotEscape}} </TD><TD>Ptr: {{getGradPtr . | dotEscape}} </TD></TR>
-{{else}}
-<TR><TD>Value</TD><TD>{{printf "%+3.3s" .Value | dotEscape}}</TD></TR>
-{{end}}
-
 </TABLE>
 >`
 

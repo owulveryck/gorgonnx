@@ -59,4 +59,6 @@ func main() {
 	for _, n := range output {
 		fmt.Printf("%v: %v", n.Name(), n.Value())
 	}
+	log.Println("Starting debugger on port 8080")
+	g.StartDebugger(":8080")
 }

@@ -822,6 +822,7 @@ func (n *Node) dotString(g *gographviz.Escape, graphName string) string {
 	attrs := map[string]string{
 		"fontname": "monospace",
 		"shape":    "none",
+		"href":     fmt.Sprintf(`"/nodes/%p"`, n),
 		"label":    label,
 	}
 

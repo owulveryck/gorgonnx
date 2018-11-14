@@ -59,21 +59,21 @@ func (o *Maxpool) Init(attrs []*onnx.AttributeProto) error {
 	case "VALID":
 		o.Pads = []int{0, 0}
 	case "SAME_UPPER":
+		o.AutoPad = attr.AutoPad
 		return &onnx.ErrNotImplemented{
 			Operator:       o.name,
 			AttributeName:  "auto_pad",
 			AttributeValue: attr.AutoPad,
 			Message:        "Padding is buggy",
 		}
-		o.AutoPad = attr.AutoPad
 	case "SAME_LOWER":
+		o.AutoPad = attr.AutoPad
 		return &onnx.ErrNotImplemented{
 			Operator:       o.name,
 			AttributeName:  "auto_pad",
 			AttributeValue: attr.AutoPad,
 			Message:        "Padding is buggy",
 		}
-		o.AutoPad = attr.AutoPad
 	default:
 		return &onnx.ErrNotImplemented{
 			Operator:       o.name,
@@ -129,8 +129,10 @@ func (o *Maxpool) Apply(input ...*gorgonia.Node) ([]*gorgonia.Node, error) {
 	}
 	switch o.AutoPad {
 	case "SAME_UPPER":
-		outputHeight := int(math.Ceil(float64(input[0].Shape()[2]) / float64(o.Strides[0])))
-		outputWidth := int(math.Ceil(float64(input[0].Shape()[3]) / float64(o.Strides[1])))
+		//outputHeight := int(math.Ceil(float64(input[0].Shape()[2]) / float64(o.Strides[0])))
+		//outputWidth := int(math.Ceil(float64(input[0].Shape()[3]) / float64(o.Strides[1])))
+		outputHeight := int(math.Ceil(float64(input[0].Shape()[2])))
+		outputWidth := int(math.Ceil(float64(input[0].Shape()[3])))
 		o.Pads[0] = int(math.Max(float64((outputHeight-1)*o.Strides[0]+o.KernelShape[0]-input[0].Shape()[2]), float64(0))) / 2
 		o.Pads[1] = int(math.Max(float64((outputWidth-1)*o.Strides[1]+o.KernelShape[1]-input[0].Shape()[3]), float64(0))) / 2
 	case "SAME_LOWER":
