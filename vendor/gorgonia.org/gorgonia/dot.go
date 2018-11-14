@@ -3,7 +3,6 @@ package gorgonia
 import (
 	"bytes"
 	"fmt"
-	"io"
 	"log"
 	"net/http"
 	"os"
@@ -81,8 +80,23 @@ func (g *ExprGraph) StartDebugger(addr string) {
 		handler.Handle(fmt.Sprintf("/nodes/%p", n), n)
 	}
 	handler.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "image/svg+xml; charset=UTF-8")
-		io.WriteString(w, string(svg))
+		w.Header().Set("Content-Type", "text/html; charset=UTF-8")
+		fmt.Fprintf(w, ` 
+	<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"><head> 
+  <title>Create SVG Elements HTML</title>
+  <style type="text/css" media="screen">
+    body { background:#eee; margin:0 }
+    svg {
+      display:block; border:1px solid #ccc; position:absolute;
+      top:%v; left:%v; width:%v; height:%v; background:#fff;
+    }
+    .face { stroke:#000; stroke-width:20px; stroke-linecap:round }
+  </style>
+</head><body>
+%v
+</body></html>	
+		`, "0%", "0%", "100%", "100%", string(svg))
 	})
 
 	err = http.ListenAndServe(addr, handler)
