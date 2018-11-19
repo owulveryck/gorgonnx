@@ -1,0 +1,22 @@
+<html>
+  <body>
+    <object id="exprGraph" type="image/svg+xml" data="graph.svg">
+        <!-- Your fall back here -->
+    </object>
+    <script>
+      window.onload=function() {
+          // Get the Object by ID
+          var a = document.getElementById('exprGraph');
+          // Get the SVG document inside the Object tag
+          var svgDoc = a.contentDocument;
+          // Get one of the SVG items by ID;
+          var svgItem = svgDoc.getElementById("0xc0001edba0");
+          // Set the colour to something else
+          for (var i=0;i< svgItem.firstChild.childElementCount;i++) {
+                svgItem.firstChild.children[i].setAttribute("fill","blue")
+          }
+
+      };
+    </script>
+  </body>
+</html>

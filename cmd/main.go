@@ -6,10 +6,12 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"sync"
 
 	"github.com/owulveryck/gorgonnx"
 	onnx "github.com/owulveryck/onnx-go"
 	"gorgonia.org/gorgonia"
+	"gorgonia.org/gorgonia/tracer"
 )
 
 func main() {
@@ -51,6 +53,13 @@ func main() {
 	}
 	gorgonia.Let(g.Inputs()[0], t)
 	//machine := gorgonia.NewLispMachine(g, gorgonia.ExecuteFwdOnly())
+	// start the tracer
+	var wg sync.WaitGroup
+	go func() {
+		wg.Add(1)
+		defer wg.Done()
+		log.Fatal(tracer.StartDebugger(g, ":8080"))
+	}()
 	machine := gorgonia.NewTapeMachine(g)
 	if err = machine.RunAll(); err != nil {
 		log.Fatal(err)
@@ -59,4 +68,5 @@ func main() {
 	for _, n := range output {
 		fmt.Printf("%v: %v", n.Name(), n.Value())
 	}
+	wg.Wait()
 }
