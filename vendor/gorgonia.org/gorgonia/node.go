@@ -28,7 +28,7 @@ type Node struct {
 	// For nicely grouping stuff in graphviz.
 	// TODO: Should this be in *Node?
 	name  string
-	group string
+	group Cluster
 
 	g *ExprGraph // this node belongs in this graph
 
@@ -208,16 +208,6 @@ func WithShape(shp ...int) NodeConsOpt {
 		}
 		// safe:
 		n.shape = s
-	}
-	return f
-}
-
-// WithGroupName is a node construction option to group a *Node within a particular group. This option is useful for debugging with graphs.
-func WithGroupName(name string) NodeConsOpt {
-	f := func(n *Node) {
-		if n.group == "" {
-			n.group = name
-		}
 	}
 	return f
 }
@@ -674,8 +664,35 @@ func (n *Node) unbind() {
 	n.boundTo = nil
 }
 
-func (n *Node) dotCluster() string {
-	var group string
+// Cluster represent a group of nodes that are similars
+// It is used for the grapviz generation
+type Cluster int
+
+const (
+	undefinedCluster Cluster = iota
+	// ExprGraphCluster is the default cluster
+	ExprGraphCluster
+	// ConstantCluster is the group of nodes that represents constants
+	ConstantCluster
+	// InputCluster is the group of nodes that are expecting values
+	InputCluster
+	// GradientCluster ...
+	GradientCluster
+	// StrayCluster ...
+	StrayCluster
+)
+
+// WithGroup is a node construction option to group a *Node within a particular group. This option is useful for debugging with graphs.
+func WithGroup(group Cluster) NodeConsOpt {
+	f := func(n *Node) {
+		n.group = group
+	}
+	return f
+}
+
+//NodeCluster is a convenient method to get the type of the node. It is used for clustering in the graphviz generation
+func (n *Node) NodeCluster() Cluster {
+	var group Cluster
 	var isConst bool
 	var isInput = n.isInput()
 
@@ -685,11 +702,11 @@ func (n *Node) dotCluster() string {
 
 	switch {
 	case isConst:
-		group = constantsClust
+		group = ConstantCluster
 	case isInput:
-		group = inputsClust
-	case n.group == "":
-		group = exprgraphClust
+		group = InputCluster
+	case n.group == ExprGraphCluster:
+		group = ExprGraphCluster
 	default:
 		group = n.group
 	}
@@ -765,7 +782,7 @@ func (n *Node) setShape(s tensor.Shape, inferred bool) {
 	n.inferredShape = inferred
 }
 
-func (n *Node) setGroup(grp string) {
+func (n *Node) setGroup(grp Cluster) {
 	n.group = grp
 }
 

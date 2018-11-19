@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"fmt"
 
-	"github.com/awalterschulze/gographviz"
 	"gonum.org/v1/gonum/graph"
 	"gonum.org/v1/gonum/graph/iterator"
 )
@@ -317,6 +316,11 @@ func (g *ExprGraph) String() string {
 // which may have multiple trees with different roots
 // TODO: This is getting unwieldy. Perhaps refactor out into a ToDot(...Opt)?
 func (g *ExprGraph) ToDot() string {
+	return ""
+}
+
+/*
+func (g *ExprGraph) ToDot() string {
 	gv := gographviz.NewEscape()
 	gv.SetName(fullGraphName)
 	gv.SetDir(true)
@@ -483,6 +487,7 @@ func (g *ExprGraph) ToDot() string {
 	}
 	return gv.String()
 }
+*/
 
 // other private methods
 

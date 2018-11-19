@@ -3,6 +3,7 @@ package gorgonia
 import (
 	"fmt"
 	"net/http"
+	"strings"
 
 	"gonum.org/v1/gonum/graph/encoding"
 )
@@ -15,6 +16,17 @@ func (n *Node) DOTID() string {
 
 // Attributes is for graphviz output. It specifies the "label" of the node (a table)
 func (n *Node) Attributes() []encoding.Attribute {
+	var htmlEscaper = strings.NewReplacer(
+		`&`, "&amp;",
+		`'`, "&#39;", // "&#39;" is shorter than "&apos;" and apos was not in HTML until HTML5.
+		`<`, "&lt;",
+		`>`, "&gt;",
+		`{`, "\\n",
+		`}`, "\\n",
+		`"`, "&#34;", // "&#34;" is shorter than "&quot;".
+		`const`, "const\\n", // "&#34;" is shorter than "&quot;".
+		`float`, "|float", // "&#34;" is shorter than "&quot;".
+	)
 	attrs := []encoding.Attribute{
 		encoding.Attribute{
 			Key:   "href",
@@ -26,28 +38,13 @@ func (n *Node) Attributes() []encoding.Attribute {
 		},
 		encoding.Attribute{
 			Key:   "label",
-			Value: fmt.Sprintf(`"{%v|%p|%o}"`, n.name, n, n.ID()),
+			Value: fmt.Sprintf(`"{%s|%s|%o}"`, n.name, htmlEscaper.Replace(fmt.Sprintf("%s", n.Op())), n.ID()),
 		},
-		/*
-			encoding.Attribute{
-				Key:   "label",
-				Value: n.dotLabel(),
-			},
-		*/
-	}
-	if len(n.children) == 0 {
-		attrs = append(attrs, encoding.Attribute{
-			Key:   "fillcolor",
-			Value: "yellow",
-		})
-		attrs = append(attrs, encoding.Attribute{
-			Key:   "style",
-			Value: "filled",
-		})
 	}
 	return attrs
 }
 
+/*
 type attributer []encoding.Attribute
 
 func (a attributer) Attributes() []encoding.Attribute { return a }
@@ -86,6 +83,7 @@ func (g *ExprGraph) DOTAttributers() (graph, node, edge encoding.Attributer) {
 	}
 	return graphAttributes, nodeAttributes, attributer{}
 }
+*/
 
 // ServeHTTP to get the value of the node via http
 func (n *Node) ServeHTTP(w http.ResponseWriter, r *http.Request) {

@@ -205,7 +205,7 @@ func (op sumOp) SymDiff(inputs Nodes, output, gradNode *Node) (retVal Nodes, err
 		if n, err = SizeOf(a, inputs[0]); err != nil {
 			return nil, errors.Wrap(err, operationError)
 		}
-		WithGroupName(gradClust)(n)
+		WithGroup(GradientCluster)(n)
 		children[i+1] = n
 	}
 
@@ -218,7 +218,7 @@ func (op sumOp) SymDiff(inputs Nodes, output, gradNode *Node) (retVal Nodes, err
 	if retVal[0], err = ApplyOp(repeat, children...); err != nil {
 		return nil, errors.Wrap(err, applyOpFail)
 	}
-	retVal[0].setGroup(gradClust)
+	retVal[0].setGroup(GradientCluster)
 	return
 }
 

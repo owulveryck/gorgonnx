@@ -532,8 +532,8 @@ func addDiff(ctx ExecutionContext, x, y, z *Node) (err error) {
 func subDiffExpr(x, y, z, gradZ *Node) (retVal Nodes, err error) {
 	var dzdy *Node
 	if dzdy, err = Neg(gradZ); err == nil {
-		WithGroupName(gradClust)(dzdy)
-		WithGroupName(gradClust)(gradZ)
+		WithGroup(GradientCluster)(dzdy)
+		WithGroup(GradientCluster)(gradZ)
 		retVal = Nodes{gradZ, dzdy}
 	} else {
 		return nil, errors.Wrap(err, "Failed to carry Neg()")
@@ -651,8 +651,8 @@ func hadamardProdDiffExpr(x, y, z, gradZ *Node) (retVal Nodes, err error) {
 		if err != nil {
 			return nil, errors.Wrap(err, "Failed to carry HadamardProd()")
 		}
-		WithGroupName(gradClust)(dzdx)
-		WithGroupName(gradClust)(dzdy)
+		WithGroup(GradientCluster)(dzdx)
+		WithGroup(GradientCluster)(dzdy)
 		retVal = Nodes{dzdx, dzdy}
 		return
 	}
@@ -809,13 +809,13 @@ end:
 func hadamardDivDiffExpr(x, y, z, gradZ *Node) (retVal Nodes, err error) {
 	var dzdx, dzdy *Node
 	if dzdx, err = HadamardDiv(gradZ, y, 0); err == nil {
-		WithGroupName(gradClust)(dzdx)
+		WithGroup(GradientCluster)(dzdx)
 		if dzdy, err = HadamardDiv(z, y, 0); err == nil {
-			WithGroupName(gradClust)(dzdy)
+			WithGroup(GradientCluster)(dzdy)
 			if dzdy, err = Neg(dzdy); err == nil {
-				WithGroupName(gradClust)(dzdy)
+				WithGroup(GradientCluster)(dzdy)
 				if dzdy, err = HadamardProd(dzdy, gradZ, 0); err == nil {
-					WithGroupName(gradClust)(dzdy)
+					WithGroup(GradientCluster)(dzdy)
 					retVal = Nodes{dzdx, dzdy}
 					return
 				}

@@ -10,10 +10,9 @@ import (
 
 	"github.com/rakyll/statik/fs"
 	"gonum.org/v1/gonum/graph/encoding/dot"
-	"gorgonia.org/gorgonia"
 
-	// Initialize the FS for static files
-	_ "gorgonia.org/gorgonia/tracer/htdocs/statik"
+	"gorgonia.org/gorgonia"
+	_ "gorgonia.org/gorgonia/tracer/htdocs/statik" // Initialize the FS for static files
 )
 
 // StartDebugger runs a http webserver
@@ -23,18 +22,21 @@ func StartDebugger(g *gorgonia.ExprGraph, listenAddress string) error {
 		return err
 	}
 
-	b, err := dot.Marshal(g, "", " ", " ")
+	dg := generateDotGraph(g)
+	b, err := dot.Marshal(dg, "", "    ", "     ")
 	if err != nil {
 		return err
 	}
-	svg, err := generateSVG(g)
+	svg, err := generateSVG(b)
 	if err != nil {
 		return err
 	}
 	handler := http.NewServeMux()
-	for _, n := range g.AllNodes() {
-		handler.Handle(fmt.Sprintf("/nodes/%p", n), n)
-	}
+	/*
+		for _, n := range g.AllNodes() {
+			handler.Handle(fmt.Sprintf("/nodes/%p", n), n)
+		}
+	*/
 	handler.HandleFunc("/graph.dot", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/plain; charset=UTF-8")
 		io.Copy(w, bytes.NewReader(b))
@@ -48,7 +50,7 @@ func StartDebugger(g *gorgonia.ExprGraph, listenAddress string) error {
 	return http.ListenAndServe(listenAddress, handler)
 }
 
-func generateSVG(g *gorgonia.ExprGraph) ([]byte, error) {
+func generateSVG(b []byte) ([]byte, error) {
 
 	dotProcess := exec.Command("dot", "-Tsvg")
 
@@ -60,7 +62,7 @@ func generateSVG(g *gorgonia.ExprGraph) ([]byte, error) {
 	defer stdinOfDotProcess.Close() // the doc says subProcess.Wait will close it, but I'm not sure, so I kept this line
 	readCloser, err := dotProcess.StdoutPipe()
 	if err != nil {
-		return nil, err //replace with logger, or anything you want
+		return nil, err
 	}
 	dotProcess.Stderr = os.Stderr
 
@@ -68,7 +70,6 @@ func generateSVG(g *gorgonia.ExprGraph) ([]byte, error) {
 	if err = dotProcess.Start(); err != nil { //Use start, not run
 		return nil, err //replace with logger, or anything you want
 	}
-	b, err := dot.Marshal(g, "", " ", " ")
 	fmt.Fprintf(stdinOfDotProcess, "%v", string(b))
 	stdinOfDotProcess.Close()
 	// Read from stdout and store it in the correct structure

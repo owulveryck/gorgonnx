@@ -223,7 +223,7 @@ func (op elemBinOp) SymDiff(inputs Nodes, output, gradNode *Node) (retVal Nodes,
 
 	if retVal, err = ʘBinOpDiffExprs[b](inputs[0], inputs[1], output, gradNode); err == nil {
 		for _, n := range retVal {
-			n.setGroup(gradClust)
+			n.setGroup(GradientCluster)
 		}
 	}
 
@@ -428,7 +428,7 @@ func (op elemUnaryOp) SymDiff(inputs Nodes, output, gradNode *Node) (retVal Node
 
 	var n *Node
 	if n, err = ʘUnaryOpDiffExprs[u](inputs[0], output, gradNode); err == nil {
-		n.setGroup(gradClust)
+		n.setGroup(GradientCluster)
 		retVal = Nodes{n}
 	}
 	return
@@ -611,7 +611,7 @@ func (op linAlgBinOp) SymDiff(inputs Nodes, output, gradNode *Node) (retVal Node
 	}
 
 	for _, n := range retVal {
-		n.setGroup(gradClust)
+		n.setGroup(GradientCluster)
 	}
 	return
 }

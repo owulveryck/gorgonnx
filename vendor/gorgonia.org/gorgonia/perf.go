@@ -28,7 +28,7 @@ func returnNode(n *Node) {
 	n.op = nil
 	n.children = nil
 	n.name = ""
-	n.group = ""
+	n.group = undefinedCluster
 	n.g = nil
 	n.boundTo = nil
 	n.derivOf = nil
@@ -129,7 +129,7 @@ func returnTensorType(t *TensorType) {
 	tensorTypePool.Put(t)
 }
 
-// ReturnType
+// ReturnType ...
 func ReturnType(t hm.Type) {
 	switch tt := t.(type) {
 	case *TensorType:

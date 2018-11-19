@@ -254,7 +254,7 @@ func Backpropagate(outputs, gradOutputs, wrt Nodes) (retVal Nodes, err error) {
 
 			var n *Node
 			symdiffLogf("reduce adding")
-			if n, err = ReduceAdd(nodeGradMap[node], WithGroupName(gradClust)); err != nil {
+			if n, err = ReduceAdd(nodeGradMap[node], WithGroup(GradientCluster)); err != nil {
 				leaveLogScope()
 				return nil, SymDiffError{
 					single:  node,
@@ -313,7 +313,7 @@ func Backpropagate(outputs, gradOutputs, wrt Nodes) (retVal Nodes, err error) {
 				childGrad := childrenGrads[i]
 
 				if differentiable {
-					childGrad.setGroup(gradClust)
+					childGrad.setGroup(GradientCluster)
 					if grads, ok := nodeGradMap[child]; ok {
 						grads = append(grads, childGrad)
 						nodeGradMap[child] = grads
@@ -323,7 +323,7 @@ func Backpropagate(outputs, gradOutputs, wrt Nodes) (retVal Nodes, err error) {
 				} else {
 					symdiffLogf("Child %x is non differentiable", child.ID())
 					if childGrad != nil {
-						childGrad.setGroup(strayClust)
+						childGrad.setGroup(StrayCluster)
 					}
 				}
 			}
