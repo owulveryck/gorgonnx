@@ -7,30 +7,32 @@ import (
 )
 
 const (
-	// graphviz name for a full graph
-	fullGraphName = "fullGraph"
+	/*
+			// graphviz name for a full graph
+			fullGraphName = "fullGraph"
 
-	// group names
-	exprgraphClust = "expressionGraph"
-	constantsClust = "constants"
-	inputsClust    = "inputs"
-	gradClust      = "gradients"
-	strayClust     = "undifferentiated nodes"
+			// group names
+			exprgraphClust = "expressionGraph"
+			constantsClust = "constants"
+			inputsClust    = "inputs"
+			gradClust      = "gradients"
+			strayClust     = "undifferentiated nodes"
 
-	// subgraphs to rank the same
-	outsideSubG = "outsides"
-	inputConsts = "inputConsts"
+		// subgraphs to rank the same
+		outsideSubG = "outsides"
+		inputConsts = "inputConsts"
 
-	// special nodes for graphviz hacking
-	outsideRoot   = "outsideRoot"
-	outsideInputs = "outsideInputs"
-	insideInputs  = "insideInputs"
-	outsideConsts = "outsideConsts"
-	insideConsts  = "insideConsts"
-	outsideExprG  = "outsideExprG"
-	insideExprG   = "insideExprG"
-	outsideGrads  = "outsideGrads"
-	insideGrads   = "insideGrads"
+		// special nodes for graphviz hacking
+		outsideRoot   = "outsideRoot"
+		outsideInputs = "outsideInputs"
+		insideInputs  = "insideInputs"
+		outsideConsts = "outsideConsts"
+		insideConsts  = "insideConsts"
+		outsideExprG  = "outsideExprG"
+		insideExprG   = "insideExprG"
+		outsideGrads  = "outsideGrads"
+		insideGrads   = "insideGrads"
+	*/
 
 	// error messages
 	sortFail            = "Failed to sort"
