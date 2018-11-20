@@ -24,8 +24,7 @@ func (n *Node) Attributes() []encoding.Attribute {
 		`{`, "\\n",
 		`}`, "\\n",
 		`"`, "&#34;", // "&#34;" is shorter than "&quot;".
-		`const`, "const\\n", // "&#34;" is shorter than "&quot;".
-		`float`, "|float", // "&#34;" is shorter than "&quot;".
+		`const`, "const|", // "&#34;" is shorter than "&quot;".
 	)
 	attrs := []encoding.Attribute{
 		encoding.Attribute{
@@ -38,7 +37,7 @@ func (n *Node) Attributes() []encoding.Attribute {
 		},
 		encoding.Attribute{
 			Key:   "label",
-			Value: fmt.Sprintf(`"{%s|%s|%o}"`, n.name, htmlEscaper.Replace(fmt.Sprintf("%s", n.Op())), n.ID()),
+			Value: fmt.Sprintf(`"{{%s|%o}|%s}"`, n.name, n.ID(), htmlEscaper.Replace(fmt.Sprintf("%s", n.Op()))),
 		},
 	}
 	return attrs
