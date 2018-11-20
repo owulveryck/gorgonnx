@@ -8,55 +8,50 @@ import (
 	"gorgonia.org/gorgonia/debugger"
 )
 
-const (
-	exprGraphType = iota
-	inputType
-	constantType
+var (
+	subGraphs = map[debugger.GroupID]DotSubgrapher{
+		debugger.ConstantCluster: constantSubGraph{
+			DirectedBuilder: simple.NewDirectedGraph(),
+			name:            "Constants",
+		},
+		debugger.InputCluster: inputSubGraph{
+			DirectedBuilder: simple.NewDirectedGraph(),
+			name:            "Inputs",
+		},
+		debugger.ExprGraphCluster: exprSubGraph{
+			DirectedBuilder: simple.NewDirectedGraph(),
+			name:            "ExprGraph",
+		},
+		debugger.UndefinedCluster: exprSubGraph{
+			DirectedBuilder: simple.NewDirectedGraph(),
+			name:            "ExprGraph",
+		},
+	}
 )
 
 type attributer []encoding.Attribute
 
 func (a attributer) Attributes() []encoding.Attribute { return a }
 
-func generateDotGraph(g graph.Directed) graph.Graph {
+func generateDotGraph(g graph.Directed) (graph.Graph, error) {
 	dg := simple.NewDirectedGraph()
-	inputsG := simple.NewDirectedGraph()
-	constantG := simple.NewDirectedGraph()
-	exprG := simple.NewDirectedGraph()
 	graph.Copy(dg, g)
 	nodes := g.Nodes()
 	for nodes.Next() {
 		n := nodes.Node()
 		if _, ok := n.(debugger.Grouper); ok {
 			group := n.(debugger.Grouper).Group()
-			switch group {
-			case debugger.ConstantCluster:
-				constantG.AddNode(n)
-			case debugger.InputCluster:
-				inputsG.AddNode(n)
-			default:
-				exprG.AddNode(n)
+			if subgrapher, ok := subGraphs[group]; ok {
+				subgrapher.(graph.DirectedBuilder).AddNode(n)
 			}
 		}
 	}
-	constantSubG := constantSubGraph{
-		name:     "Constants",
-		Directed: constantG,
-	}
-	inputsSubG := inputSubGraph{
-		name:     "Inputs",
-		Directed: inputsG,
-	}
-	exprSubG := exprSubGraph{
-		name:     "ExprGraph",
-		Directed: exprG,
+	subs := make([]dot.Graph, 0)
+	for _, g := range subGraphs {
+		subs = append(subs, g)
 	}
 	return dotGraph{
 		Directed: dg,
-		subs: []dot.Graph{
-			inputsSubG,
-			constantSubG,
-			exprSubG,
-		},
-	}
+		subs:     subs,
+	}, nil
 }

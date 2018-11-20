@@ -7,7 +7,7 @@ import (
 
 type inputSubGraph struct {
 	name string
-	graph.Directed
+	graph.DirectedBuilder
 }
 
 func (g inputSubGraph) DOTID() string { return g.name }

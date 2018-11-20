@@ -7,7 +7,7 @@ import (
 
 type exprSubGraph struct {
 	name string
-	graph.Directed
+	graph.DirectedBuilder
 }
 
 func (g exprSubGraph) DOTID() string { return "cluster_" + g.name }

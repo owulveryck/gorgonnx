@@ -12,7 +12,6 @@ import (
 
 	"github.com/rakyll/statik/fs"
 	"gonum.org/v1/gonum/graph"
-	"gonum.org/v1/gonum/graph/encoding/dot"
 
 	_ "gorgonia.org/gorgonia/debugger/tracer/statik" // Initialize the FS for static files
 )
@@ -24,8 +23,7 @@ func StartDebugger(g graph.Directed, listenAddress string) error {
 		return err
 	}
 
-	dg := generateDotGraph(g)
-	b, err := dot.Marshal(dg, "", "", "\t")
+	b, err := Marshal(g)
 	if err != nil {
 		return err
 	}
