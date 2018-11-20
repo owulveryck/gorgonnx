@@ -11,7 +11,7 @@ import (
 	"github.com/owulveryck/gorgonnx"
 	onnx "github.com/owulveryck/onnx-go"
 	"gorgonia.org/gorgonia"
-	"gorgonia.org/gorgonia/tracer"
+	"gorgonia.org/gorgonia/debugger/tracer"
 )
 
 func main() {
