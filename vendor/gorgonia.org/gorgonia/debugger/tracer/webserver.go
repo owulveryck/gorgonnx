@@ -33,11 +33,15 @@ func StartDebugger(g graph.Directed, listenAddress string) error {
 		return err
 	}
 	handler := http.NewServeMux()
-	/*
-		for _, n := range g.AllNodes() {
-			handler.Handle(fmt.Sprintf("/nodes/%p", n), n)
+	nodes := g.Nodes()
+	nodes.Reset()
+	for nodes.Next() {
+		n := nodes.Node()
+		_, ok := n.(http.Handler)
+		if ok {
+			handler.Handle(fmt.Sprintf("/nodes/%p", n), n.(http.Handler))
 		}
-	*/
+	}
 	handler.HandleFunc("/graph.dot", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/plain; charset=UTF-8")
 		io.Copy(w, bytes.NewReader(b))
