@@ -10,7 +10,7 @@ type exprSubGraph struct {
 	graph.Directed
 }
 
-func (g exprSubGraph) DOTID() string { return g.name }
+func (g exprSubGraph) DOTID() string { return "cluster_" + g.name }
 
 // DOTAttributers to specify the top-level graph attributes for the graphviz generation
 func (g exprSubGraph) DOTAttributers() (graph, node, edge encoding.Attributer) {
@@ -23,13 +23,21 @@ func (g exprSubGraph) DOTAttributers() (graph, node, edge encoding.Attributer) {
 		},
 		encoding.Attribute{
 			Key:   "color",
-			Value: "pink",
+			Value: "lightgray",
+		},
+		encoding.Attribute{
+			Key:   "style",
+			Value: "filled",
 		},
 	}
 	nodeAttributes := attributer{
 		encoding.Attribute{
 			Key:   "style",
 			Value: `"rounded,filled"`,
+		},
+		encoding.Attribute{
+			Key:   "fillcolor",
+			Value: "white",
 		},
 		encoding.Attribute{
 			Key:   "shape",
