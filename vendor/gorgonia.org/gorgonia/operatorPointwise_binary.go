@@ -5,6 +5,7 @@ import (
 
 	"github.com/chewxy/math32"
 	"github.com/pkg/errors"
+	"gorgonia.org/gorgonia/debugger"
 	"gorgonia.org/tensor"
 )
 
@@ -532,8 +533,8 @@ func addDiff(ctx ExecutionContext, x, y, z *Node) (err error) {
 func subDiffExpr(x, y, z, gradZ *Node) (retVal Nodes, err error) {
 	var dzdy *Node
 	if dzdy, err = Neg(gradZ); err == nil {
-		WithGroup(GradientCluster)(dzdy)
-		WithGroup(GradientCluster)(gradZ)
+		WithGroup(debugger.GradientCluster)(dzdy)
+		WithGroup(debugger.GradientCluster)(gradZ)
 		retVal = Nodes{gradZ, dzdy}
 	} else {
 		return nil, errors.Wrap(err, "Failed to carry Neg()")
@@ -651,8 +652,8 @@ func hadamardProdDiffExpr(x, y, z, gradZ *Node) (retVal Nodes, err error) {
 		if err != nil {
 			return nil, errors.Wrap(err, "Failed to carry HadamardProd()")
 		}
-		WithGroup(GradientCluster)(dzdx)
-		WithGroup(GradientCluster)(dzdy)
+		WithGroup(debugger.GradientCluster)(dzdx)
+		WithGroup(debugger.GradientCluster)(dzdy)
 		retVal = Nodes{dzdx, dzdy}
 		return
 	}
@@ -809,13 +810,13 @@ end:
 func hadamardDivDiffExpr(x, y, z, gradZ *Node) (retVal Nodes, err error) {
 	var dzdx, dzdy *Node
 	if dzdx, err = HadamardDiv(gradZ, y, 0); err == nil {
-		WithGroup(GradientCluster)(dzdx)
+		WithGroup(debugger.GradientCluster)(dzdx)
 		if dzdy, err = HadamardDiv(z, y, 0); err == nil {
-			WithGroup(GradientCluster)(dzdy)
+			WithGroup(debugger.GradientCluster)(dzdy)
 			if dzdy, err = Neg(dzdy); err == nil {
-				WithGroup(GradientCluster)(dzdy)
+				WithGroup(debugger.GradientCluster)(dzdy)
 				if dzdy, err = HadamardProd(dzdy, gradZ, 0); err == nil {
-					WithGroup(GradientCluster)(dzdy)
+					WithGroup(debugger.GradientCluster)(dzdy)
 					retVal = Nodes{dzdx, dzdy}
 					return
 				}

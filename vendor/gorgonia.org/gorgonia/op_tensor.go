@@ -9,6 +9,7 @@ import (
 
 	"github.com/chewxy/hm"
 	"github.com/pkg/errors"
+	"gorgonia.org/gorgonia/debugger"
 	"gorgonia.org/tensor"
 )
 
@@ -281,7 +282,7 @@ func (op repeatOp) DiffWRT(i int) []bool {
 func (op repeatOp) SymDiff(inputs Nodes, output, gradNode *Node) (retVal Nodes, err error) {
 	var n *Node
 	if n, err = Sum(gradNode, op.along...); err == nil {
-		n.setGroup(GradientCluster)
+		n.setGroup(debugger.GradientCluster)
 	}
 	retVal = make(Nodes, len(inputs))
 	retVal[0] = n

@@ -3,6 +3,7 @@ package gorgonia
 import (
 	"github.com/pkg/errors"
 	"gonum.org/v1/gonum/graph"
+	"gorgonia.org/gorgonia/debugger"
 )
 
 /*
@@ -254,7 +255,7 @@ func Backpropagate(outputs, gradOutputs, wrt Nodes) (retVal Nodes, err error) {
 
 			var n *Node
 			symdiffLogf("reduce adding")
-			if n, err = ReduceAdd(nodeGradMap[node], WithGroup(GradientCluster)); err != nil {
+			if n, err = ReduceAdd(nodeGradMap[node], WithGroup(debugger.GradientCluster)); err != nil {
 				leaveLogScope()
 				return nil, SymDiffError{
 					single:  node,
@@ -313,7 +314,7 @@ func Backpropagate(outputs, gradOutputs, wrt Nodes) (retVal Nodes, err error) {
 				childGrad := childrenGrads[i]
 
 				if differentiable {
-					childGrad.setGroup(GradientCluster)
+					childGrad.setGroup(debugger.GradientCluster)
 					if grads, ok := nodeGradMap[child]; ok {
 						grads = append(grads, childGrad)
 						nodeGradMap[child] = grads
@@ -323,7 +324,7 @@ func Backpropagate(outputs, gradOutputs, wrt Nodes) (retVal Nodes, err error) {
 				} else {
 					symdiffLogf("Child %x is non differentiable", child.ID())
 					if childGrad != nil {
-						childGrad.setGroup(StrayCluster)
+						childGrad.setGroup(debugger.StrayCluster)
 					}
 				}
 			}

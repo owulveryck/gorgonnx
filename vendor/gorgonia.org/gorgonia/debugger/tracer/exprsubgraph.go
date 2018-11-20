@@ -29,6 +29,14 @@ func (g exprSubGraph) DOTAttributers() (graph, node, edge encoding.Attributer) {
 			Key:   "style",
 			Value: "filled",
 		},
+		encoding.Attribute{
+			Key:   "nodeset",
+			Value: "0.5",
+		},
+		encoding.Attribute{
+			Key:   "ranksep",
+			Value: `"1.2 equally"`,
+		},
 	}
 	nodeAttributes := attributer{
 		encoding.Attribute{

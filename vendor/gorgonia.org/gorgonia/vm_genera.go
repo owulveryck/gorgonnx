@@ -3,7 +3,6 @@ package gorgonia
 import (
 	"bytes"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"runtime"
 	"strings"
@@ -233,7 +232,7 @@ func (m *lispMachine) checkRoots() (err error) {
 				// }
 			case !m.setRootGrad() && !root.IsScalar() && !root.isStmt:
 				err = errors.Errorf("Expected cost to be a scalar. Got %v with shape %v instead", root, root.Shape())
-				ioutil.WriteFile("err.dot", []byte(root.RestrictedToDot(2, 10)), 0644)
+				//ioutil.WriteFile("err.dot", []byte(root.RestrictedToDot(2, 10)), 0644)
 				return
 			}
 		}

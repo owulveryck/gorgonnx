@@ -14,6 +14,7 @@ import (
 
 	"github.com/chewxy/hm"
 	"github.com/pkg/errors"
+	"gorgonia.org/gorgonia/debugger"
 	"gorgonia.org/tensor"
 )
 
@@ -205,7 +206,7 @@ func (op sumOp) SymDiff(inputs Nodes, output, gradNode *Node) (retVal Nodes, err
 		if n, err = SizeOf(a, inputs[0]); err != nil {
 			return nil, errors.Wrap(err, operationError)
 		}
-		WithGroup(GradientCluster)(n)
+		WithGroup(debugger.GradientCluster)(n)
 		children[i+1] = n
 	}
 
@@ -218,7 +219,7 @@ func (op sumOp) SymDiff(inputs Nodes, output, gradNode *Node) (retVal Nodes, err
 	if retVal[0], err = ApplyOp(repeat, children...); err != nil {
 		return nil, errors.Wrap(err, applyOpFail)
 	}
-	retVal[0].setGroup(GradientCluster)
+	retVal[0].setGroup(debugger.GradientCluster)
 	return
 }
 

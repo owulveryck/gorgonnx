@@ -11,14 +11,14 @@ import (
 	"os/exec"
 
 	"github.com/rakyll/statik/fs"
+	"gonum.org/v1/gonum/graph"
 	"gonum.org/v1/gonum/graph/encoding/dot"
 
-	"gorgonia.org/gorgonia"
-	_ "gorgonia.org/gorgonia/tracer/statik" // Initialize the FS for static files
+	_ "gorgonia.org/gorgonia/debugger/tracer/statik" // Initialize the FS for static files
 )
 
 // StartDebugger runs a http webserver
-func StartDebugger(g *gorgonia.ExprGraph, listenAddress string) error {
+func StartDebugger(g graph.Directed, listenAddress string) error {
 	statikFS, err := fs.New()
 	if err != nil {
 		return err

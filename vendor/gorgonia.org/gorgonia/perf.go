@@ -4,6 +4,7 @@ import (
 	"sync"
 
 	"github.com/chewxy/hm"
+	"gorgonia.org/gorgonia/debugger"
 	"gorgonia.org/tensor"
 )
 
@@ -28,7 +29,7 @@ func returnNode(n *Node) {
 	n.op = nil
 	n.children = nil
 	n.name = ""
-	n.group = undefinedCluster
+	n.group = debugger.UndefinedCluster
 	n.g = nil
 	n.boundTo = nil
 	n.derivOf = nil

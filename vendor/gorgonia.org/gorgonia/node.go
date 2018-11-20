@@ -8,10 +8,9 @@ import (
 	"hash/fnv"
 	"log"
 
-	"github.com/awalterschulze/gographviz"
 	"github.com/chewxy/hm"
 	"github.com/pkg/errors"
-	"gonum.org/v1/gonum/graph"
+	"gorgonia.org/gorgonia/debugger"
 	"gorgonia.org/tensor"
 )
 
@@ -28,7 +27,7 @@ type Node struct {
 	// For nicely grouping stuff in graphviz.
 	// TODO: Should this be in *Node?
 	name  string
-	group Cluster
+	group debugger.GroupID
 
 	g *ExprGraph // this node belongs in this graph
 
@@ -493,6 +492,7 @@ func (n *Node) Hashcode() uint32 {
 	return n.hash
 }
 
+/*
 // ToDot returns the graph as a graphviz compatible string
 func (n *Node) ToDot() string {
 	graphName := exprgraphClust
@@ -510,7 +510,8 @@ func (n *Node) ToDot() string {
 
 	return g.String()
 }
-
+*/
+/*
 // RestrictedToDot prints the graphviz compatible string but does not print the entire tree
 // up and down indicates how many levels to look up, and how many levels to look down
 func (n *Node) RestrictedToDot(up, down int) string {
@@ -555,6 +556,7 @@ func (n *Node) RestrictedToDot(up, down int) string {
 	}()
 	return sg.ToDot()
 }
+*/
 
 // String() implements the fmt.Stringer interface
 func (n *Node) String() string {
@@ -664,35 +666,17 @@ func (n *Node) unbind() {
 	n.boundTo = nil
 }
 
-// Cluster represent a group of nodes that are similars
-// It is used for the grapviz generation
-type Cluster int
-
-const (
-	undefinedCluster Cluster = iota
-	// ExprGraphCluster is the default cluster
-	ExprGraphCluster
-	// ConstantCluster is the group of nodes that represents constants
-	ConstantCluster
-	// InputCluster is the group of nodes that are expecting values
-	InputCluster
-	// GradientCluster ...
-	GradientCluster
-	// StrayCluster ...
-	StrayCluster
-)
-
 // WithGroup is a node construction option to group a *Node within a particular group. This option is useful for debugging with graphs.
-func WithGroup(group Cluster) NodeConsOpt {
+func WithGroup(group debugger.GroupID) NodeConsOpt {
 	f := func(n *Node) {
 		n.group = group
 	}
 	return f
 }
 
-//NodeCluster is a convenient method to get the type of the node. It is used for clustering in the graphviz generation
-func (n *Node) NodeCluster() Cluster {
-	var group Cluster
+// Group to fulfil the debugger GroupID interface
+func (n *Node) Group() debugger.GroupID {
+	var group debugger.GroupID
 	var isConst bool
 	var isInput = n.isInput()
 
@@ -702,17 +686,18 @@ func (n *Node) NodeCluster() Cluster {
 
 	switch {
 	case isConst:
-		group = ConstantCluster
+		group = debugger.ConstantCluster
 	case isInput:
-		group = InputCluster
-	case n.group == ExprGraphCluster:
-		group = ExprGraphCluster
+		group = debugger.InputCluster
+	case n.group == debugger.ExprGraphCluster:
+		group = debugger.ExprGraphCluster
 	default:
 		group = n.group
 	}
 	return group
 }
 
+/*
 func (n *Node) dot(g *gographviz.Escape, graphName string, seen map[*Node]string) string {
 	var id string
 	var ok bool
@@ -734,6 +719,7 @@ func (n *Node) dot(g *gographviz.Escape, graphName string, seen map[*Node]string
 	}
 	return id
 }
+*/
 
 func (n *Node) fix() {
 	if n.IsScalar() {
@@ -782,7 +768,7 @@ func (n *Node) setShape(s tensor.Shape, inferred bool) {
 	n.inferredShape = inferred
 }
 
-func (n *Node) setGroup(grp Cluster) {
+func (n *Node) setGroup(grp debugger.GroupID) {
 	n.group = grp
 }
 
@@ -827,6 +813,7 @@ func (n *Node) seqWalk() Nodes {
 	return retVal
 }
 
+/*
 // dotString returns the ID of the node.
 func (n *Node) dotString(g *gographviz.Escape, graphName string) string {
 	var buf bytes.Buffer
@@ -845,3 +832,4 @@ func (n *Node) dotString(g *gographviz.Escape, graphName string) string {
 	g.AddNode(graphName, id, attrs)
 	return id
 }
+*/
