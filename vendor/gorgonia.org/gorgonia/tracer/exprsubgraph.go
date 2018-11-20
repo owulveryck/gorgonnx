@@ -6,9 +6,7 @@ import (
 )
 
 type exprSubGraph struct {
-	id           int64
-	name         string
-	subGraphType int
+	name string
 	graph.Directed
 }
 
@@ -21,7 +19,7 @@ func (g exprSubGraph) DOTAttributers() (graph, node, edge encoding.Attributer) {
 	graphAttributes := attributer{
 		encoding.Attribute{
 			Key:   "label",
-			Value: `"ExprGraph"`,
+			Value: g.name,
 		},
 		encoding.Attribute{
 			Key:   "color",

@@ -58,22 +58,16 @@ func generateDotGraph(g *gorgonia.ExprGraph) graph.Graph {
 		}
 	}
 	constantSubG := constantSubGraph{
-		id:           dg.NewNode().ID(),
-		name:         "Constants",
-		subGraphType: constantType,
-		Directed:     constantG,
+		name:     "Constants",
+		Directed: constantG,
 	}
 	inputsSubG := inputSubGraph{
-		id:           dg.NewNode().ID(),
-		name:         "Inputs",
-		subGraphType: inputType,
-		Directed:     inputsG,
+		name:     "Inputs",
+		Directed: inputsG,
 	}
 	exprSubG := exprSubGraph{
-		id:           dg.NewNode().ID(),
-		name:         "ExprGraph",
-		subGraphType: exprGraphType,
-		Directed:     exprG,
+		name:     "ExprGraph",
+		Directed: exprG,
 	}
 	return dotGraph{
 		Directed: dg,

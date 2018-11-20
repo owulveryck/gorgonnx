@@ -6,9 +6,7 @@ import (
 )
 
 type constantSubGraph struct {
-	id           int64
-	name         string
-	subGraphType int
+	name string
 	graph.Directed
 }
 
@@ -19,6 +17,10 @@ func (g constantSubGraph) DOTAttributers() (graph, node, edge encoding.Attribute
 	// Create a special attribute "rank" to place the input at the same level in the graph
 
 	graphAttributes := attributer{
+		encoding.Attribute{
+			Key:   "label",
+			Value: g.name,
+		},
 		encoding.Attribute{
 			Key:   "rank",
 			Value: `"max"`,
