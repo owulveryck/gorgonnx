@@ -30,16 +30,12 @@ func (g constantSubGraph) DOTAttributers() (graph, node, edge encoding.Attribute
 			Value: `"rounded,filled"`,
 		},
 		encoding.Attribute{
-			Key:   "fontname",
-			Value: "monospace",
-		},
-		encoding.Attribute{
 			Key:   "shape",
 			Value: "record",
 		},
 		encoding.Attribute{
 			Key:   "fillcolor",
-			Value: "blue",
+			Value: "pink",
 		},
 	}
 	return graphAttributes, nodeAttributes, attributer{}

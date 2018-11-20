@@ -3,6 +3,7 @@ package tracer
 import (
 	"gonum.org/v1/gonum/graph"
 	"gonum.org/v1/gonum/graph/encoding"
+	"gonum.org/v1/gonum/graph/encoding/dot"
 	"gonum.org/v1/gonum/graph/simple"
 	"gorgonia.org/gorgonia"
 )
@@ -13,6 +14,7 @@ const (
 	constantType
 )
 
+/*
 type subGraph struct {
 	id           int64
 	name         string
@@ -31,57 +33,54 @@ func (g subGraph) Subgraph() graph.Graph {
 		return exprSubGraph(g)
 	}
 }
+func (g subGraph) DOTID() string { return g.name }
+*/
 
 type attributer []encoding.Attribute
 
 func (a attributer) Attributes() []encoding.Attribute { return a }
 
 func generateDotGraph(g *gorgonia.ExprGraph) graph.Graph {
+	dg := simple.NewDirectedGraph()
 	inputsG := simple.NewDirectedGraph()
 	constantG := simple.NewDirectedGraph()
 	exprG := simple.NewDirectedGraph()
+	graph.Copy(dg, g)
 	for _, n := range g.AllNodes() {
-		switch n.NodeCluster() {
+		currentCluster := n.NodeCluster()
+		switch currentCluster {
 		case gorgonia.ConstantCluster:
 			constantG.AddNode(n)
 		case gorgonia.InputCluster:
 			inputsG.AddNode(n)
 		default:
 			exprG.AddNode(n)
-
 		}
 	}
-	dg := simple.NewDirectedGraph()
-	constantSubG := subGraph{
+	constantSubG := constantSubGraph{
 		id:           dg.NewNode().ID(),
 		name:         "Constants",
 		subGraphType: constantType,
 		Directed:     constantG,
 	}
-	dg.AddNode(constantSubG)
-	inputsSubG := subGraph{
+	inputsSubG := inputSubGraph{
 		id:           dg.NewNode().ID(),
 		name:         "Inputs",
 		subGraphType: inputType,
 		Directed:     inputsG,
 	}
-	dg.AddNode(inputsSubG)
-	exprSubG := subGraph{
+	exprSubG := exprSubGraph{
 		id:           dg.NewNode().ID(),
 		name:         "ExprGraph",
 		subGraphType: exprGraphType,
 		Directed:     exprG,
 	}
-	dg.AddNode(exprSubG)
-	nodes := g.Nodes()
-	nodes.Reset()
-	for nodes.Next() {
-		u := nodes.Node()
-		to := g.From(u.ID())
-		for to.Next() {
-			v := to.Node()
-			exprG.SetEdge(exprG.NewEdge(u, v))
-		}
+	return dotGraph{
+		Directed: dg,
+		subs: []dot.Graph{
+			inputsSubG,
+			constantSubG,
+			exprSubG,
+		},
 	}
-	return dotGraph{dg}
 }

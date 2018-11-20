@@ -25,7 +25,7 @@ func (g exprSubGraph) DOTAttributers() (graph, node, edge encoding.Attributer) {
 		},
 		encoding.Attribute{
 			Key:   "color",
-			Value: "blue",
+			Value: "pink",
 		},
 	}
 	nodeAttributes := attributer{
@@ -33,12 +33,6 @@ func (g exprSubGraph) DOTAttributers() (graph, node, edge encoding.Attributer) {
 			Key:   "style",
 			Value: `"rounded,filled"`,
 		},
-		/*
-			encoding.Attribute{
-				Key:   "fontname",
-				Value: "monospace",
-			},
-		*/
 		encoding.Attribute{
 			Key:   "shape",
 			Value: "Mrecord",

@@ -25,7 +25,7 @@ func StartDebugger(g *gorgonia.ExprGraph, listenAddress string) error {
 	}
 
 	dg := generateDotGraph(g)
-	b, err := dot.Marshal(dg, "", "    ", "     ")
+	b, err := dot.Marshal(dg, "", "", "\t")
 	if err != nil {
 		return err
 	}
