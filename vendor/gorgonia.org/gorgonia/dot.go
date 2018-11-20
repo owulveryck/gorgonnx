@@ -90,7 +90,7 @@ func (g *ExprGraph) DOTAttributers() (graph, node, edge encoding.Attributer) {
 
 // ServeHTTP to get the value of the node via http
 func (n *Node) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "%s", n.Value())
+	fmt.Fprintf(w, "%#s", n.Value())
 }
 
 /*
