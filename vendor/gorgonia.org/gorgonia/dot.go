@@ -28,6 +28,10 @@ func (n *Node) Attributes() []encoding.Attribute {
 	)
 	attrs := []encoding.Attribute{
 		encoding.Attribute{
+			Key:   "id",
+			Value: fmt.Sprintf(`"%p"`, n),
+		},
+		encoding.Attribute{
 			Key:   "href",
 			Value: fmt.Sprintf(`"/nodes/%p"`, n),
 		},
@@ -86,7 +90,7 @@ func (g *ExprGraph) DOTAttributers() (graph, node, edge encoding.Attributer) {
 
 // ServeHTTP to get the value of the node via http
 func (n *Node) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "%v", n.Value())
+	fmt.Fprintf(w, "%s", n.Value())
 }
 
 /*
