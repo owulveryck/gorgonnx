@@ -1,8 +1,8 @@
-package tracer
+package dot
 
 import (
 	"gonum.org/v1/gonum/graph"
-	"gonum.org/v1/gonum/graph/encoding/dot"
+	gonumDot "gonum.org/v1/gonum/graph/encoding/dot"
 )
 
 // Marshal the graph in a dot (graphviz)
@@ -12,5 +12,5 @@ func Marshal(g graph.Directed) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	return dot.Marshal(dg, "", "", "\t")
+	return gonumDot.Marshal(dg, "", "", "\t")
 }

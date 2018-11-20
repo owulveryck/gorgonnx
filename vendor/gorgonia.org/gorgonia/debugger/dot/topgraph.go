@@ -1,9 +1,9 @@
-package tracer
+package dot
 
 import (
 	"gonum.org/v1/gonum/graph"
 	"gonum.org/v1/gonum/graph/encoding"
-	"gonum.org/v1/gonum/graph/encoding/dot"
+	gonumDot "gonum.org/v1/gonum/graph/encoding/dot"
 	"gonum.org/v1/gonum/graph/simple"
 	"gorgonia.org/gorgonia/debugger"
 )
@@ -46,7 +46,7 @@ func generateDotGraph(g graph.Directed) (graph.Graph, error) {
 			}
 		}
 	}
-	subs := make([]dot.Graph, 0)
+	subs := make([]gonumDot.Graph, 0)
 	for _, g := range subGraphs {
 		subs = append(subs, g)
 	}

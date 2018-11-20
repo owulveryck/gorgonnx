@@ -1,19 +1,19 @@
-package tracer
+package dot
 
 import (
 	"gonum.org/v1/gonum/graph"
 	"gonum.org/v1/gonum/graph/encoding"
 )
 
-type inputSubGraph struct {
+type exprSubGraph struct {
 	name string
 	graph.DirectedBuilder
 }
 
-func (g inputSubGraph) DOTID() string { return g.name }
+func (g exprSubGraph) DOTID() string { return "cluster_" + g.name }
 
 // DOTAttributers to specify the top-level graph attributes for the graphviz generation
-func (g inputSubGraph) DOTAttributers() (graph, node, edge encoding.Attributer) {
+func (g exprSubGraph) DOTAttributers() (graph, node, edge encoding.Attributer) {
 	// Create a special attribute "rank" to place the input at the same level in the graph
 
 	graphAttributes := attributer{
@@ -22,8 +22,20 @@ func (g inputSubGraph) DOTAttributers() (graph, node, edge encoding.Attributer) 
 			Value: g.name,
 		},
 		encoding.Attribute{
-			Key:   "rank",
-			Value: `"max"`,
+			Key:   "color",
+			Value: "lightgray",
+		},
+		encoding.Attribute{
+			Key:   "style",
+			Value: "filled",
+		},
+		encoding.Attribute{
+			Key:   "nodeset",
+			Value: "0.5",
+		},
+		encoding.Attribute{
+			Key:   "ranksep",
+			Value: `"1.2 equally"`,
 		},
 	}
 	nodeAttributes := attributer{
@@ -32,12 +44,12 @@ func (g inputSubGraph) DOTAttributers() (graph, node, edge encoding.Attributer) 
 			Value: `"rounded,filled"`,
 		},
 		encoding.Attribute{
-			Key:   "shape",
-			Value: "record",
+			Key:   "fillcolor",
+			Value: "white",
 		},
 		encoding.Attribute{
-			Key:   "fillcolor",
-			Value: "yellow",
+			Key:   "shape",
+			Value: "Mrecord",
 		},
 	}
 	return graphAttributes, nodeAttributes, attributer{}

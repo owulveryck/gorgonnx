@@ -1,15 +1,15 @@
-package tracer
+package dot
 
 import (
 	"gonum.org/v1/gonum/graph"
 	"gonum.org/v1/gonum/graph/encoding"
-	"gonum.org/v1/gonum/graph/encoding/dot"
+	gonumDot "gonum.org/v1/gonum/graph/encoding/dot"
 )
 
 // This structures handles the toplevel graph attributes
 type dotGraph struct {
 	graph.Directed
-	subs []dot.Graph
+	subs []gonumDot.Graph
 }
 
 // DOTAttributers to specify the top-level graph attributes for the graphviz generation
@@ -39,6 +39,6 @@ func (g dotGraph) DOTAttributers() (graph, node, edge encoding.Attributer) {
 	return graphAttributes, nodeAttributes, attributer{}
 }
 
-func (g dotGraph) Structure() []dot.Graph {
+func (g dotGraph) Structure() []gonumDot.Graph {
 	return g.subs
 }
