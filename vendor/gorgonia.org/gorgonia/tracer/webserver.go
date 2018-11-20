@@ -1,3 +1,5 @@
+//go:generate statik -src=./htdocs
+
 package tracer
 
 import (
@@ -12,7 +14,7 @@ import (
 	"gonum.org/v1/gonum/graph/encoding/dot"
 
 	"gorgonia.org/gorgonia"
-	_ "gorgonia.org/gorgonia/tracer/htdocs/statik" // Initialize the FS for static files
+	_ "gorgonia.org/gorgonia/tracer/statik" // Initialize the FS for static files
 )
 
 // StartDebugger runs a http webserver
@@ -45,7 +47,7 @@ func StartDebugger(g *gorgonia.ExprGraph, listenAddress string) error {
 		w.Header().Set("Content-Type", "image/svg+xml; charset=UTF-8")
 		io.WriteString(w, string(svg))
 	})
-	http.Handle("/", http.FileServer(statikFS))
+	handler.Handle("/", http.FileServer(statikFS))
 
 	return http.ListenAndServe(listenAddress, handler)
 }
