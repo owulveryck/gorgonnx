@@ -40,6 +40,7 @@ func StartDebugger(g graph.Directed, listenAddress string) error {
 		_, ok := n.(http.Handler)
 		if ok {
 			handler.Handle(fmt.Sprintf("/nodes/%p", n), n.(http.Handler))
+			handler.HandleFunc(fmt.Sprintf("/nodes/%p/images", n), nodeToImageHandler(n))
 		}
 	}
 	handler.HandleFunc("/graph.dot", func(w http.ResponseWriter, r *http.Request) {
@@ -86,4 +87,23 @@ func generateSVG(b []byte) ([]byte, error) {
 		return nil, err
 	}
 	return buf.Bytes(), nil
+}
+
+func nodeToImageHandler(n graph.Node) http.HandlerFunc {
+
+	return func(w http.ResponseWriter, r *http.Request) {
+
+		nodes, ok := r.URL.Query()["node"]
+		layers, ok := r.URL.Query()["layer"]
+
+		if !ok || len(nodes[0]) != 1 {
+			return
+		}
+		if !ok || len(layers[0]) != 1 {
+			return
+		}
+
+		w.Header().Set("Content-Type", "image/svg+xml; charset=UTF-8")
+		io.WriteString(w, string(""))
+	}
 }

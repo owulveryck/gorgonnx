@@ -41,7 +41,7 @@ func (n *Node) Attributes() []encoding.Attribute {
 		},
 		encoding.Attribute{
 			Key:   "label",
-			Value: fmt.Sprintf(`"{{%s|%x}|{Op|%s}|{Shape|%v}}"`, n.name, n.ID(), htmlEscaper.Replace(fmt.Sprintf("%s", n.Op())), n.Shape()),
+			Value: fmt.Sprintf(`"{{%s|%#x}|{Op|%s}|{Shape|%v}}"`, n.name, n.ID(), htmlEscaper.Replace(fmt.Sprintf("%s", n.Op())), n.Shape()),
 		},
 	}
 	return attrs
