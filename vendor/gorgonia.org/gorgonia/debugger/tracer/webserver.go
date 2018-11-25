@@ -5,16 +5,23 @@ package tracer
 import (
 	"bytes"
 	"fmt"
+	"image"
+	"image/color"
+	"image/png"
 	"io"
+	"log"
 	"net/http"
 	"os"
 	"os/exec"
+	"strconv"
 
 	"github.com/rakyll/statik/fs"
 	"gonum.org/v1/gonum/graph"
 
+	"gorgonia.org/gorgonia"
 	"gorgonia.org/gorgonia/debugger/dot"
 	_ "gorgonia.org/gorgonia/debugger/tracer/statik" // Initialize the FS for static files
+	"gorgonia.org/tensor"
 )
 
 // StartDebugger runs a http webserver
@@ -92,18 +99,59 @@ func generateSVG(b []byte) ([]byte, error) {
 func nodeToImageHandler(n graph.Node) http.HandlerFunc {
 
 	return func(w http.ResponseWriter, r *http.Request) {
+		n, ok := n.(*gorgonia.Node)
+		if !ok {
+			http.Error(w, "Node is not a Gorgonia node", 500)
+			return
+		}
 
+		log.Println(r.URL.Query())
 		nodes, ok := r.URL.Query()["node"]
 		layers, ok := r.URL.Query()["layer"]
 
-		if !ok || len(nodes[0]) != 1 {
+		if !ok || len(nodes) != 1 {
+			log.Println(nodes)
+			http.Error(w, "expeced a 'node' argument", 500)
 			return
 		}
-		if !ok || len(layers[0]) != 1 {
+		if !ok || len(layers) != 1 {
+			http.Error(w, "expeced a 'layer' argument", 500)
+			return
+		}
+		layer, err := strconv.Atoi(layers[0])
+		if err != nil {
+			http.Error(w, err.Error(), 500)
 			return
 		}
 
-		w.Header().Set("Content-Type", "image/svg+xml; charset=UTF-8")
-		io.WriteString(w, string(""))
+		v, ok := n.Value().(*tensor.Dense)
+		if !ok {
+			http.Error(w, "can only decode a Dense", 500)
+			return
+
+		}
+		if len(v.Shape()) != 4 {
+			http.Error(w, "Cannot draw a tensor that has not 4 dimension", 500)
+			return
+		}
+		width := v.Shape()[2]
+		height := v.Shape()[3]
+		im := image.NewGray(image.Rectangle{Max: image.Point{X: width, Y: height}})
+		for w := 0; w < width; w++ {
+			for h := 0; h < height; h++ {
+				v, err := v.At(0, layer, w, h)
+				if err != nil {
+					panic(err)
+				}
+				im.Set(w, h, color.Gray{uint8(v.(float32))})
+			}
+		}
+		enc := png.Encoder{}
+		w.Header().Set("Content-Type", "image/png")
+		err = enc.Encode(w, im)
+		if err != nil {
+			http.Error(w, err.Error(), 500)
+			return
+		}
 	}
 }
