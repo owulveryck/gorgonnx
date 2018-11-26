@@ -833,3 +833,8 @@ func (n *Node) dotString(g *gographviz.Escape, graphName string) string {
 	return id
 }
 */
+
+// SetName of the node; useful for debugging
+func (n *Node) SetName(name string) {
+	n.name = name
+}

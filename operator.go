@@ -58,6 +58,7 @@ func (cg *computationGraph) processNode(nx *onnx.NodeProto) error {
 		}
 	*/
 	for i := 0; i < len(nx.Output); i++ {
+		o[i].SetName(nx.Output[i])
 		err := cg.storeNode(nx.Output[i], o[i])
 		if err != nil {
 			return err
