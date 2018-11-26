@@ -45,8 +45,8 @@ func StartDebugger(g graph.Directed, listenAddress string) error {
 		n := nodes.Node()
 		_, ok := n.(http.Handler)
 		if ok {
-			handler.Handle(fmt.Sprintf("/nodes/%p", n), n.(http.Handler))
-			handler.HandleFunc(fmt.Sprintf("/nodes/%p/images", n), nodeHandler(n))
+			//  handler.Handle(fmt.Sprintf("/nodes/%p", n), n.(http.Handler))
+			handler.HandleFunc(fmt.Sprintf("/nodes/%p", n), nodeHandler(n))
 			handler.HandleFunc(fmt.Sprintf("/nodes/%p/images/pic.png", n), nodeHandlerPic(n))
 		}
 	}
@@ -156,23 +156,28 @@ func nodeHandler(n graph.Node) http.HandlerFunc {
 			return
 		}
 
+		image := true
 		v, ok := n.Value().(*tensor.Dense)
 		if !ok {
-			http.Error(w, "can only decode a Dense", 500)
-			return
+			image = false
+			//http.Error(w, "can only decode a Dense", 500)
+			//return
 
 		}
 		if len(v.Shape()) != 4 {
-			http.Error(w, "Cannot draw a tensor that has not 4 dimension", 500)
-			return
+			image = false
+			//http.Error(w, "Cannot draw a tensor that has not 4 dimension", 500)
+			//return
 		}
 		w.Header().Set("Content-Type", "text/html; charset=UTF-8")
 		fmt.Fprint(w, "<html><body>\n")
 
-		for i := 0; i < v.Shape()[1]; i++ {
-			fmt.Fprintf(w, `<img src="%v/pic.png?layer=%v" width=50></img>&nbsp;`, r.URL.Path, i)
+		if image {
+			for i := 0; i < v.Shape()[1]; i++ {
+				fmt.Fprintf(w, `<img src="%v/images/pic.png?layer=%v" width=50></img>&nbsp;`, r.URL.Path, i)
+			}
 		}
-		fmt.Fprintf(w, `<br><pre>%v</pre>`, n.Value())
+		fmt.Fprintf(w, `<br><pre>%i</pre>`, n.Value())
 		fmt.Fprintf(w, `<br><pre>%#s"</pre>`, n.Value())
 
 		fmt.Fprint(w, "</body></html>\n")
