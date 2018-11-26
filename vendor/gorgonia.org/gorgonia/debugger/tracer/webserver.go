@@ -9,7 +9,6 @@ import (
 	"image/color"
 	"image/png"
 	"io"
-	"log"
 	"net/http"
 	"os"
 	"os/exec"
@@ -47,7 +46,8 @@ func StartDebugger(g graph.Directed, listenAddress string) error {
 		_, ok := n.(http.Handler)
 		if ok {
 			handler.Handle(fmt.Sprintf("/nodes/%p", n), n.(http.Handler))
-			handler.HandleFunc(fmt.Sprintf("/nodes/%p/images", n), nodeToImageHandler(n))
+			handler.HandleFunc(fmt.Sprintf("/nodes/%p/images", n), nodeHandler(n))
+			handler.HandleFunc(fmt.Sprintf("/nodes/%p/images/pic.png", n), nodeHandlerPic(n))
 		}
 	}
 	handler.HandleFunc("/graph.dot", func(w http.ResponseWriter, r *http.Request) {
@@ -96,7 +96,7 @@ func generateSVG(b []byte) ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
-func nodeToImageHandler(n graph.Node) http.HandlerFunc {
+func nodeHandlerPic(n graph.Node) http.HandlerFunc {
 
 	return func(w http.ResponseWriter, r *http.Request) {
 		n, ok := n.(*gorgonia.Node)
@@ -104,16 +104,7 @@ func nodeToImageHandler(n graph.Node) http.HandlerFunc {
 			http.Error(w, "Node is not a Gorgonia node", 500)
 			return
 		}
-
-		log.Println(r.URL.Query())
-		nodes, ok := r.URL.Query()["node"]
 		layers, ok := r.URL.Query()["layer"]
-
-		if !ok || len(nodes) != 1 {
-			log.Println(nodes)
-			http.Error(w, "expeced a 'node' argument", 500)
-			return
-		}
 		if !ok || len(layers) != 1 {
 			http.Error(w, "expeced a 'layer' argument", 500)
 			return
@@ -134,6 +125,7 @@ func nodeToImageHandler(n graph.Node) http.HandlerFunc {
 			http.Error(w, "Cannot draw a tensor that has not 4 dimension", 500)
 			return
 		}
+
 		width := v.Shape()[2]
 		height := v.Shape()[3]
 		im := image.NewGray(image.Rectangle{Max: image.Point{X: width, Y: height}})
@@ -153,5 +145,36 @@ func nodeToImageHandler(n graph.Node) http.HandlerFunc {
 			http.Error(w, err.Error(), 500)
 			return
 		}
+	}
+}
+func nodeHandler(n graph.Node) http.HandlerFunc {
+
+	return func(w http.ResponseWriter, r *http.Request) {
+		n, ok := n.(*gorgonia.Node)
+		if !ok {
+			http.Error(w, "Node is not a Gorgonia node", 500)
+			return
+		}
+
+		v, ok := n.Value().(*tensor.Dense)
+		if !ok {
+			http.Error(w, "can only decode a Dense", 500)
+			return
+
+		}
+		if len(v.Shape()) != 4 {
+			http.Error(w, "Cannot draw a tensor that has not 4 dimension", 500)
+			return
+		}
+		w.Header().Set("Content-Type", "text/html; charset=UTF-8")
+		fmt.Fprint(w, "<html><body>\n")
+
+		for i := 0; i < v.Shape()[1]; i++ {
+			fmt.Fprintf(w, `<img src="%v/pic.png?layer=%v" width=50></img>&nbsp;`, r.URL.Path, i)
+		}
+		fmt.Fprintf(w, `<br><pre>%v</pre>`, n.Value())
+		fmt.Fprintf(w, `<br><pre>%#s"</pre>`, n.Value())
+
+		fmt.Fprint(w, "</body></html>\n")
 	}
 }
