@@ -91,6 +91,10 @@ func (c *Conv) Init(attrs []*onnx.AttributeProto) error {
 			//c.Pads[i] = int(attr.Pads[2*i] + attr.Pads[2*i+1])
 			c.Pads[i] = int(attr.Pads[2*i])
 		}
+	} else if len(attr.Pads) == 2 {
+		for i := 0; i < 2; i++ {
+			c.Pads[i] = int(attr.Pads[i])
+		}
 	}
 	return nil
 }
