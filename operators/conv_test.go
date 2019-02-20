@@ -184,8 +184,8 @@ func TestConv_with_strides_auto_pad(t *testing.T) {
 		gorgonia.WithName("W"))
 
 	yT := tensor.New(
-		tensor.WithShape(1, 1, 4, 3),
-		tensor.WithBacking([]float32{12, 27, 24, 63, 108, 81, 123, 198, 141, 112, 177, 124}))
+		tensor.WithShape(1, 1, 7, 5),
+		tensor.WithBacking([]float32{0, 0, 0, 0, 0, 0, 1, 6, 7, 0, 0, 33, 63, 51, 0, 0, 93, 153, 111, 0, 0, 153, 243, 171, 0, 0, 61, 96, 67, 0, 0, 0, 0, 0, 0}))
 	y := new(gorgonia.Node)
 
 	o, err := op.Apply(
