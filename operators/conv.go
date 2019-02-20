@@ -1,8 +1,6 @@
 package operators
 
 import (
-	"math"
-
 	onnx "github.com/owulveryck/onnx-go"
 	"gorgonia.org/gorgonia"
 	nnops "gorgonia.org/gorgonia/ops/nn"
@@ -91,6 +89,10 @@ func (c *Conv) Init(attrs []*onnx.AttributeProto) error {
 			//c.Pads[i] = int(attr.Pads[2*i] + attr.Pads[2*i+1])
 			c.Pads[i] = int(attr.Pads[2*i])
 		}
+	} else if len(attr.Pads) == 2 {
+		for i := 0; i < 2; i++ {
+			c.Pads[i] = int(attr.Pads[i])
+		}
 	}
 	return nil
 }
@@ -115,10 +117,10 @@ func (c *Conv) Apply(input ...*gorgonia.Node) ([]*gorgonia.Node, error) {
 	}
 	switch c.AutoPad {
 	case "SAME_UPPER":
-		outputHeight := int(math.Ceil(float64(input[0].Shape()[2]) / float64(c.Strides[0])))
-		outputWidth := int(math.Ceil(float64(input[0].Shape()[3]) / float64(c.Strides[1])))
-		c.Pads[0] = int(math.Max(float64((outputHeight-1)*c.Strides[0]+c.KernelShape[0]-input[0].Shape()[2]), float64(0))) / 2
-		c.Pads[1] = int(math.Max(float64((outputWidth-1)*c.Strides[1]+c.KernelShape[1]-input[0].Shape()[3]), float64(0))) / 2
+		inputHeight := input[0].Shape()[2]
+		inputWidth := input[0].Shape()[3]
+		c.Pads[0] = ((inputHeight-1)*c.Strides[0] + 1 + c.Dilations[0]*(c.KernelShape[0]-1) - inputHeight) / 2
+		c.Pads[1] = ((inputWidth-1)*c.Strides[0] + 1 + c.Dilations[0]*(c.KernelShape[0]-1) - inputWidth) / 2
 	case "SAME_LOWER":
 		return nil, &onnx.ErrNotImplemented{
 			Operator:       c.name,
