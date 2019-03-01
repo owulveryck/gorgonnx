@@ -5,15 +5,10 @@
 [2]: https://godoc.org/github.com/owulveryck/gorgonnx
 
 
-# Disclaimer
+# This project is no longer maintened.
 
-This repository is a work in progress.
-
-# About 
-
-The purpose of this package is to provide some utilities to read and transpile a ONNX encoded model into a something compatible with [Gorgonia](https://github.com/gorgonia/gorgonia)
-
-It relies on the [ONNX Go](https://github.com/owulveryck/onnx-go) package
+This project is a POC; it embed an old version of onnx-go and a tweaked version of Gorgonia in the vendor directories.
+The effort is now ported to the project [onnx-go](https://github.com/owulveryck/onnx-go)
 
 # Blog
 
