@@ -3,6 +3,12 @@
 	"ignore": "test",
 	"package": [
 		{
+			"checksumSHA1": "8zNtV0GbmvC1e69EmnhvBt3p9g4=",
+			"path": "github.com/owulveryck/onnx-go",
+			"revision": "d5b66d654ee9ab63396f19904ed1ebfc8903e54a",
+			"revisionTime": "2018-10-15T14:35:16Z"
+		},
+		{
 			"checksumSHA1": "0rfDKdI2Xqm9ZwqsTDPceZvdb2g=",
 			"path": "gorgonia.org/gorgonia",
 			"revision": "24955235fdfe8ce78c8508b4ffc41c701b20896e",
